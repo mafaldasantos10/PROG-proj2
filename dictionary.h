@@ -3,13 +3,18 @@
 
 #include <fstream>
 #include <iostream>
+#include <vector>
+
+using namespace std;
 
 class Dictionary
 {
 public:
-	void dictionary(ifstream &thesaurus);
+	Dictionary(string thesaurusFile);
+	bool isValid(string word);
 
-//private:
+private:
+	vector<string> validWords;
 };
 
 #endif

@@ -6,25 +6,70 @@
 
 using namespace std;
 
-void Dictionary::dictionary(ifstream &thesaurus)
+Dictionary::Dictionary(string thesaurusFile)
 {
+	ifstream fin;
+	fin.open(thesaurusFile);
+
+	//checks wether the indicated file is valid
+	if (!fin.is_open())
+	{
+		cerr << "Input file not found!\n";
+		exit(1);
+	}
+
+	/////////////////////////////////////////////
+	/*
+	cout << "Word list file? ";
+	cin >> wordFile;
+
+	ofstream fout; //fout
+	fout.open(wordFile);
+
+	//checks wether the indicated file is valid
+	if (!fout.is_open())
+	{
+	cerr << "Output file opening failed.\n";
+	exit(2);
+	}
+	*/
+
 	string next;
 	vector<string> validWords;
 
-	while (!thesaurus.eof())
+	while (!fin.eof())
 	{
-		getline(thesaurus, next);
+		getline(fin, next);
 
 		for (unsigned int i = 0; i < next.length(); i++)
 		{
 			if (next.at(i) == ':')
 			{
-				validWords.push_back(next.substr(0, (i - 1)));
+				validWords.push_back(next.substr(0, i));
 				break;
 			}
 		}
 	}
 
 	for (unsigned int i = 0; i < validWords.size(); i++)
-		cout << validWords.at(i);
+		cout << validWords.at(i) << endl;
+
+	fin.close();
+	//fout.close();
+}
+
+bool Dictionary::isValid(string word)
+{
+	bool present = false;
+
+	for (unsigned int i = 0; i < validWords.size(); i++)
+	{
+		if (word == validWords.at(i))
+		{
+			present = true;
+			break;
+		}
+	}
+
+	return present;
 }
