@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void Dictionary::isolateWords(ifstream &thesaurus)
+void Dictionary::dictionary(ifstream &thesaurus)
 {
 	string next;
 	vector<string> validWords;

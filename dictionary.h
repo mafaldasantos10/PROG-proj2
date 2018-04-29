@@ -7,10 +7,9 @@
 class Dictionary
 {
 public:
-	void isolateWords(ifstream &thesaurus);
+	void dictionary(ifstream &thesaurus);
 
 //private:
 };
-
 
 #endif
