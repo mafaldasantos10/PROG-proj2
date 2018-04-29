@@ -17,7 +17,7 @@ void Dictionary::dictionary(ifstream &thesaurus)
 
 		for (unsigned int i = 0; i < next.length(); i++)
 		{
-			if (next.at(i) == ":")//idk
+			if (next.at(i) == ':')
 			{
 				validWords.push_back(next.substr(0, (i - 1)));
 				break;
