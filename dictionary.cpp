@@ -17,7 +17,7 @@ void Dictionary::isolateWords(ifstream &thesaurus)
 
 		for (unsigned int i = 0; i < next.length(); i++)
 		{
-			if (next.at(i) == ":")
+			if (next.at(i) == ":")//idk
 			{
 				validWords.push_back(next.substr(0, (i - 1)));
 				break;
