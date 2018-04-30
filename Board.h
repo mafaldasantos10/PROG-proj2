@@ -1,6 +1,9 @@
 #ifndef Board_h
 #define Board_h
-#include<vector>
+
+#include <iostream>
+#include <vector>
+
 
 class Board
 {
@@ -11,10 +14,8 @@ public:
 	void make();
 	
 private:
-
-	vector <vector <char> > xy;
+    std::vector < std::vector <char> > xy;
 	unsigned int rows, columns;
 	
-
 };
 #endif

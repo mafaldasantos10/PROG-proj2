@@ -11,8 +11,7 @@ class Dictionary
 {
 public:
 	Dictionary(string thesaurusFile);
-	bool isValid(string word);
-
+	void isValid(string word);
 private:
 	vector<string> validWords;
 };

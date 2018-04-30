@@ -35,7 +35,6 @@ Dictionary::Dictionary(string thesaurusFile)
 	*/
 
 	string next;
-	vector<string> validWords;
 
 	while (!fin.eof())
 	{
@@ -53,14 +52,16 @@ Dictionary::Dictionary(string thesaurusFile)
 
 	for (unsigned int i = 0; i < validWords.size(); i++)
 		cout << validWords.at(i) << endl;
+    
 
 	fin.close();
 	//fout.close();
 }
 
-bool Dictionary::isValid(string word)
+void Dictionary::isValid(string word)
 {
 	bool present = false;
+    this->validWords;
 
 	for (unsigned int i = 0; i < validWords.size(); i++)
 	{
@@ -71,5 +72,5 @@ bool Dictionary::isValid(string word)
 		}
 	}
 
-	return present;
+    cout << present;
 }

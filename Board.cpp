@@ -1,55 +1,42 @@
 #include "Board.h"
 #include <iostream>
-#include<vector>
+#include <vector>
 
 using namespace std;
 
 Board::Board(unsigned int rows, unsigned int columns)
 {
-
 	this-> rows = rows;
-	this-> columns = columns;
+    this-> columns = columns;
 
-	/* boardxy.resize(rows, vector<char>(columns ".");
-	
-	for (int i = 0; i < rows; i++)
-
-		for (int k = 0; k < columns; k++)
-
-			boardxy[i][k].push_back('.');
-			
-			*/
 }
 
 void Board::make()
 {
 
-	xy.resize(rows, vector<char>(columns, '.'));
+	xy.resize(rows, vector<char> (columns, '.'));
 
 }
 
 void Board::show()
 {
-	cout << "    ";
-	for (int i = 96; i < 96 + columns; i++)
+	cout << "   ";
+    for (unsigned int i = 97; i < 97 + columns; i++)
+    {
+        cout << char(i) << ' ';
+    }
+
+    cout << endl;
+
+	for (unsigned int k = 0; k < rows; k++)
 	{
-		cout << char(i) << ' ';
-	}
+            cout << char(k + 65) << ' ';
 
-	for (int k = 0; k < rows; k++)
-	{
-		for (int i = 48; i < 48 + rows; i++)
-		{
-			cout << char(i) << ' ';
-
-		}
-
-		for (int j = 0; j < columns; j++)
-		{
-			cout << ' ' << xy[k][j];
-		}
-
+            for (unsigned int j = 0; j < columns; j++)
+            {
+                cout << ' ' << xy[k][j];
+            }
+       
 		cout << ' ' << endl;
-	}
-		
+	}   		
 }

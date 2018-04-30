@@ -13,15 +13,15 @@ int main()
 		   //wordFile; //file that will store the processed word list
 	int rows, columns;
 
-	cout << "How many rows: ";
+	cout << "How many rows? ";
 	cin >> rows;
 
-	cout << "How many columns: ";
+	cout << "How many columns? ";
 	cin >> columns;
 
-	Board board(rows, columns);
-	board.make();
-	board.show();
+	Board brd(rows, columns);
+	brd.make();
+	brd.show();
 
 	cout << "Thesaurus file? ";
 	cin >> thesaurusFile;
@@ -29,7 +29,10 @@ int main()
 	//class
 	Dictionary dict(thesaurusFile);
 
-	cout << dict.isValid("antonio");
+	dict.isValid("antonio");
+
+    
+    system("pause");
 
 	return 0;
 }
