@@ -40,3 +40,8 @@ void Board::show()
 		cout << ' ' << endl;
 	}   		
 }
+
+void Board::insert()
+{
+
+}

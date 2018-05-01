@@ -11,28 +11,45 @@ int main()
 	//variables
 	string thesaurusFile; //file that contains the dictionary
 		   //wordFile; //file that will store the processed word list
-	int rows, columns;
+	int rows, columns, option;
 
-	cout << "How many rows? ";
-	cin >> rows;
+	//INTERFACE
+	//-----------------------------------------------------------------
 
-	cout << "How many columns? ";
-	cin >> columns;
+	cout << "CROSSWORDS PUZZLE CREATOR" << endl
+		<< "=========================" << endl << endl
+		<< "Position (RCD / CTRL-Z = STOP)" << endl
+		<< " -RCD stands for Row, Column and Direction" << endl << endl
+		<< "-------------------------" << endl
+		<< "OPTIONS:" << endl
+		<< " 1 -  Create Puzzle" << endl
+		<< " 2 - Resume Puzzle" << endl
+		<< " 0 - Exit" << endl << endl
+		<< "Option? ";
+
+	cin >> option;
+
+	cout << endl
+		 << "-------------------------" << endl
+		 << "CREATE PUZZLE" << endl
+		 << "-------------------------" << endl;
+
+	//-----------------------------------------------------------------
+
+	cout << "Thesaurus file name? ";
+	cin >> thesaurusFile;
+
+	Dictionary dict(thesaurusFile);
+
+	//test
+	cout << dict.isValid("antonio") << endl;
+
+	cout << "Board size (rows, columns)? ";
+	cin >> rows >> columns;
 
 	Board brd(rows, columns);
 	brd.make();
 	brd.show();
-
-	cout << "Thesaurus file? ";
-	cin >> thesaurusFile;
-
-	//class
-	Dictionary dict(thesaurusFile);
-
-	dict.isValid("antonio");
-
-    
-    system("pause");
 
 	return 0;
 }

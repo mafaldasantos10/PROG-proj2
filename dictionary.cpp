@@ -58,7 +58,7 @@ Dictionary::Dictionary(string thesaurusFile)
 	//fout.close();
 }
 
-void Dictionary::isValid(string word)
+bool Dictionary::isValid(string word)
 {
 	bool present = false;
     this->validWords;
@@ -72,5 +72,5 @@ void Dictionary::isValid(string word)
 		}
 	}
 
-    cout << present;
+    return present;
 }
