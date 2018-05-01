@@ -63,7 +63,7 @@ int main()
 
 	cout << "Word ( - = remove / ? = help ) ? ";
 	cin >> word;
-	
+	brd.occupied(position, word);
 	//checks whether the chosen word is valid
 	if (!dict.isValid(word))
 	{
@@ -72,7 +72,9 @@ int main()
 	}
 	else
 	{
-		brd.insert(position, word);
+		
+    	brd.insert(position, word);
+		
 		cout << endl;
 		brd.show();
 	}
