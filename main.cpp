@@ -9,8 +9,10 @@ using namespace std;
 int main()
 {
 	//variables
-	string thesaurusFile; //file that contains the dictionary
+	string thesaurusFile, //file that contains the dictionary
 		   //wordFile; //file that will store the processed word list
+		   position, //position of the word
+		   word; //word to insert
 	int rows, columns, option;
 
 	//INTERFACE
@@ -35,21 +37,48 @@ int main()
 		 << "-------------------------" << endl;
 
 	//-----------------------------------------------------------------
+	//END of INTERFACE
 
 	cout << "Thesaurus file name? ";
 	cin >> thesaurusFile;
 
+	//vector with the valid words from the thesaurus
 	Dictionary dict(thesaurusFile);
-
-	//test
-	cout << dict.isValid("antonio") << endl;
 
 	cout << "Board size (rows, columns)? ";
 	cin >> rows >> columns;
 
+	//OPTION 1
+	//-----------------------------------------------------------------
 	Board brd(rows, columns);
 	brd.make();
 	brd.show();
+
+	cout << "Position ( RCD / CTRL-Z = stop ) ? ";
+	cin >> position;
+	//+3 letras, erro
+	//ordem MmV
+
+	cout << endl;
+
+	cout << "Word ( - = remove / ? = help ) ? ";
+	cin >> word;
+	
+	//checks whether the chosen word is valid
+	if (!dict.isValid(word))
+	{
+		cerr << "Invalid word. Try again!" << endl << endl;
+		exit(1);
+	}
+	else
+	{
+		brd.insert(position, word);
+		cout << endl;
+		brd.show();
+	}
+
+	//-----------------------------------------------------------------
+	//END of OPTION 1
 
 	return 0;
 }

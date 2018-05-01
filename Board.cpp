@@ -1,6 +1,7 @@
 #include "Board.h"
 #include <iostream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -41,7 +42,40 @@ void Board::show()
 	}   		
 }
 
-void Board::insert()
+void Board::insert(string position, string word)
 {
+	//this->xy;
+	//this->rows;
 
+	// stop
+	//if (word == crtl-z)
+
+	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
+	unsigned int uC = ((int)upperCase - 65), lC = ((int)lowerCase - 97);
+
+	/////create function just for this
+	//verify size
+	if ( (((int)upperCase + word.length()) > (65 + rows)) && (((int)lowerCase + word.length()) > (97 + columns)))
+	{
+		cerr << "That word does not fit in the place you want. Try again!" << endl << endl;
+		exit(1);
+	}
+	//valid size
+	else
+	{
+		if (orientation == 'V')
+		{
+			for (unsigned int i = uC, k = 0, j = lC; k < word.length(); i++, k++)
+			{
+				xy.at(i).at(j) = word.at(k);
+			}
+		}
+		else
+		{
+			for (unsigned int i = uC, k = 0, j = lC; k < word.length(); j++, k++)
+			{
+				xy.at(i).at(j) = word.at(k);
+			}
+		}
+	}
 }
