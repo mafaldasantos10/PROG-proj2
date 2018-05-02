@@ -79,3 +79,64 @@ void Board::insert(string position, string word)
 		}
 	}
 }
+
+bool Board::usedword(string word)
+{
+	bool present = true;
+	for (unsigned int i = 0; i < taken.size(); i++)
+	{
+		if (taken.at(i) == word)
+		{
+			present = false;
+			cout << "You already used that word";
+			break;
+		}
+	}
+
+	taken.push_back(word);
+
+		return present;
+}
+
+void Board::occupied(string position, string word)
+{
+	string changed;
+		
+
+	for (int i = 0; i < positionvec.size(); i++)
+	{
+		for (int i = 0; i <= 3 ; i++)
+		{
+
+			if (position.at(2) == "h")
+
+			{
+				if (position.substr(0, 2) == positionvec.at(i))
+				
+				positionvec.push_back(changed.substr(0, 2))
+			}
+		
+			if (position.substr(0, 2) == positionvec.at(i))
+		
+			if()
+		}
+			cout << position.at(i);
+	}
+
+	if (position.at(2) == "h")
+
+	{
+		changed = position.at(1).swap(position.at(1) + 1);
+		positionvec.push_back(changed.substr(0, 2))
+	}
+
+
+	if (position.at(2) == "v"
+
+	{
+		changed = position.at(0).swap(position.at(0) + 1);
+		positionvec.push_back(changed.substr(0, 2))
+	}
+
+	
+}
