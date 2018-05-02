@@ -65,7 +65,8 @@ bool Dictionary::isValid(string word)
 
 	for (unsigned int i = 0; i < validWords.size(); i++)
 	{
-		if (word == validWords.at(i))
+		//case insensitive comparison
+		if (strcmpi(word.c_str(), validWords.at(i).c_str()) == 0)
 		{
 			present = true;
 			break;

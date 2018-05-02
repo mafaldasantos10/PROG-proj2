@@ -16,7 +16,7 @@ public:
 	void make(); //creates a board
 	void insert(string position, string word); //inserts new words on the board
 	bool usedword(string word);
-	void occupied(string position, string word);
+	//void occupied(string position, string word);
 private:
     vector < vector <char> > xy;
 	vector<string> taken;
