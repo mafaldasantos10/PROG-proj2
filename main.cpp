@@ -72,8 +72,10 @@ int main()
 	}
 	else
 	{
-		
-    	brd.insert(position, word);
+		if (brd.usedword(word))
+		{
+			brd.insert(position, word);
+		}
 		
 		cout << endl;
 		brd.show();

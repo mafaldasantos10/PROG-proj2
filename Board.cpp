@@ -82,36 +82,65 @@ void Board::insert(string position, string word)
 
 bool Board::usedword(string word)
 {
-	bool present = true;
+	bool notPresent = true;
+
 	for (unsigned int i = 0; i < taken.size(); i++)
 	{
 		if (taken.at(i) == word)
 		{
-			present = false;
+			notPresent = false;
 			cout << "You already used that word";
 			break;
 		}
+		else
+			taken.push_back(word);
 	}
 
-	taken.push_back(word);
-
-		return present;
+	return notPresent;
 }
 
 void Board::occupied(string position, string word)
-{
-	string changed;
-		
+{		
+	char last = position.at(position.length() - 1);
+	string coordenates = position.erase(position.size() - 1, 1);
+	vector<string> aux;
+	int counter = 0;
+	string savepos;
 
-	for (int i = 0; i < positionvec.size(); i++)
+	while (counter != word.size())
 	{
-		for (int i = 0; i <= 3 ; i++)
+		int changecolumn = (int)position.at(1) + counter;
+		int changerow = (int)position.at(0) + counter;
+
+		if (last == 'h')
 		{
+			savepos = position.at(0) + char(changecolumn);
+				aux.push_back(savepos);
+		}
 
+		if (last == 'v')
+		{
+			savepos = position.at(1) + char(changerow);
+			aux.push_back(savepos);
+		}
+			
+		counter++
+	}
+
+	
+
+
+	for (int i = 0; i < position.size() ; i++)
+	{
+		int changecolumn = (int)position.at(1) + counter;
+		int changerow = (int)position.at(0) + counter;
+		 
 			if (position.at(2) == "h")
-
 			{
-				if (position.substr(0, 2) == positionvec.at(i))
+				
+
+				if (position == positionvec.at(i))
+
 				
 				positionvec.push_back(changed.substr(0, 2))
 			}
@@ -124,9 +153,7 @@ void Board::occupied(string position, string word)
 	}
 
 	if (position.at(2) == "h")
-
-	{
-		changed = position.at(1).swap(position.at(1) + 1);
+    {		
 		positionvec.push_back(changed.substr(0, 2))
 	}
 
@@ -140,3 +167,5 @@ void Board::occupied(string position, string word)
 
 	
 }
+
+
