@@ -115,6 +115,13 @@ void Board::insert(string position, string word)
 			{
 				xy.at(i).at(j) = toupper(word.at(k)); //capitalizes the string
 			}
+
+			//places a # before
+			if (uC != 0)
+				xy.at(uC - 1).at(lC) = '#';
+			//places a # after
+			if ((uC + word.length()) < rows)
+				xy.at(uC + word.length()).at(lC) = '#';
 		}
 		else
 		{
@@ -122,6 +129,13 @@ void Board::insert(string position, string word)
 			{
 				xy.at(i).at(j) = toupper(word.at(k)); //capitalizes the string
 			}
+
+			//places a # before
+			if (lC != 0)
+				xy.at(uC).at(lC - 1) = '#';
+			//places a # after
+			if ((lC + word.length()) < columns)
+				xy.at(uC).at(lC + word.length()) = '#';
 		}
 	}
 }
