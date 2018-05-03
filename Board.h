@@ -18,7 +18,7 @@ public:
 	bool usedword(string word);
 	//void occupied(string position, string word);
 private:
-    vector < vector <char> > xy;
+	vector < vector <char> > xy;
 	vector<string> taken;
 	vector<string> positionvec;
 	unsigned int rows, columns;

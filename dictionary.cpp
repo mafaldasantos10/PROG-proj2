@@ -22,10 +22,8 @@ Dictionary::Dictionary(string thesaurusFile)
 	/*
 	cout << "Word list file? ";
 	cin >> wordFile;
-
 	ofstream fout; //fout
 	fout.open(wordFile);
-
 	//checks wether the indicated file is valid
 	if (!fout.is_open())
 	{
@@ -66,7 +64,7 @@ bool Dictionary::isValid(string word)
 	for (unsigned int i = 0; i < validWords.size(); i++)
 	{
 		//case insensitive comparison
-		if (strcmpi(word.c_str(), validWords.at(i).c_str()) == 0)
+		if (_strcmpi(word.c_str(), validWords.at(i).c_str()) == 0)
 		{
 			present = true;
 			break;

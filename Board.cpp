@@ -102,30 +102,26 @@ bool Board::usedword(string word)
 /*
 void Board::occupied(string position, string word)
 {
-	char last = position.at(position.length() - 1);
-	string coordenates = position.erase(position.size() - 1, 1);
-	vector<string> aux;
-	int counter = 0;
-	string savepos;
-
-	while (counter != word.size())
-	{
-		int changecolumn = (int)position.at(1) + counter;
-		int changerow = (int)position.at(0) + counter;
-
-		if (last == 'h')
-		{
-			savepos = position.at(0) + char(changecolumn);
-			aux.push_back(savepos);
-		}
-
-		if (last == 'v')
-		{
-			savepos = position.at(1) + char(changerow);
-			aux.push_back(savepos);
-		}
-
-		counter++
-	}
+char last = position.at(position.length() - 1);
+string coordenates = position.erase(position.size() - 1, 1);
+vector<string> aux;
+int counter = 0;
+string savepos;
+while (counter != word.size())
+{
+int changecolumn = (int)position.at(1) + counter;
+int changerow = (int)position.at(0) + counter;
+if (last == 'h')
+{
+savepos = position.at(0) + char(changecolumn);
+aux.push_back(savepos);
+}
+if (last == 'v')
+{
+savepos = position.at(1) + char(changerow);
+aux.push_back(savepos);
+}
+counter++
+}
 }
 */
