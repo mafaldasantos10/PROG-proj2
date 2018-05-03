@@ -62,7 +62,6 @@ bool Board::notUsedWord(string word)
 		}
 	}
 
-
 	return Present;
 }
 
@@ -241,8 +240,6 @@ void Board::remove(string position)
 	bool present = false;
 	this->wordCoordinates;
 	this->placedWords;
-
-
 
 	for (unsigned int i = 0; i < wordCoordinates.size(); i++)
 	{
