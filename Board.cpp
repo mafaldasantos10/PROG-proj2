@@ -58,7 +58,8 @@ bool Board::notUsedWord(string word)
 		if (placedWords.at(i) == word)
 		{
 			Present = false;
-			cout << "You already used that word. Try another!" << endl << endl;
+			cout << "----------------------------------------" << endl << endl;
+			cout << endl << "You already used that word. Try another!" << endl << endl;
 			break;
 		}
 	}
@@ -99,13 +100,13 @@ void Board::insert(string position, string word)
 	//if (word == crtl-z)
 
 	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
-	unsigned int uC = ((int)upperCase - 65), lC = ((int)lowerCase - 97);
+	unsigned int uC = ((int)upperCase - 'A'), lC = ((int)lowerCase - 'a');
 
 	/////create function just for this
 	//verify size
-	if ((((int)upperCase + word.length()) > (65 + rows)) && (((int)lowerCase + word.length()) > (97 + columns)))
+	if ( ((uC + word.length()) > rows) || (( lC + word.length()) > columns) )
 	{
-		cerr << "That word does not fit in the place you want. Try again!" << endl << endl;
+		cerr << endl << "That word does not fit in the place you want. Try again!" << endl << endl;
 		exit(1);
 	}
 	//valid size
