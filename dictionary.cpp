@@ -51,9 +51,7 @@ Dictionary::Dictionary(string thesaurusFile)
 	for (unsigned int i = 0; i < validWords.size(); i++)
 		cout << validWords.at(i) << endl;
     
-
 	fin.close();
-	//fout.close();
 }
 
 bool Dictionary::isValid(string word)

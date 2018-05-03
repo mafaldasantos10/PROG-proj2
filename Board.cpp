@@ -2,9 +2,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
+//constructor
 Board::Board(unsigned int rows, unsigned int columns)
 {
 	this->rows = rows;
@@ -12,6 +14,7 @@ Board::Board(unsigned int rows, unsigned int columns)
 
 }
 
+//makes a new empty board with the indicated size
 void Board::make()
 {
 
@@ -19,6 +22,7 @@ void Board::make()
 
 }
 
+//shows the current board
 void Board::show()
 {
 	cout << "   ";
@@ -42,11 +46,55 @@ void Board::show()
 	}
 }
 
+//checks if the word is not being used again
+bool Board::notUsedWord(string word)
+{
+	this->placedWords;
+
+	bool Present = true;
+
+	for (unsigned int i = 0; i < placedWords.size(); i++)
+	{
+		if (placedWords.at(i) == word)
+		{
+			Present = false;
+			cout << "You already used that word. Try another!" << endl << endl;
+			break;
+		}
+	}
+
+	return Present;
+}
+
+//keeps track of all words and positions
+void Board::track(string position, string word)
+{
+	wordCoordinates.push_back(position);
+	placedWords.push_back(word);
+}
+
+//saves the board
+void Board::saveFile(string thesaurusFile)
+{
+	this->placedWords;
+	this->wordCoordinates;
+
+	ofstream fout; //fout
+	fout.open("b001.txt");
+
+	fout << thesaurusFile << endl << endl;
+
+	for (unsigned i = 0, j= 0; i < wordCoordinates.size(), j < placedWords.size(); i++, j++)
+	{
+		fout << wordCoordinates.at(i) << "  " << placedWords.at(j) << endl;
+	}
+
+	fout.close();
+}
+
+//inserts words in the board
 void Board::insert(string position, string word)
 {
-	//this->xy;
-	//this->rows;
-
 	// stop
 	//if (word == crtl-z)
 
@@ -79,49 +127,3 @@ void Board::insert(string position, string word)
 		}
 	}
 }
-
-bool Board::usedword(string word)
-{
-	bool notPresent = true;
-
-	for (unsigned int i = 0; i < taken.size(); i++)
-	{
-		if (taken.at(i) == word)
-		{
-			notPresent = false;
-			cout << "You already used that word";
-			break;
-		}
-		else
-			taken.push_back(word);
-	}
-
-	return notPresent;
-}
-
-/*
-void Board::occupied(string position, string word)
-{
-char last = position.at(position.length() - 1);
-string coordenates = position.erase(position.size() - 1, 1);
-vector<string> aux;
-int counter = 0;
-string savepos;
-while (counter != word.size())
-{
-int changecolumn = (int)position.at(1) + counter;
-int changerow = (int)position.at(0) + counter;
-if (last == 'h')
-{
-savepos = position.at(0) + char(changecolumn);
-aux.push_back(savepos);
-}
-if (last == 'v')
-{
-savepos = position.at(1) + char(changerow);
-aux.push_back(savepos);
-}
-counter++
-}
-}
-*/
