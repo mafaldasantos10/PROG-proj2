@@ -103,7 +103,7 @@ void Board::insert(string position, string word)
 
 	/////create function just for this
 	//verify size
-	if ( (((uC + word.length()) > rows) && (orientation == 'V')) ||
+	if ((((uC + word.length()) > rows) && (orientation == 'V')) ||
 		(((lC + word.length()) > columns) && (orientation == 'H')))
 	{
 		cerr << endl << "That word does not fit in the place you want. Try again!" << endl << endl;
@@ -242,7 +242,7 @@ void Board::remove(string position)
 	this->wordCoordinates;
 	this->placedWords;
 
-	
+
 
 	for (unsigned int i = 0; i < wordCoordinates.size(); i++)
 	{
@@ -262,13 +262,11 @@ void Board::remove(string position)
 	{
 		for (unsigned int j = 0; j < placedWords.size(); j++)
 		{
-
 			insert(wordCoordinates.at(j), placedWords.at(j));
-
 		}
+		cout << endl;
 		show();
 	}
-
 	else
 		cout << "That word doesn't exist!" << endl;
 }
