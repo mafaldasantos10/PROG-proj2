@@ -10,8 +10,8 @@ int main()
 {
 	//variables
 	string thesaurusFile, //file that contains the dictionary
-	       position, //position of the word
-		   word; //word to insert
+		position, //position of the word
+		word; //word to insert
 	int rows, columns, option;
 	string wordToRemove;
 
@@ -81,7 +81,7 @@ int main()
 		}
 		else if (word == "-")
 		{
-			cout << "Which word is to be removed?  ";
+			cout << "Which word is to be removed? ";
 			cin >> wordToRemove;
 			brd.remove(wordToRemove);
 
@@ -106,6 +106,7 @@ int main()
 					}
 					else
 					{
+						cout << endl << "-------------------------------------------------------" << endl;
 						cout << endl << "You can't overwrite previously placed words. Try again!" << endl << endl;
 					}
 				}

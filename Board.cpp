@@ -62,7 +62,7 @@ bool Board::notUsedWord(string word)
 		}
 	}
 
-	
+
 	return Present;
 }
 
@@ -84,7 +84,7 @@ void Board::saveFile(string thesaurusFile)
 
 	fout << thesaurusFile << endl << endl;
 
-	for (unsigned i = 0, j= 0; i < wordCoordinates.size(), j < placedWords.size(); i++, j++)
+	for (unsigned i = 0, j = 0; i < wordCoordinates.size(), j < placedWords.size(); i++, j++)
 	{
 		fout << wordCoordinates.at(i) << "  " << placedWords.at(j) << endl;
 	}
@@ -92,7 +92,6 @@ void Board::saveFile(string thesaurusFile)
 	fout.close();
 }
 
-//inserts words in the board
 //inserts words in the board
 void Board::insert(string position, string word)
 {
@@ -104,7 +103,8 @@ void Board::insert(string position, string word)
 
 	/////create function just for this
 	//verify size
-	if (((uC + word.length()) > rows) || ((lC + word.length()) > columns))
+	if ( (((uC + word.length()) > rows) && (orientation == 'V')) ||
+		(((lC + word.length()) > columns) && (orientation == 'H')))
 	{
 		cerr << endl << "That word does not fit in the place you want. Try again!" << endl << endl;
 		exit(1);
@@ -219,7 +219,7 @@ string Board::getWord(string position, string word)
 bool Board::validPosition(string word, string position)
 {
 	bool present = false;
-	
+
 	newWord = getWord(position, word);
 
 	for (unsigned int i = 0; i < newWord.length(); i++)
@@ -233,10 +233,6 @@ bool Board::validPosition(string word, string position)
 	if (wildcardMatch(word.c_str(), newWord.c_str()))
 		present = true;
 
-
-	//if (!present)
-	//	cout << "No words found" << endl;
-
 	return present;
 }
 
@@ -245,8 +241,8 @@ void Board::remove(string word)
 	bool present = false;
 	this->wordCoordinates;
 	this->placedWords;
-	
-	for (int i = 0; i < placedWords.size(); i++)
+
+	for (unsigned int i = 0; i < placedWords.size(); i++)
 	{
 		cout << placedWords.at(i) << endl;
 	}
@@ -260,11 +256,9 @@ void Board::remove(string word)
 			present = true;
 			break;
 		}
-		
 	}
-	
 
-	for (int i = 0; i < placedWords.size(); i++)
+	for (unsigned int i = 0; i < placedWords.size(); i++)
 	{
 		cout << placedWords.at(i) << endl;
 	}
@@ -275,14 +269,13 @@ void Board::remove(string word)
 	{
 		for (unsigned int i = 0, j = 0; i < wordCoordinates.size(), j < placedWords.size(); i++, j++)
 		{
-			
+
 			insert(wordCoordinates.at(i), placedWords.at(j));
-			
+
 		}
 		show();
 	}
 
 	else
-		cout << "That word doesn't exist" << endl;
-	
+		cout << "That word doesn't exist!" << endl;
 }
