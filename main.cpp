@@ -69,6 +69,7 @@ int main()
 
 		cout << "Word ( - = remove / ? = help ) ? ";
 		cin >> word;
+
 		//finishes
 		if (word == "idk")
 		{
@@ -90,8 +91,15 @@ int main()
 			{
 				if (brd.notUsedWord(word))
 				{
-					brd.insert(position, word);
-					brd.track(position, word);
+					if (brd.validPosition(word, position))
+					{
+						brd.insert(position, word);
+						brd.track(position, word);
+					}
+					else
+					{
+						cout << endl << "You can't overwrite previously placed words. Try again!" << endl << endl;
+					}
 				}
 
 				cout << endl;

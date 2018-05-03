@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "dictionary.h"
 
 using namespace std;
 
@@ -19,6 +20,11 @@ public:
 	void track(string position, string word);
 	void saveFile(string thesaurusFile);
 	//void occupied(string position, string word);
+	bool wildcardMatch(const char *str, const char *strWild);
+	Dictionary* newDict;
+	string getWord(string position, string word);
+	bool validPosition(string word, string position);
+
 private:
 	vector < vector <char> > xy; //board
 	vector<string> wordCoordinates; //vector that stores the positions of the respective words on the board
@@ -26,5 +32,6 @@ private:
 	vector<string> positionvec; //q é isto?
 	unsigned int rows, columns;
 	string position, word;
+	string newWord;
 };
 #endif

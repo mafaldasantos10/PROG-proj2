@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include "dictionary.h"
 
 using namespace std;
 
@@ -55,7 +56,7 @@ bool Board::notUsedWord(string word)
 		if (placedWords.at(i) == word)
 		{
 			Present = false;
-			cout << "----------------------------------------" << endl << endl;
+			cout << endl << "----------------------------------------" << endl << endl;
 			cout << endl << "You already used that word. Try another!" << endl << endl;
 			break;
 		}
@@ -138,4 +139,101 @@ void Board::insert(string position, string word)
 				xy.at(uC).at(lC + word.length()) = '#';
 		}
 	}
+}
+
+bool Board::wildcardMatch(const char *str, const char *strWild)
+{
+	// We have a special case where string is empty ("") and the mask is "*".
+
+	while (*strWild)
+	{
+		// Single wildcard character
+		if (*strWild == '?')
+		{
+			// Matches any character except empty string
+			if (!*str)
+				return false;
+			// OK next
+			++str;
+			++strWild;
+		}
+		else if (*strWild == '*')
+		{
+
+			// 1. The wildcard * is ignored.
+			// So just an empty string matches. This is done by recursion.
+
+			if (wildcardMatch(str, strWild + 1))
+				// we have a match and the * replaces no other character
+				return true;
+
+			if (*str && wildcardMatch(str + 1, strWild))
+				return true;
+			// Nothing worked with this wildcard.
+			return false;
+		}
+		else
+		{
+			// Standard compare of 2 chars. Note that *str might be 0 here,
+			// that has always a value while inside this loop.
+			if (toupper(*str++) != toupper(*strWild++))
+				return false;
+		}
+	}
+	// Have a match? Only if both are at the end...
+	return !*str && !*strWild;
+}
+
+//gets a string of the contents of the indicated position of the word
+string Board::getWord(string position, string word)
+{
+	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
+	unsigned int uC = ((int)upperCase - 'A'), lC = ((int)lowerCase - 'a');
+	vector<char> temp;
+	//string nW;
+
+	if (orientation == 'V')
+	{
+		for (unsigned int i = uC, k = 0, j = lC; k < word.length(); i++, k++)
+		{
+			temp.push_back(xy.at(i).at(j));
+		}
+
+		string newWord(temp.begin(), temp.end());
+		return newWord;
+	}
+	else
+	{
+		for (unsigned int i = uC, k = 0, j = lC; k < word.length(); j++, k++)
+		{
+			temp.push_back(xy.at(i).at(j));
+		}
+
+		string newWord(temp.begin(), temp.end());
+		return newWord;
+	}
+}
+
+bool Board::validPosition(string word, string position)
+{
+	bool present = false;
+	
+	newWord = getWord(position, word);
+
+	for (unsigned int i = 0; i < newWord.length(); i++)
+	{
+		if (newWord.at(i) == '.')
+		{
+			newWord.at(i) = '?';
+		}
+	}
+
+	if (wildcardMatch(word.c_str(), newWord.c_str()))
+		present = true;
+
+
+	//if (!present)
+	//	cout << "No words found" << endl;
+
+	return present;
 }
