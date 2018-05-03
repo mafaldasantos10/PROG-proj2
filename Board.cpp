@@ -11,15 +11,12 @@ Board::Board(unsigned int rows, unsigned int columns)
 {
 	this->rows = rows;
 	this->columns = columns;
-
 }
 
 //makes a new empty board with the indicated size
 void Board::make()
 {
-
 	xy.resize(rows, vector<char>(columns, '.'));
-
 }
 
 //shows the current board
