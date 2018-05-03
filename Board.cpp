@@ -39,7 +39,7 @@ void Board::show()
 
 		for (unsigned int j = 0; j < columns; j++)
 		{
-			cout << ' ' << xy[k][j];
+			cout << ' ' << xy.at(k).at(j);
 		}
 
 		cout << ' ' << endl;
