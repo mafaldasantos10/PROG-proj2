@@ -24,12 +24,12 @@ public:
 	Dictionary* newDict;
 	string getWord(string position, string word);
 	bool validPosition(string word, string position);
+	void remove(string word);
 
 private:
 	vector < vector <char> > xy; //board
 	vector<string> wordCoordinates; //vector that stores the positions of the respective words on the board
 	vector<string> placedWords; //vector that stores all the words placed on the board
-	vector<string> positionvec; //q é isto?
 	unsigned int rows, columns;
 	string position, word;
 	string newWord;

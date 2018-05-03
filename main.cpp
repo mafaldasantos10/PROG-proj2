@@ -13,6 +13,7 @@ int main()
 	       position, //position of the word
 		   word; //word to insert
 	int rows, columns, option;
+	string wordToRemove;
 
 	//INTERFACE
 	//-----------------------------------------------------------------
@@ -77,6 +78,13 @@ int main()
 
 			brd.saveFile(thesaurusFile);
 			break;
+		}
+		else if (word == "-")
+		{
+			cout << "Which word is to be removed?  ";
+			cin >> wordToRemove;
+			brd.remove(wordToRemove);
+
 		}
 		else
 		{

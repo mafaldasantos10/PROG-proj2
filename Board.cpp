@@ -62,6 +62,7 @@ bool Board::notUsedWord(string word)
 		}
 	}
 
+	
 	return Present;
 }
 
@@ -92,6 +93,7 @@ void Board::saveFile(string thesaurusFile)
 }
 
 //inserts words in the board
+//inserts words in the board
 void Board::insert(string position, string word)
 {
 	// stop
@@ -102,7 +104,7 @@ void Board::insert(string position, string word)
 
 	/////create function just for this
 	//verify size
-	if ( ((uC + word.length()) > rows) || (( lC + word.length()) > columns) )
+	if (((uC + word.length()) > rows) || ((lC + word.length()) > columns))
 	{
 		cerr << endl << "That word does not fit in the place you want. Try again!" << endl << endl;
 		exit(1);
@@ -118,10 +120,10 @@ void Board::insert(string position, string word)
 			}
 
 			//places a # before
-			if (uC != 0)
+			if ((uC != 0) && (xy.at(uC - 1).at(lC) == '.'))
 				xy.at(uC - 1).at(lC) = '#';
 			//places a # after
-			if ((uC + word.length()) < rows)
+			if (((uC + word.length()) < rows) && (xy.at(uC + word.length()).at(lC) = '.'))
 				xy.at(uC + word.length()).at(lC) = '#';
 		}
 		else
@@ -132,10 +134,10 @@ void Board::insert(string position, string word)
 			}
 
 			//places a # before
-			if (lC != 0)
+			if ((lC != 0) && (xy.at(uC).at(lC - 1) == '.'))
 				xy.at(uC).at(lC - 1) = '#';
 			//places a # after
-			if ((lC + word.length()) < columns)
+			if (((lC + word.length()) < columns) && (xy.at(uC).at(lC + word.length()) == '.'))
 				xy.at(uC).at(lC + word.length()) = '#';
 		}
 	}
@@ -236,4 +238,51 @@ bool Board::validPosition(string word, string position)
 	//	cout << "No words found" << endl;
 
 	return present;
+}
+
+void Board::remove(string word)
+{
+	bool present = false;
+	this->wordCoordinates;
+	this->placedWords;
+	
+	for (int i = 0; i < placedWords.size(); i++)
+	{
+		cout << placedWords.at(i) << endl;
+	}
+
+	for (unsigned int i = 0, j = 0; i < wordCoordinates.size(), j < placedWords.size(); i++, j++)
+	{
+		if (placedWords.at(j) == word)
+		{
+			placedWords.erase(placedWords.begin() + i);
+			wordCoordinates.erase(wordCoordinates.begin() + i);
+			present = true;
+			break;
+		}
+		
+	}
+	
+
+	for (int i = 0; i < placedWords.size(); i++)
+	{
+		cout << placedWords.at(i) << endl;
+	}
+	xy.clear();
+	make();
+
+	if (present)
+	{
+		for (unsigned int i = 0, j = 0; i < wordCoordinates.size(), j < placedWords.size(); i++, j++)
+		{
+			
+			insert(wordCoordinates.at(i), placedWords.at(j));
+			
+		}
+		show();
+	}
+
+	else
+		cout << "That word doesn't exist" << endl;
+	
 }
