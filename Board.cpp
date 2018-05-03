@@ -236,20 +236,17 @@ bool Board::validPosition(string word, string position)
 	return present;
 }
 
-void Board::remove(string word)
+void Board::remove(string position)
 {
 	bool present = false;
 	this->wordCoordinates;
 	this->placedWords;
 
-	for (unsigned int i = 0; i < placedWords.size(); i++)
-	{
-		cout << placedWords.at(i) << endl;
-	}
+	
 
-	for (unsigned int i = 0, j = 0; i < wordCoordinates.size(), j < placedWords.size(); i++, j++)
+	for (unsigned int i = 0; i < wordCoordinates.size(); i++)
 	{
-		if (placedWords.at(j) == word)
+		if (wordCoordinates.at(i) == position)
 		{
 			placedWords.erase(placedWords.begin() + i);
 			wordCoordinates.erase(wordCoordinates.begin() + i);
@@ -258,19 +255,15 @@ void Board::remove(string word)
 		}
 	}
 
-	for (unsigned int i = 0; i < placedWords.size(); i++)
-	{
-		cout << placedWords.at(i) << endl;
-	}
 	xy.clear();
 	make();
 
 	if (present)
 	{
-		for (unsigned int i = 0, j = 0; i < wordCoordinates.size(), j < placedWords.size(); i++, j++)
+		for (unsigned int j = 0; j < placedWords.size(); j++)
 		{
 
-			insert(wordCoordinates.at(i), placedWords.at(j));
+			insert(wordCoordinates.at(j), placedWords.at(j));
 
 		}
 		show();

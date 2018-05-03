@@ -13,7 +13,7 @@ int main()
 		position, //position of the word
 		word; //word to insert
 	int rows, columns, option;
-	string wordToRemove;
+	
 
 	//INTERFACE
 	//-----------------------------------------------------------------
@@ -81,9 +81,8 @@ int main()
 		}
 		else if (word == "-")
 		{
-			cout << "Which word is to be removed? ";
-			cin >> wordToRemove;
-			brd.remove(wordToRemove);
+			
+			brd.remove(position);
 
 		}
 		else

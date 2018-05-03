@@ -24,7 +24,7 @@ public:
 	Dictionary* newDict;
 	string getWord(string position, string word);
 	bool validPosition(string word, string position);
-	void remove(string word);
+	void remove(string position);
 
 private:
 	vector < vector <char> > xy; //board
