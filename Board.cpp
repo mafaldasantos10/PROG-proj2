@@ -83,6 +83,18 @@ void Board::saveFile(string thesaurusFile)
 
 	fout << thesaurusFile << endl << endl;
 
+	for (unsigned i = 0; i < rows; i++)
+	{
+		for (unsigned j = 0; j < rows; j++)
+		{
+			fout << xy.at(i).at(j) << " ";
+		}
+
+		fout << endl;
+	}
+
+	fout << endl;
+
 	for (unsigned i = 0, j = 0; i < wordCoordinates.size(), j < placedWords.size(); i++, j++)
 	{
 		fout << wordCoordinates.at(i) << "  " << placedWords.at(j) << endl;

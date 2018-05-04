@@ -65,6 +65,7 @@ int main()
 		cin >> position;
 		//+3 letras, erro
 		//ordem MmV
+		//ver casos mmv
 
 		cout << endl;
 
