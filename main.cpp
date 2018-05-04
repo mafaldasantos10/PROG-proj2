@@ -105,16 +105,27 @@ int main()
 			{
 				if (brd.notUsedWord(word))
 				{
-					if (brd.validPosition(word, position))
+					if (brd.fit(position, word))
 					{
-						brd.insert(position, word);
-						brd.track(position, word);
+						if (brd.validPosition(word, position))
+						{
+
+							brd.insert(position, word);
+							brd.track(position, word);
+						}
+						else
+						{
+							cout << endl << "-------------------------------------------------------" << endl;
+							cout << endl << "You can't overwrite previously placed words. Try again!" << endl << endl;
+						}
 					}
+
 					else
 					{
-						cout << endl << "-------------------------------------------------------" << endl;
-						cout << endl << "You can't overwrite previously placed words. Try again!" << endl << endl;
+						cout << endl << "--------------------------------------------------------" << endl;
+						cout << endl << "That word does not fit in the place you want. Try again!" << endl << endl;
 					}
+					
 				}
 				cout << endl;
 				brd.show();

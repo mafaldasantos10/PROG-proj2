@@ -116,17 +116,6 @@ void Board::insert(string position, string word)
 	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
 	unsigned int uC = ((int)upperCase - 'A'), lC = ((int)lowerCase - 'a');
 
-	/////create function just for this
-	//verify size
-	if ((((uC + word.length()) > rows) && (orientation == 'V')) ||
-		(((lC + word.length()) > columns) && (orientation == 'H')))
-	{
-		cerr << endl << "That word does not fit in the place you want. Try again!" << endl << endl;
-		exit(1);
-	}
-	//valid size
-	else
-	{
 		if (orientation == 'V')
 		{
 			for (unsigned int i = uC, k = 0, j = lC; k < word.length(); i++, k++)
@@ -155,7 +144,7 @@ void Board::insert(string position, string word)
 			if (((lC + word.length()) < columns) && (xy.at(uC).at(lC + word.length()) == '.'))
 				xy.at(uC).at(lC + word.length()) = '#';
 		}
-	}
+	//}
 }
 
 bool Board::wildcardMatch(const char *str, const char *strWild)
