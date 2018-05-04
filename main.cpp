@@ -15,6 +15,8 @@ int main()
 		word; //word to insert
 	int rows, columns, option;
 	vector<string> validWords;
+	bool validInput = true;
+
 
 	srand(time(NULL));
 
@@ -62,14 +64,26 @@ int main()
 	brd.show();
 
 	//temporario!!!!!!!!!!!!!!
-	while (word != "idk")
+	//while (word != "idk")
+	//{
+	
+	
+	do
 	{
+
 		cout << endl << "Position ( RCD / CTRL-Z = stop ) ? ";
 		cin >> position;
+
+		if (cin.eof())
+		{
+			validInput = false;
+				return 0;
+		}
+
+
 		//+3 letras, erro
 		//ordem MmV
 		//ver casos mmv
-
 		cout << endl;
 
 		cout << "Word ( - = remove / ? = help ) ? ";
@@ -81,7 +95,7 @@ int main()
 			cout << "GOOD GAME!" << endl << endl;
 
 			brd.saveFile(thesaurusFile);
-			break;
+			//break;
 		}
 		else if (word == "help")
 		{
@@ -129,7 +143,13 @@ int main()
 				brd.show();
 			}
 		}
-	}
+
+
+
+
+
+	} while (validInput);
+	//}
 	//----------------------------------------------------------------------------------------
 	//END of OPTION 1
 
