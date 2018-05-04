@@ -13,6 +13,5 @@ public:
 	Dictionary(string thesaurusFile);
 	bool isValid(string word);
 	vector<string> validWords;
-private:
 };
 #endif

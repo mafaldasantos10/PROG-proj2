@@ -336,7 +336,7 @@ void Board::help(string position, vector<string> validWords)
 	}
 }
 
-
+//checks if all the spaces in the board are filled
 void Board::checkIfFull()
 {
 	this->xy;
@@ -347,7 +347,7 @@ void Board::checkIfFull()
 	for (unsigned int l = 0; l < rows; l++)
 	{
 		for (unsigned int c = 0; c < columns; c++)
-		{
+		{   //searches for empty spaces
 			if (xy.at(l).at(c) == '.')
 			{
 				filled = false;
@@ -358,6 +358,7 @@ void Board::checkIfFull()
 
 	if (filled)
 	{
-		cout << "The board is full,Well done!" << endl;
+		cout << "-----------------------------";
+		cout << "The board is full. Well done!" << endl;
 	}
 }

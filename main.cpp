@@ -67,10 +67,8 @@ int main()
 	//while (word != "idk")
 	//{
 	
-	
 	do
 	{
-
 		cout << endl << "Position ( RCD / CTRL-Z = stop ) ? ";
 		cin >> position;
 
@@ -79,7 +77,6 @@ int main()
 			validInput = false;
 				return 0;
 		}
-
 
 		//+3 letras, erro
 		//ordem MmV
@@ -143,16 +140,10 @@ int main()
 				brd.show();
 			}
 		}
-
-
-
-
-
 	} while (validInput);
 	//}
 	//----------------------------------------------------------------------------------------
 	//END of OPTION 1
-
 	return 0;
 }
 
