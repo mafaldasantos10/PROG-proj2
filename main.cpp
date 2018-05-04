@@ -119,13 +119,11 @@ int main()
 							cout << endl << "You can't overwrite previously placed words. Try again!" << endl << endl;
 						}
 					}
-
 					else
 					{
 						cout << endl << "--------------------------------------------------------" << endl;
 						cout << endl << "That word does not fit in the place you want. Try again!" << endl << endl;
 					}
-					
 				}
 				cout << endl;
 				brd.show();

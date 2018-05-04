@@ -116,35 +116,34 @@ void Board::insert(string position, string word)
 	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
 	unsigned int uC = ((int)upperCase - 'A'), lC = ((int)lowerCase - 'a');
 
-		if (orientation == 'V')
+	if (orientation == 'V')
+	{
+		for (unsigned int i = uC, k = 0, j = lC; k < word.length(); i++, k++)
 		{
-			for (unsigned int i = uC, k = 0, j = lC; k < word.length(); i++, k++)
-			{
-				xy.at(i).at(j) = toupper(word.at(k)); //capitalizes the string
-			}
-
-			//places a # before
-			if ((uC != 0) && (xy.at(uC - 1).at(lC) == '.'))
-				xy.at(uC - 1).at(lC) = '#';
-			//places a # after
-			if (((uC + word.length()) < rows) && (xy.at(uC + word.length()).at(lC) = '.'))
-				xy.at(uC + word.length()).at(lC) = '#';
+			xy.at(i).at(j) = toupper(word.at(k)); //capitalizes the string
 		}
-		else
+
+		//places a # before
+		if ((uC != 0) && (xy.at(uC - 1).at(lC) == '.'))
+			xy.at(uC - 1).at(lC) = '#';
+		//places a # after
+		if (((uC + word.length()) < rows) && (xy.at(uC + word.length()).at(lC) = '.'))
+			xy.at(uC + word.length()).at(lC) = '#';
+	}
+	else
+	{
+		for (unsigned int i = uC, k = 0, j = lC; k < word.length(); j++, k++)
 		{
-			for (unsigned int i = uC, k = 0, j = lC; k < word.length(); j++, k++)
-			{
-				xy.at(i).at(j) = toupper(word.at(k)); //capitalizes the string
-			}
-
-			//places a # before
-			if ((lC != 0) && (xy.at(uC).at(lC - 1) == '.'))
-				xy.at(uC).at(lC - 1) = '#';
-			//places a # after
-			if (((lC + word.length()) < columns) && (xy.at(uC).at(lC + word.length()) == '.'))
-				xy.at(uC).at(lC + word.length()) = '#';
+			xy.at(i).at(j) = toupper(word.at(k)); //capitalizes the string
 		}
-	//}
+
+		//places a # before
+		if ((lC != 0) && (xy.at(uC).at(lC - 1) == '.'))
+			xy.at(uC).at(lC - 1) = '#';
+		//places a # after
+		if (((lC + word.length()) < columns) && (xy.at(uC).at(lC + word.length()) == '.'))
+			xy.at(uC).at(lC + word.length()) = '#';
+	}
 }
 
 bool Board::wildcardMatch(const char *str, const char *strWild)
@@ -165,7 +164,6 @@ bool Board::wildcardMatch(const char *str, const char *strWild)
 		}
 		else if (*strWild == '*')
 		{
-
 			// 1. The wildcard * is ignored.
 			// So just an empty string matches. This is done by recursion.
 
@@ -265,14 +263,15 @@ void Board::remove(string position)
 	//clears the board and resizes it
 	xy.clear();
 	make();
-	
+
 	if (present)
 	{
 		for (unsigned int j = 0; j < placedWords.size(); j++)
-		{ 
+		{
 			//rewrites the words that are left in the vector in the board
 			insert(wordCoordinates.at(j), placedWords.at(j));
 		}
+
 		cout << endl;
 
 		//display of the board
@@ -289,7 +288,7 @@ bool Board::fit(string position, string word)
 {
 	this->columns;
 	this->rows;
-	
+
 	if (position.at(2) == 'H')
 	{
 		//checks if there is enough space in the column for the word
@@ -312,12 +311,10 @@ bool Board::fit(string position, string word)
 //Gives the user a list of 10 words that fit in the position given
 void Board::help(string position, vector<string> validWords)
 {
-	//newDict->validWords;
-	//validWords;
 	this->helpVec;
 	bool present = false;
 	int j = 0;
-	
+
 	//for every word in the dictionary it checks if it fits in the board
 	for (unsigned int i = 0; i < validWords.size(); i++)
 	{
@@ -331,12 +328,10 @@ void Board::help(string position, vector<string> validWords)
 		}
 	}
 	//gives a list of 10 random words that fit
-	while(j<10)
-    {	
+	while (j<10)
+	{
 		int randomIndex = rand() % helpVec.size();
 		cout << "- " << helpVec.at(randomIndex) << endl;
 		j++;
-	}	
+	}
 }
-
-
