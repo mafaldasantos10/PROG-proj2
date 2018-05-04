@@ -13,6 +13,7 @@ int main()
 		position, //position of the word
 		word; //word to insert
 	int rows, columns, option;
+	vector<string> validWords;
 
 
 	//INTERFACE
@@ -24,7 +25,7 @@ int main()
 		<< " -RCD stands for Row, Column and Direction" << endl << endl
 		<< "-------------------------" << endl
 		<< "OPTIONS:" << endl
-		<< " 1 -  Create Puzzle" << endl
+		<< " 1 - Create Puzzle" << endl
 		<< " 2 - Resume Puzzle" << endl
 		<< " 0 - Exit" << endl << endl
 		<< "Option? ";
@@ -44,7 +45,7 @@ int main()
 
 	//vector with the valid words from the thesaurus
 	Dictionary dict(thesaurusFile);
-
+	validWords = dict.validWords;
 	cout << "Board size (rows, columns)? ";
 	cin >> rows >> columns;
 
@@ -80,11 +81,14 @@ int main()
 			brd.saveFile(thesaurusFile);
 			break;
 		}
+		else if (word == "help")
+		{
+			cout << "These are some words that can fit in that position!" << endl << endl;
+			brd.help(position, validWords);
+		}
 		else if (word == "-")
 		{
-
 			brd.remove(position);
-
 		}
 		else
 		{
@@ -110,14 +114,12 @@ int main()
 						cout << endl << "You can't overwrite previously placed words. Try again!" << endl << endl;
 					}
 				}
-
 				cout << endl;
 				brd.show();
 			}
 		}
 	}
-
-	//-----------------------------------------------------------------
+	//----------------------------------------------------------------------------------------
 	//END of OPTION 1
 
 	return 0;

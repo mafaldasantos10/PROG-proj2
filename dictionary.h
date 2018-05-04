@@ -12,8 +12,11 @@ class Dictionary
 public:
 	Dictionary(string thesaurusFile);
 	bool isValid(string word);
-private:
 	vector<string> validWords;
+	
+private:
+	
+
 };
 
 #endif

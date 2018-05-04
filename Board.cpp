@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <time.h>
+#include <stdlib.h> 
 #include "dictionary.h"
 
 using namespace std;
@@ -83,6 +85,7 @@ void Board::saveFile(string thesaurusFile)
 
 	fout << thesaurusFile << endl << endl;
 
+	//saves the current board into a file
 	for (unsigned i = 0; i < rows; i++)
 	{
 		for (unsigned j = 0; j < rows; j++)
@@ -95,9 +98,10 @@ void Board::saveFile(string thesaurusFile)
 
 	fout << endl;
 
-	for (unsigned i = 0, j = 0; i < wordCoordinates.size(), j < placedWords.size(); i++, j++)
+	//saves the respective positions and words on the board
+	for (unsigned i = 0; i < wordCoordinates.size(); i++)
 	{
-		fout << wordCoordinates.at(i) << "  " << placedWords.at(j) << endl;
+		fout << wordCoordinates.at(i) << "  " << placedWords.at(i) << endl;
 	}
 
 	fout.close();
@@ -203,7 +207,6 @@ string Board::getWord(string position, string word)
 	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
 	unsigned int uC = ((int)upperCase - 'A'), lC = ((int)lowerCase - 'a');
 	vector<char> temp;
-	//string nW;
 
 	if (orientation == 'V')
 	{
@@ -227,32 +230,38 @@ string Board::getWord(string position, string word)
 	}
 }
 
+//checks if the indicated position is valid for the word the user wants to place
 bool Board::validPosition(string word, string position)
 {
 	bool present = false;
 
+	//complete row/line of the wanted position
 	newWord = getWord(position, word);
 
+	//changes the '.'to '?'
 	for (unsigned int i = 0; i < newWord.length(); i++)
 	{
 		if (newWord.at(i) == '.')
 		{
-			newWord.at(i) = '?';
+			newWord.at(i) = '*';
 		}
 	}
 
+	//calls the wildcard function to check
 	if (wildcardMatch(word.c_str(), newWord.c_str()))
 		present = true;
 
 	return present;
 }
 
+//removes the word in the coordinate given by the user
 void Board::remove(string position)
 {
 	bool present = false;
 	this->wordCoordinates;
 	this->placedWords;
 
+	//finds the index both in the coordinates vector and the word vector and deletes it
 	for (unsigned int i = 0; i < wordCoordinates.size(); i++)
 	{
 		if (wordCoordinates.at(i) == position)
@@ -264,18 +273,77 @@ void Board::remove(string position)
 		}
 	}
 
+	//clears the board and resizes it
 	xy.clear();
 	make();
-
+	
 	if (present)
 	{
 		for (unsigned int j = 0; j < placedWords.size(); j++)
-		{
+		{ 
+			//rewrites the words that are left in the vector in the board
 			insert(wordCoordinates.at(j), placedWords.at(j));
 		}
 		cout << endl;
+
+		//display of the board
 		show();
 	}
 	else
+	{
 		cout << "That word doesn't exist!" << endl;
+	}
 }
+
+bool Board::fit(string position, string word)
+{
+	this->columns;
+	this->rows;
+	
+	if (position.at(2) == 'H')
+	{
+		if ((columns - ((int)(position.at(1) - 'a'))) >= word.size())
+		{
+			return true;
+		}
+	}
+	if (position.at(2) == 'V')
+	{
+		if ((rows - ((int)(position.at(0) - 'A'))) >= word.size())
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void Board::help(string position, vector<string> validWords)
+{
+	//newDict->validWords;
+	//validWords;
+	this->helpVec;
+	bool present = false;
+	int j = 0;
+	srand(time(NULL));
+
+	for (unsigned int i = 0; i < validWords.size(); i++)
+	{
+		if (fit(position, validWords.at(i)))
+		{
+			if (validPosition(validWords.at(i), position))
+			{
+				helpVec.push_back(validWords.at(i));
+				present = true;
+			}
+		}
+	}
+	
+	while(j<10)
+    {	
+		int randomIndex = rand() % helpVec.size();
+		cout << "- " << helpVec.at(randomIndex) << endl;
+		j++;
+	}	
+}
+
+
