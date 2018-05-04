@@ -362,3 +362,21 @@ void Board::checkIfFull()
 		cout << "The board is full. Well done!" << endl;
 	}
 }
+
+
+bool Board::doubleValidCheck()
+{
+	this->placedWords;
+	bool valid = true;
+
+
+	for (unsigned int i = 0; i < placedWords.size(); i++)
+	{
+		if (!newDict->isValid(placedWords.at(i)))
+		{
+			valid = false;
+			break;
+		}
+	}
+	return valid;
+}

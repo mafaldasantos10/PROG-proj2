@@ -27,6 +27,7 @@ public:
 	Dictionary* newDict;
 	bool fit(string position, string word);
 	void checkIfFull();
+	bool doubleValidCheck();
 private:
 	vector < vector <char> > xy; //board
 	vector<string> wordCoordinates; //vector that stores the positions of the respective words on the board
