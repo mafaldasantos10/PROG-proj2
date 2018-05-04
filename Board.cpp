@@ -335,3 +335,29 @@ void Board::help(string position, vector<string> validWords)
 		j++;
 	}
 }
+
+
+void Board::checkIfFull()
+{
+	this->xy;
+	this->rows;
+	this->columns;
+	bool filled = true;
+
+	for (unsigned int l = 0; l < rows; l++)
+	{
+		for (unsigned int c = 0; c < columns; c++)
+		{
+			if (xy.at(l).at(c) == '.')
+			{
+				filled = false;
+				break;
+			}
+		}
+	}
+
+	if (filled)
+	{
+		cout << "The board is full,Well done!" << endl;
+	}
+}
