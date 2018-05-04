@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <time.h>
 
 using namespace std;
 
@@ -15,6 +16,7 @@ int main()
 	int rows, columns, option;
 	vector<string> validWords;
 
+	srand(time(NULL));
 
 	//INTERFACE
 	//-----------------------------------------------------------------

@@ -324,8 +324,7 @@ void Board::help(string position, vector<string> validWords)
 	this->helpVec;
 	bool present = false;
 	int j = 0;
-	srand(time(NULL));
-
+	
 	for (unsigned int i = 0; i < validWords.size(); i++)
 	{
 		if (fit(position, validWords.at(i)))
