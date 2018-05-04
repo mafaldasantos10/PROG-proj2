@@ -295,6 +295,7 @@ void Board::remove(string position)
 	}
 }
 
+//sees if the word fits in the position
 bool Board::fit(string position, string word)
 {
 	this->columns;
@@ -302,11 +303,13 @@ bool Board::fit(string position, string word)
 	
 	if (position.at(2) == 'H')
 	{
+		//checks if there is enough space in the column for the word
 		if ((columns - ((int)(position.at(1) - 'a'))) >= word.size())
 		{
 			return true;
 		}
 	}
+	//checks if there is enough space in the row for the word
 	if (position.at(2) == 'V')
 	{
 		if ((rows - ((int)(position.at(0) - 'A'))) >= word.size())
@@ -317,6 +320,7 @@ bool Board::fit(string position, string word)
 	return false;
 }
 
+//Gives the user a list of 10 words that fit in the position given
 void Board::help(string position, vector<string> validWords)
 {
 	//newDict->validWords;
@@ -325,6 +329,7 @@ void Board::help(string position, vector<string> validWords)
 	bool present = false;
 	int j = 0;
 	
+	//for every word in the dictionary it checks if it fits in the board
 	for (unsigned int i = 0; i < validWords.size(); i++)
 	{
 		if (fit(position, validWords.at(i)))
@@ -336,7 +341,7 @@ void Board::help(string position, vector<string> validWords)
 			}
 		}
 	}
-	
+	//gives a list of 10 random words that fit
 	while(j<10)
     {	
 		int randomIndex = rand() % helpVec.size();
