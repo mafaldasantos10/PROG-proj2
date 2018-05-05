@@ -15,7 +15,7 @@ int main()
 		word; //word to insert
 	int rows, columns, option;
 	vector<string> validWords;
-	bool validInput = true;
+	
 
 
 	srand(time(NULL));
@@ -74,7 +74,6 @@ int main()
 
 		if (cin.eof())
 		{
-			validInput = false;
 				return 0;
 		}
 
@@ -90,14 +89,14 @@ int main()
 		if (word == "idk")
 		{
 			cout << "GOOD GAME!" << endl << endl;
-
 			brd.saveFile(thesaurusFile);
-			//break;
+			break;
 		}
 		else if (word == "help")
 		{
 			cout << "These are some words that can fit in that position!" << endl << endl;
 			brd.help(position, validWords);
+			
 		}
 		else if (word == "-")
 		{
@@ -107,7 +106,7 @@ int main()
 		{
 			//brd.occupied(position, word);
 			//checks whether the chosen word is valid
-			if (!dict.isValid(word))
+			if (!dict.isValid(word,validWords))
 			{
 				cerr << "Invalid word. Try again!" << endl << endl;
 				exit(1);
@@ -123,6 +122,7 @@ int main()
 
 							brd.insert(position, word);
 							brd.track(position, word);
+														
 						}
 						else
 						{
@@ -140,7 +140,7 @@ int main()
 				brd.show();
 			}
 		}
-	} while (validInput);
+	} while (!brd.checkIfFull() && brd.doubleValidCheck(validWords));
 	//}
 	//----------------------------------------------------------------------------------------
 	//END of OPTION 1

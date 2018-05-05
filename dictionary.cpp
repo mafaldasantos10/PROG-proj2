@@ -54,10 +54,10 @@ Dictionary::Dictionary(string thesaurusFile)
 	fin.close();
 }
 
-bool Dictionary::isValid(string word)
+bool Dictionary::isValid(string word, vector<string> validWords)
 {
 	bool present = false;
-    this->validWords;
+   // this->validWords;
 
 	for (unsigned int i = 0; i < validWords.size(); i++)
 	{

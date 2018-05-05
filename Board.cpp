@@ -337,7 +337,7 @@ void Board::help(string position, vector<string> validWords)
 }
 
 //checks if all the spaces in the board are filled
-void Board::checkIfFull()
+bool Board::checkIfFull()
 {
 	this->xy;
 	this->rows;
@@ -358,25 +358,26 @@ void Board::checkIfFull()
 
 	if (filled)
 	{
-		cout << "-----------------------------";
+		cout << "-----------------------------" << endl;
 		cout << "The board is full. Well done!" << endl;
 	}
+	return filled;
 }
 
-
-bool Board::doubleValidCheck()
+//double checks if all the words in the board are valid
+bool Board::doubleValidCheck(vector<string> validWords)
 {
 	this->placedWords;
 	bool valid = true;
-
-
+	
 	for (unsigned int i = 0; i < placedWords.size(); i++)
-	{
-		if (!newDict->isValid(placedWords.at(i)))
+	{      //uses the disctionary function is valid
+		if (!newDict->isValid(placedWords.at(i), validWords))
 		{
 			valid = false;
 			break;
 		}
 	}
+
 	return valid;
 }
