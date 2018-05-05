@@ -70,17 +70,17 @@ bool Board::notUsedWord(string word)
 //keeps track of all words and positions
 void Board::track(string position, string word)
 {
-	wordCoordinates.push_back(position);
-	placedWords.push_back(word);
+	wordCoordinates.push_back(position); //vector that stores the positions of the respective words on the board
+	placedWords.push_back(word); //vector that stores all the words placed on the board
 }
 
 //saves the board
 void Board::saveFile(string thesaurusFile)
 {
-	this->placedWords;
-	this->wordCoordinates;
+	this->placedWords; //vector that stores the positions of the respective words on the board
+	this->wordCoordinates; //vector that stores all the words placed on the board
 
-	ofstream fout; //fout
+	ofstream fout;
 	fout.open("b001.txt");
 
 	fout << thesaurusFile << endl << endl;
@@ -110,9 +110,6 @@ void Board::saveFile(string thesaurusFile)
 //inserts words in the board
 void Board::insert(string position, string word)
 {
-	// stop
-	//if (word == crtl-z)
-
 	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
 	unsigned int uC = ((int)upperCase - 'A'), lC = ((int)lowerCase - 'a');
 
@@ -199,20 +196,20 @@ string Board::getWord(string position, string word)
 	{
 		for (unsigned int i = uC, k = 0, j = lC; k < word.length(); i++, k++)
 		{
-			temp.push_back(xy.at(i).at(j));
+			temp.push_back(xy.at(i).at(j)); //the contents are stored in a temporary vector
 		}
 
-		string newWord(temp.begin(), temp.end());
+		string newWord(temp.begin(), temp.end()); //makes the string out of the chars in the temp vector
 		return newWord;
 	}
 	else
 	{
 		for (unsigned int i = uC, k = 0, j = lC; k < word.length(); j++, k++)
 		{
-			temp.push_back(xy.at(i).at(j));
+			temp.push_back(xy.at(i).at(j)); //the contents are stored in a temporary vector
 		}
 
-		string newWord(temp.begin(), temp.end());
+		string newWord(temp.begin(), temp.end()); //makes the string out of the chars in the temp vector
 		return newWord;
 	}
 }
@@ -274,7 +271,7 @@ void Board::remove(string position)
 
 		cout << endl;
 
-		//display of the board
+		//displays the board
 		show();
 	}
 	else
@@ -297,9 +294,9 @@ bool Board::fit(string position, string word)
 			return true;
 		}
 	}
-	//checks if there is enough space in the row for the word
 	if (position.at(2) == 'V')
 	{
+		//checks if there is enough space in the row for the word
 		if ((rows - ((int)(position.at(0) - 'A'))) >= word.size())
 		{
 			return true;
@@ -344,11 +341,12 @@ bool Board::checkIfFull()
 	this->columns;
 	bool filled = true;
 
-	for (unsigned int l = 0; l < rows; l++)
+	for (unsigned int r = 0; r < rows; r++)
 	{
 		for (unsigned int c = 0; c < columns; c++)
-		{   //searches for empty spaces
-			if (xy.at(l).at(c) == '.')
+		{   
+			//searches for empty spaces
+			if (xy.at(r).at(c) == '.')
 			{
 				filled = false;
 				break;
@@ -358,9 +356,10 @@ bool Board::checkIfFull()
 
 	if (filled)
 	{
-		cout << "-----------------------------" << endl;
-		cout << "The board is full. Well done!" << endl;
+		cout << endl << "-----------------------------" << endl;
+		cout << endl << "The board is full. Well done!" << endl << endl;
 	}
+
 	return filled;
 }
 
@@ -369,9 +368,10 @@ bool Board::doubleValidCheck(vector<string> validWords)
 {
 	this->placedWords;
 	bool valid = true;
-	
+
 	for (unsigned int i = 0; i < placedWords.size(); i++)
-	{      //uses the disctionary function is valid
+	{      
+		//uses the disctionary function is valid
 		if (!newDict->isValid(placedWords.at(i), validWords))
 		{
 			valid = false;

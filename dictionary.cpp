@@ -18,22 +18,9 @@ Dictionary::Dictionary(string thesaurusFile)
 		exit(1);
 	}
 
-	/////////////////////////////////////////////
-	/*
-	cout << "Word list file? ";
-	cin >> wordFile;
-	ofstream fout; //fout
-	fout.open(wordFile);
-	//checks wether the indicated file is valid
-	if (!fout.is_open())
-	{
-	cerr << "Output file opening failed.\n";
-	exit(2);
-	}
-	*/
-
 	string next;
 
+	//extracts the header words to a vector
 	while (!fin.eof())
 	{
 		getline(fin, next);
@@ -48,16 +35,13 @@ Dictionary::Dictionary(string thesaurusFile)
 		}
 	}
 
-	for (unsigned int i = 0; i < validWords.size(); i++)
-		cout << validWords.at(i) << endl;
-    
 	fin.close();
 }
 
 bool Dictionary::isValid(string word, vector<string> validWords)
 {
 	bool present = false;
-   // this->validWords;
+	// this->validWords;
 
 	for (unsigned int i = 0; i < validWords.size(); i++)
 	{
@@ -69,5 +53,5 @@ bool Dictionary::isValid(string word, vector<string> validWords)
 		}
 	}
 
-    return present;
+	return present;
 }

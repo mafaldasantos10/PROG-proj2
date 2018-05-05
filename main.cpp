@@ -11,12 +11,10 @@ int main()
 {
 	//variables
 	string thesaurusFile, //file that contains the dictionary
-		position, //position of the word
-		word; //word to insert
+		   position, //position of the word
+		   word; //word to insert
 	int rows, columns, option;
 	vector<string> validWords;
-	
-
 
 	srand(time(NULL));
 
@@ -50,11 +48,12 @@ int main()
 	//vector with the valid words from the thesaurus
 	Dictionary dict(thesaurusFile);
 	validWords = dict.validWords;
+
 	cout << "Board size (rows, columns)? ";
 	cin >> rows >> columns;
 
 	//OPTION 1
-	//-----------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------------------------
 	Board brd(rows, columns);
 	brd.make();
 
@@ -63,18 +62,15 @@ int main()
 
 	brd.show();
 
-	//temporario!!!!!!!!!!!!!!
-	//while (word != "idk")
-	//{
-	
 	do
 	{
 		cout << endl << "Position ( RCD / CTRL-Z = stop ) ? ";
 		cin >> position;
 
+		//ctrl-z
 		if (cin.eof())
 		{
-				return 0;
+			return 0;
 		}
 
 		//+3 letras, erro
@@ -96,7 +92,7 @@ int main()
 		{
 			cout << "These are some words that can fit in that position!" << endl << endl;
 			brd.help(position, validWords);
-			
+
 		}
 		else if (word == "-")
 		{
@@ -104,25 +100,25 @@ int main()
 		}
 		else
 		{
-			//brd.occupied(position, word);
 			//checks whether the chosen word is valid
-			if (!dict.isValid(word,validWords))
+			if (!dict.isValid(word, validWords))
 			{
 				cerr << "Invalid word. Try again!" << endl << endl;
 				exit(1);
 			}
 			else
 			{
+				//checks if the word was already used
 				if (brd.notUsedWord(word))
 				{
+					//checks if the word fits in the desired postion (size wise)
 					if (brd.fit(position, word))
 					{
+						//checks if the position is valid, i.e., if it won't overwrite other words
 						if (brd.validPosition(word, position))
 						{
-
-							brd.insert(position, word);
-							brd.track(position, word);
-														
+							brd.insert(position, word); //because it's valid, it is placed in the board
+							brd.track(position, word); //keeps track of the coordinates and words placed in the board
 						}
 						else
 						{
@@ -141,9 +137,9 @@ int main()
 			}
 		}
 	} while (!brd.checkIfFull() && brd.doubleValidCheck(validWords));
-	//}
-	//----------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------------------------
 	//END of OPTION 1
+
 	return 0;
 }
 
