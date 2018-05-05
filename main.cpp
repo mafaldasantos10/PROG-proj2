@@ -11,8 +11,9 @@ int main()
 {
 	//variables
 	string thesaurusFile, //file that contains the dictionary
-		   position, //position of the word
-		   word; //word to insert
+	       position, //position of the word
+		   word, //word to insert
+		   option2, t;
 	int rows, columns, option;
 	vector<string> validWords;
 
@@ -70,6 +71,24 @@ int main()
 		//ctrl-z
 		if (cin.eof())
 		{
+			cout << endl << "-------------------------------------------------------" << endl;
+			cout << endl << "Do you want to save the current state of the board in order "
+				<< endl << "to resume later  or do you want to finish it now? (save / finish)";
+
+			cin >> t >> option2;
+
+			if (option2 == "save")
+			{
+				cout << endl<< "GOOD GAME!" << endl << endl;
+				brd.saveFile(thesaurusFile);
+			}
+			else
+			{
+				cout << endl << "GOOD GAME!" << endl << endl;
+				brd.fillSpaces();
+				brd.saveFile(thesaurusFile);
+			}
+
 			return 0;
 		}
 

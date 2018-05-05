@@ -27,6 +27,7 @@ public:
 	Dictionary* newDict;
 	bool fit(string position, string word);
 	bool checkIfFull();
+	void fillSpaces();
 	bool doubleValidCheck(vector<string> validWords);
 private:
 	vector < vector <char> > xy; //board

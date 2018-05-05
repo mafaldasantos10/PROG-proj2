@@ -363,6 +363,26 @@ bool Board::checkIfFull()
 	return filled;
 }
 
+//fills the empty spaces
+void Board::fillSpaces()
+{
+	this->xy;
+	this->rows;
+	this->columns;
+
+	for (unsigned int r = 0; r < rows; r++)
+	{
+		for (unsigned int c = 0; c < columns; c++)
+		{
+			//searches for empty spaces
+			if (xy.at(r).at(c) == '.')
+			{
+				(xy.at(r).at(c) == '#');
+			}
+		}
+	}
+}
+
 //double checks if all the words in the board are valid
 bool Board::doubleValidCheck(vector<string> validWords)
 {
