@@ -23,22 +23,22 @@ int main()
 	//-----------------------------------------------------------------
 
 	cout << "CROSSWORDS PUZZLE CREATOR" << endl
-		<< "=========================" << endl << endl
-		<< "Position (RCD / CTRL-Z = STOP)" << endl
-		<< " -RCD stands for Row, Column and Direction" << endl << endl
-		<< "-------------------------" << endl
-		<< "OPTIONS:" << endl
-		<< " 1 - Create Puzzle" << endl
-		<< " 2 - Resume Puzzle" << endl
-		<< " 0 - Exit" << endl << endl
-		<< "Option? ";
+		 << "=========================" << endl << endl
+		 << "Position (RCD / CTRL-Z = STOP)" << endl
+		 << " -RCD stands for Row, Column and Direction" << endl << endl
+		 << "-------------------------" << endl
+		 << "OPTIONS:" << endl
+		 << " 1 - Create Puzzle" << endl
+		 << " 2 - Resume Puzzle" << endl
+		 << " 0 - Exit" << endl << endl
+		 << "Option? ";
 
 	cin >> option;
 
 	cout << endl
-		<< "-------------------------" << endl
-		<< "CREATE PUZZLE" << endl
-		<< "-------------------------" << endl;
+		 << "-------------------------" << endl
+		 << "CREATE PUZZLE" << endl
+		 << "-------------------------" << endl;
 
 	//-----------------------------------------------------------------
 	//END of INTERFACE
@@ -74,7 +74,7 @@ int main()
 
 			cout << endl << "-------------------------------------------------------" << endl;
 			cout << endl << "Do you want to save the current state of the board in order "
-				<< endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
+				 << endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
 
 			cin.clear(); // clear error state
 						 //cin.ignore(1000, '\n');
