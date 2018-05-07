@@ -380,7 +380,7 @@ void Board::fillSpaces()
 			if (xy.at(r).at(c) == '.')
 			{
 				//places a # in that space
-				xy.at(r).at(c) == '#';
+				xy.at(r).at(c) = '#';
 			}
 		}
 	}
@@ -394,7 +394,8 @@ bool Board::doubleValidCheck(vector<string> validWords)
 	bool valid = true;
 
 	for (unsigned int i = 0; i < placedWords.size(); i++)
-	{             //takes the word from the board
+	{   
+		//takes the word from the board
 		newWord = getWord(wordCoordinates.at(i), placedWords.at(i));
 		//uses the disctionary function is valid
 		if (!newDict->isValid(newWord, validWords))
