@@ -390,12 +390,14 @@ void Board::fillSpaces()
 bool Board::doubleValidCheck(vector<string> validWords)
 {
 	this->placedWords;
+	this->wordCoordinates;
 	bool valid = true;
 
 	for (unsigned int i = 0; i < placedWords.size(); i++)
 	{
+		newWord = getWord(wordCoordinates.at(i), placedWords.at(i));
 		//uses the disctionary function is valid
-		if (!newDict->isValid(placedWords.at(i), validWords))
+		if (!newDict->isValid(newWord, validWords))
 		{
 			valid = false;
 			break;
