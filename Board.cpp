@@ -344,7 +344,7 @@ bool Board::checkIfFull()
 	for (unsigned int r = 0; r < rows; r++)
 	{
 		for (unsigned int c = 0; c < columns; c++)
-		{   
+		{
 			//searches for empty spaces
 			if (xy.at(r).at(c) == '.')
 			{
@@ -377,7 +377,7 @@ void Board::fillSpaces()
 			//searches for empty spaces
 			if (xy.at(r).at(c) == '.')
 			{
-				(xy.at(r).at(c) == '#');
+				xy.at(r).at(c) = '#';
 			}
 		}
 	}
@@ -390,7 +390,7 @@ bool Board::doubleValidCheck(vector<string> validWords)
 	bool valid = true;
 
 	for (unsigned int i = 0; i < placedWords.size(); i++)
-	{      
+	{
 		//uses the disctionary function is valid
 		if (!newDict->isValid(placedWords.at(i), validWords))
 		{
