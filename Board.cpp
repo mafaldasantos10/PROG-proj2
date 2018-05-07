@@ -113,6 +113,7 @@ void Board::insert(string position, string word)
 	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
 	unsigned int uC = ((int)upperCase - 'A'), lC = ((int)lowerCase - 'a');
 
+	//vertically
 	if (orientation == 'V')
 	{
 		for (unsigned int i = uC, k = 0, j = lC; k < word.length(); i++, k++)
@@ -127,6 +128,7 @@ void Board::insert(string position, string word)
 		if (((uC + word.length()) < rows) && (xy.at(uC + word.length()).at(lC) = '.'))
 			xy.at(uC + word.length()).at(lC) = '#';
 	}
+	//horizontally
 	else
 	{
 		for (unsigned int i = uC, k = 0, j = lC; k < word.length(); j++, k++)
@@ -377,6 +379,7 @@ void Board::fillSpaces()
 			//searches for empty spaces
 			if (xy.at(r).at(c) == '.')
 			{
+				//places a # in that space
 				xy.at(r).at(c) = '#';
 			}
 		}
