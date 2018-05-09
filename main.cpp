@@ -11,11 +11,13 @@ int main()
 {
 	//variables
 	string thesaurusFile, //file that contains the dictionary
-		position, //position of the word
-		word, //word to insert
-		option2;
-	int rows, columns, option;
-	vector<string> validWords;
+		   position, //position of the word
+		   word, //word to insert
+		   option,
+		   option2,
+		   savedFile;
+	int rows, columns;
+	vector<string> validWords, wordCoordinates, placedWords;
 
 	srand(time(NULL));
 
@@ -35,33 +37,100 @@ int main()
 
 	cin >> option;
 
-	cout << endl
-		 << "-------------------------" << endl
-		 << "CREATE PUZZLE" << endl
-		 << "-------------------------" << endl;
-
-	//-----------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------------------------
 	//END of INTERFACE
-
-	cout << "Thesaurus file name? ";
-	cin >> thesaurusFile;
-
-	//vector with the valid words from the thesaurus
-	Dictionary dict(thesaurusFile);
-	validWords = dict.validWords;
-
-	cout << "Board size (rows, columns)? ";
-	cin >> rows >> columns;
 
 	//OPTION 1
 	//--------------------------------------------------------------------------------------------------------------
+	if (option == "1")
+	{
+		cout << endl
+			<< "-------------------------" << endl
+			<< "CREATE PUZZLE" << endl
+			<< "-------------------------" << endl;
+
+		cout << "Thesaurus file name? ";
+		cin >> thesaurusFile;
+
+		cout << "Board size (rows, columns)? ";
+		cin >> rows >> columns;
+	}
+	//--------------------------------------------------------------------------------------------------------------
+	//END of OPTION 2
+
+	else if (option == "2")
+	//OPTION 2
+	//--------------------------------------------------------------------------------------------------------------
+	{
+		cout << endl << "File that cointains a saved board? ";
+		cin >> savedFile;
+
+		//--------------------------------------------------------------------------------------------------------------
+		ifstream fin;
+		fin.open(savedFile);
+
+		//checks wether the indicated file is valid
+		if (!fin.is_open())
+		{
+			cerr << "Input file not found!\n";
+			exit(1);
+		}
+
+		string next;
+
+		getline(fin, thesaurusFile);
+
+		//extracts the header words to a vector
+		while (!fin.eof())
+		{
+			getline(fin, next);
+
+			if (next.length() > 5)
+			{
+				if ((next.at(3) == ' ') && (next.at(4) == ' '))
+				{
+					wordCoordinates.push_back(next.substr(0, 3));
+					placedWords.push_back(next.substr(5, (next.length() - 5)));
+				}
+			}
+		}
+
+		fin.close();
+		//--------------------------------------------------------------------------------------------------------------
+
+		cout << endl << "Board size (rows, columns)? ";
+		cin >> rows >> columns;
+	}
+	//--------------------------------------------------------------------------------------------------------------
+	//END of OPTION 2
+
+	else
+	//OPTION 3
+	//--------------------------------------------------------------------------------------------------------------
+	{
+		return 0;
+	}
+	//--------------------------------------------------------------------------------------------------------------
+	//END of OPTION 3
+
 	Board brd(rows, columns);
 	brd.make();
+
+	//builds
+	for (unsigned int j = 0; j < placedWords.size(); j++)
+	{
+		//rewrites the words that are left in the vector in the board
+		brd.insert(wordCoordinates.at(j), placedWords.at(j));
+	}
 
 	cout << endl;
 	cout << endl;
 
 	brd.show();
+
+	//vector with the valid words from the thesaurus
+	Dictionary dict(thesaurusFile);
+	validWords = dict.validWords;
 
 	do
 	{
@@ -71,7 +140,6 @@ int main()
 		//ctrl-z
 		if (cin.eof())
 		{
-
 			cout << endl << "-------------------------------------------------------" << endl;
 			cout << endl << "Do you want to save the current state of the board in order "
 				 << endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
@@ -94,8 +162,6 @@ int main()
 				brd.saveFile(thesaurusFile);
 				return 0;
 			}
-
-
 		}
 
 		//+3 letras, erro
@@ -157,8 +223,6 @@ int main()
 
 	//saves the file if it's full
 	brd.saveFile(thesaurusFile);
-	//--------------------------------------------------------------------------------------------------------------
-	//END of OPTION 1
 
 	return 0;
 }

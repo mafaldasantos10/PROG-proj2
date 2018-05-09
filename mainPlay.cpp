@@ -11,11 +11,11 @@ int main()
 {
 	//variables
 	string thesaurusFile; //file that contains the dictionary
-		
+
 	cout << endl
-		 << "-------------------------" << endl
-		 << "CREATE PUZZLE" << endl
-		 << "-------------------------" << endl;
+		<< "-------------------------" << endl
+		<< "CREATE PUZZLE" << endl
+		<< "-------------------------" << endl;
 
 	//-----------------------------------------------------------------
 	//END of INTERFACE

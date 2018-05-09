@@ -229,7 +229,7 @@ bool Board::validPosition(string word, string position)
 	{
 		if (newWord.at(i) == '.')
 		{
-			newWord.at(i) = '*';
+			newWord.at(i) = '?';
 		}
 	}
 
@@ -311,7 +311,7 @@ bool Board::fit(string position, string word)
 void Board::help(string position, vector<string> validWords)
 {
 	this->helpVec;
-	bool present = false;
+	//bool present = false;
 	int j = 0;
 
 	//for every word in the dictionary it checks if it fits in the board
@@ -319,15 +319,30 @@ void Board::help(string position, vector<string> validWords)
 	{
 		if (fit(position, validWords.at(i)))
 		{
-			if (validPosition(validWords.at(i), position))
+			//complete row/line of the wanted position
+			newWord = getWord(position, validWords.at(i));
+
+			//changes the '.'to '*'
+			for (unsigned int i = 0; i < newWord.length(); i++)
 			{
-				helpVec.push_back(validWords.at(i));
-				present = true;
+				if (newWord.at(i) == '.')
+				{
+					newWord.at(i) = '*';
+				}
+			}
+
+			if (wildcardMatch(validWords.at(i).c_str(), newWord.c_str()))
+			{
+				if (validPosition(validWords.at(i), position))
+				{
+					helpVec.push_back(validWords.at(i));
+					//present = true;
+				}
 			}
 		}
 	}
 	//gives a list of 10 random words that fit
-	while (j<10)
+	while (j < 10)
 	{
 		int randomIndex = rand() % helpVec.size();
 		cout << "- " << helpVec.at(randomIndex) << endl;
