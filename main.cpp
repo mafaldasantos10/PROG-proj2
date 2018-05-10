@@ -87,6 +87,7 @@ int main()
 
 			if (next.length() > 5)
 			{
+				//the used method to know where the coordiantes and the words relies on the fact that those two are separatted by 2 spaces
 				if ((next.at(3) == ' ') && (next.at(4) == ' '))
 				{
 					wordCoordinates.push_back(next.substr(0, 3));
@@ -140,7 +141,7 @@ int main()
 		//ctrl-z
 		if (cin.eof())
 		{
-			cout << endl << "-------------------------------------------------------" << endl;
+			cout << endl << "-----------------------------------------------------------------" << endl;
 			cout << endl << "Do you want to save the current state of the board in order "
 				 << endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
 

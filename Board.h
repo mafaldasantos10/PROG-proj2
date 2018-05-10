@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <istream>
 #include "dictionary.h"
 
 using namespace std;
@@ -29,6 +30,7 @@ public:
 	bool checkIfFull();
 	void fillSpaces();
 	bool doubleValidCheck(vector<string> validWords);
+	string isEmpty();
 private:
 	vector < vector <char> > xy; //board
 	vector<string> wordCoordinates; //vector that stores the positions of the respective words on the board

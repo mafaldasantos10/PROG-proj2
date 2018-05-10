@@ -6,6 +6,7 @@
 #include <time.h>
 #include <stdlib.h> 
 #include "dictionary.h"
+#include <iomanip>
 
 using namespace std;
 
@@ -74,6 +75,43 @@ void Board::track(string position, string word)
 	placedWords.push_back(word); //vector that stores all the words placed on the board
 }
 
+string Board::isEmpty()
+{
+	string fileName = "b";
+
+	ifstream fin;
+	ofstream fout;
+
+	//cycle
+	for (unsigned i = 1; i < 999; i++)
+	{
+		if (i < 10)
+		{
+			fileName = fileName + "00" + to_string(i) + ".txt";
+			fin.open(fileName);
+		}
+		else if (i < 100)
+		{
+			fileName = fileName = "0" + to_string(i) + ".txt";
+			fin.open(fileName);
+		}
+		else
+		{
+			fileName = fileName = to_string(i) + ".txt";
+			fin.open(fileName);
+		}
+
+		//returns true if empty
+		if (fin.peek() == EOF)
+		{
+			return fileName;
+		}
+
+		fin.close();
+		fileName = "b";
+	}
+}
+
 //saves the board
 void Board::saveFile(string thesaurusFile)
 {
@@ -81,7 +119,11 @@ void Board::saveFile(string thesaurusFile)
 	this->wordCoordinates; //vector that stores all the words placed on the board
 
 	ofstream fout;
-	fout.open("b001.txt");
+
+	//if the file is empty, it is written
+	string fileName = isEmpty();
+
+	fout.open(fileName);
 
 	fout << thesaurusFile << endl << endl;
 
@@ -105,6 +147,8 @@ void Board::saveFile(string thesaurusFile)
 	}
 
 	fout.close();
+
+	cout << "Saved to file: " << fileName << endl << endl;
 }
 
 //inserts words in the board
