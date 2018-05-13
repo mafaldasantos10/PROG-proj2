@@ -19,6 +19,8 @@ int main()
 	int rows, columns;
 	vector<string> validWords, wordCoordinates, placedWords;
 
+	ifstream fin;
+
 	srand(time(NULL));
 
 	//INTERFACE
@@ -52,6 +54,13 @@ int main()
 		cout << "Thesaurus file name? ";
 		cin >> thesaurusFile;
 
+		//checks wether the indicated file is valid
+		if (!fin.is_open())
+		{
+			cerr << "Input file not found!\n" << endl;
+			exit(1);
+		}
+
 		cout << "Board size (rows, columns)? ";
 		cin >> rows >> columns;
 	}
@@ -66,13 +75,12 @@ int main()
 		cin >> savedFile;
 
 		//--------------------------------------------------------------------------------------------------------------
-		ifstream fin;
 		fin.open(savedFile);
 
 		//checks wether the indicated file is valid
 		if (!fin.is_open())
 		{
-			cerr << "Input file not found!\n";
+			cerr << "Input file not found!\n" << endl;
 			exit(1);
 		}
 
