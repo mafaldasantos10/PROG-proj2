@@ -8,7 +8,9 @@ using namespace std;
 
 DictionaryPlay::DictionaryPlay(string thesaurusFile)
 {
+	string key;
 	ifstream fin;
+	int index;
 	fin.open(thesaurusFile);
 
 	//checks wether the indicated file is valid
@@ -19,27 +21,41 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 	}
 
 	string next;
+	string words;
 
 	//extracts the header words to a vector
 	while (!fin.eof())
 	{
 		getline(fin, next);
-
+		index = 0;
 		for (unsigned int i = 0; i < next.length(); i++)
 		{
 			if (next.at(i) == ':')
 			{
-				validWords.push_back(next.substr(0, i));
+				//validWords.push_back(next.substr(0, i));
+				key = next.substr(0, i);
+				index = i + 2;
 				break;
 			}
-		}
+			if(next.at(i) == ',')
+			{
+				mapped.push_back(next.substr(index, (next.find_first_of(',') - index)));
+				index = i + 2;
+			}
+			
 
-		while (next.find_first_of(",") != -1)
-		{
-			next.erase(0, next.find(":"));
-			synonymes.push_back(next.substr(0, next.find_first_of(",")));
-			next.erase(0, next.find_first_of(","));
 		}
+		if (synonym.count(key) != 0)
+		{
+			for (size_t i = 0; i < mapped.size(); i++)
+				synonym[key].push_back(mapped[i]);
+		}
+		else
+		{
+			synonym.insert(pair <string, vector<string> >(key, mapped));
+
+		}
+		mapped.clear();
 
 	}
 
@@ -62,14 +78,4 @@ bool DictionaryPlay::isValid(string word, vector<string> validWords)
 	}
 
 	return present;
-}
-
-void DictionaryPlay::show()
-{
-	this->synonymes;
-	for (unsigned int i = 0; i < synonymes.size(); i++)
-	{
-		cout << synonymes.at(i) << endl;
-	}
-
 }
