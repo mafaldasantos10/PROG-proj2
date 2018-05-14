@@ -7,6 +7,7 @@
 #include <stdlib.h> 
 #include "dictionary.h"
 #include <iomanip>
+#include <windows.h>
 
 using namespace std;
 
@@ -23,12 +24,36 @@ void Board::make()
 	xy.resize(rows, vector<char>(columns, '.'));
 }
 
+
+void setcolor(unsigned int color)
+{
+	HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hcon, color);
+
+}
+
+
+void paint(char a) 
+{
+
+	if (isalpha(a) || a == ' ' || a == '.') {
+		setcolor(112);
+	}
+	else if (a == '#')
+		setcolor(7);
+	else
+		setcolor(200);	
+}
+
 //shows the current board
 void Board::show()
 {
 	cout << "   ";
+
+	setcolor(12);
+
 	for (unsigned int i = 97; i < 97 + columns; i++)
-	{
+	{	
 		cout << char(i) << ' ';
 	}
 
@@ -36,15 +61,21 @@ void Board::show()
 
 	for (unsigned int k = 0; k < rows; k++)
 	{
+		setcolor(12);
 		cout << char(k + 65) << ' ';
 
 		for (unsigned int j = 0; j < columns; j++)
 		{
-			cout << ' ' << xy.at(k).at(j);
+			setcolor(112);
+			cout << ' ';
+			paint(xy.at(k).at(j));
+         	cout << xy.at(k).at(j);
 		}
 
 		cout << ' ' << endl;
 	}
+
+	setcolor(15);
 }
 
 //checks if the word is not being used again

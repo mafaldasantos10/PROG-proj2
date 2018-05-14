@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include <time.h>
 
 using namespace std;
@@ -67,7 +68,7 @@ int main()
 		cin >> rows >> columns;
 	}
 	//--------------------------------------------------------------------------------------------------------------
-	//END of OPTION 2
+	//END of OPTION 1
 
 	else if (option == "2")
 	//OPTION 2
