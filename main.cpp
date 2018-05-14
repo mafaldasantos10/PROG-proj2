@@ -54,6 +54,8 @@ int main()
 		cout << "Thesaurus file name? ";
 		cin >> thesaurusFile;
 
+		fin.open(thesaurusFile);
+
 		//checks wether the indicated file is valid
 		if (!fin.is_open())
 		{
