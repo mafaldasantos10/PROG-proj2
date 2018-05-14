@@ -47,7 +47,6 @@ void BoardPlay::show()
 	}
 }
 
-
 void BoardPlay::insert(string position, string word)
 {
 	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
@@ -111,7 +110,6 @@ void BoardPlay::fillSpaces()
 	}
 }
 
-
 void BoardPlay::upload()
 {
 	this->wordCoordinates;
@@ -120,16 +118,16 @@ void BoardPlay::upload()
 	xy.clear();
 	make();
 
-		for (unsigned int j = 0; j < placedWords.size(); j++)
-		{
-			//rewrites the words that are left in the vector in the board
-			insert(wordCoordinates.at(j), placedWords.at(j));
-		}
-		cout << endl;
-		cout << endl;
+	for (unsigned int j = 0; j < placedWords.size(); j++)
+	{
+		//rewrites the words that are left in the vector in the board
+		insert(wordCoordinates.at(j), placedWords.at(j));
+	}
+	cout << endl;
+	cout << endl;
 
-		fillSpaces();
-		//displays the board
-		show();
+	fillSpaces();
+	//displays the board
+	show();
 
 }

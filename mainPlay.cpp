@@ -11,8 +11,8 @@ using namespace std;
 int main()
 {
 	//variables
-	string thesaurusFile, name,  savedFile; //file that contains the dictionary
-    vector<string> validWords, wordCoordinates, placedWords;
+	string thesaurusFile, name, savedFile; //file that contains the dictionary
+	vector<string> validWords, wordCoordinates, placedWords;
 	int rows, columns;
 	ifstream fin;
 
@@ -44,6 +44,7 @@ int main()
 	cin >> savedFile;
 
 	//--------------------------------------------------------------------------------------------------------------
+	
 	fin.open(savedFile);
 
 	//checks wether the indicated file is valid
@@ -95,7 +96,6 @@ int main()
 	cout << endl;
 	brd.fillSpaces();
 	brd.show();
-
 
 	return 0;
 }
