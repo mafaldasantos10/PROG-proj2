@@ -13,9 +13,8 @@ int main()
 	//variables
 	string thesaurusFile, name,  savedFile; //file that contains the dictionary
     vector<string> validWords, wordCoordinates, placedWords;
-	int rows, columns;
+	int rows = 0, columns;
 	ifstream fin;
-	int counter = 0;
 
 	//OPTION 1
 	//--------------------------------------------------------------------------------------------------------------
@@ -59,33 +58,27 @@ int main()
 	getline(fin, thesaurusFile);
 
 	//extracts the header words to a vector
+	getline(fin, next);
+	getline(fin, next);
+
+	columns = (next.length() / 2);
+
+	while (next.length() != 0)
+	{
+		rows++;
+		getline(fin, next);
+
+	}
+
 	while (!fin.eof())
 	{
 		getline(fin, next);
-		getline(fin, next);
-
-		columns = next.size();
-
-		while (next.size() != 0)
+		//the used method to know where the coordiantes and the words relies on the fact that those two are separatted by 2 spaces
+		if ((next.at(3) == ' ') && (next.at(4) == ' '))
 		{
-			counter++;
-			getline(fin, next);
-
+			wordCoordinates.push_back(next.substr(0, 3));
+			placedWords.push_back(next.substr(5, (next.length() - 5)));
 		}
-
-		
-		rows = counter - 1;
-
-		if (next.length() > 5)
-		{
-			//the used method to know where the coordiantes and the words relies on the fact that those two are separatted by 2 spaces
-			if ((next.at(3) == ' ') && (next.at(4) == ' '))
-			{
-				wordCoordinates.push_back(next.substr(0, 3));
-				placedWords.push_back(next.substr(5, (next.length() - 5)));
-			}
-		}
-
 	}
 
 	fin.close();
