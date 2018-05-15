@@ -11,10 +11,11 @@ using namespace std;
 int main()
 {
 	//variables
-	string thesaurusFile, name, savedFile; //file that contains the dictionary
-	vector<string> validWords, wordCoordinates, placedWords;
+	string thesaurusFile, name,  savedFile; //file that contains the dictionary
+    vector<string> validWords, wordCoordinates, placedWords;
 	int rows, columns;
 	ifstream fin;
+	int counter = 0;
 
 	//OPTION 1
 	//--------------------------------------------------------------------------------------------------------------
@@ -44,7 +45,6 @@ int main()
 	cin >> savedFile;
 
 	//--------------------------------------------------------------------------------------------------------------
-	
 	fin.open(savedFile);
 
 	//checks wether the indicated file is valid
@@ -62,6 +62,19 @@ int main()
 	while (!fin.eof())
 	{
 		getline(fin, next);
+		getline(fin, next);
+
+		columns = next.size();
+
+		while (next.size() != 0)
+		{
+			counter++;
+			getline(fin, next);
+
+		}
+
+		
+		rows = counter - 1;
 
 		if (next.length() > 5)
 		{
@@ -72,13 +85,16 @@ int main()
 				placedWords.push_back(next.substr(5, (next.length() - 5)));
 			}
 		}
+
 	}
 
 	fin.close();
 	//--------------------------------------------------------------------------------------------------------------
 
-	cout << endl << "Board size (rows, columns)? ";
-	cin >> rows >> columns;
+	for (int i = 0; i < placedWords.size(); i++)
+	{
+		cout << placedWords.at(i);  // vetores tao vazios n sei pq tenho de ver
+	}
 
 	BoardPlay brd(rows, columns);
 	//brd.upload();
@@ -94,8 +110,11 @@ int main()
 
 	cout << endl;
 	cout << endl;
+
 	brd.fillSpaces();
+
 	brd.show();
+
 
 	return 0;
 }

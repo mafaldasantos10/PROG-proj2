@@ -24,21 +24,25 @@ void Board::make()
 	xy.resize(rows, vector<char>(columns, '.'));
 }
 
+
 void setcolor(unsigned int color)
 {
 	HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hcon, color);
+
 }
 
-void paint(char a)
+
+void paint(char a) 
 {
+
 	if (isalpha(a) || a == ' ' || a == '.') {
 		setcolor(112);
 	}
 	else if (a == '#')
 		setcolor(7);
 	else
-		setcolor(200);
+		setcolor(200);	
 }
 
 //shows the current board
@@ -49,7 +53,7 @@ void Board::show()
 	setcolor(12);
 
 	for (unsigned int i = 97; i < 97 + columns; i++)
-	{
+	{	
 		cout << char(i) << ' ';
 	}
 
@@ -65,7 +69,7 @@ void Board::show()
 			setcolor(112);
 			cout << ' ';
 			paint(xy.at(k).at(j));
-			cout << xy.at(k).at(j);
+         	cout << xy.at(k).at(j);
 		}
 
 		cout << ' ' << endl;
@@ -110,7 +114,7 @@ string Board::isEmpty()
 	ofstream fout;
 
 	//cycle
-	for (unsigned i = 1; i <= 999; i++)
+	for (unsigned i = 1; i < 999; i++)
 	{
 		if (i < 10)
 		{
@@ -375,7 +379,6 @@ bool Board::fit(string position, string word)
 			return true;
 		}
 	}
-
 	return false;
 }
 
@@ -413,7 +416,6 @@ void Board::help(string position, vector<string> validWords)
 			}
 		}
 	}
-
 	//gives a list of 10 random words that fit
 	while (j < 10)
 	{
@@ -482,7 +484,7 @@ bool Board::doubleValidCheck(vector<string> validWords)
 	bool valid = true;
 
 	for (unsigned int i = 0; i < placedWords.size(); i++)
-	{
+	{   
 		//takes the word from the board
 		newWord = getWord(wordCoordinates.at(i), placedWords.at(i));
 		//uses the disctionary function is valid

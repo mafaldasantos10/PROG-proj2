@@ -17,7 +17,7 @@ int main()
 		   option,
 		   option2,
 		   savedFile;
-	int rows, columns;
+	int rows, columns,counter;
 	vector<string> validWords, wordCoordinates, placedWords;
 
 	ifstream fin;
@@ -32,7 +32,7 @@ int main()
 		 << "Position (RCD / CTRL-Z = STOP)" << endl
 		 << " -RCD stands for Row, Column and Direction" << endl << endl
 		 << "-------------------------" << endl
-	 	 << "OPTIONS:" << endl
+		 << "OPTIONS:" << endl
 		 << " 1 - Create Puzzle" << endl
 		 << " 2 - Resume Puzzle" << endl
 		 << " 0 - Exit" << endl << endl
@@ -71,7 +71,6 @@ int main()
 	//END of OPTION 1
 
 	else if (option == "2")
-
 	//OPTION 2
 	//--------------------------------------------------------------------------------------------------------------
 	{
@@ -96,6 +95,18 @@ int main()
 		while (!fin.eof())
 		{
 			getline(fin, next);
+			getline(fin, next);
+
+			columns = next.size();
+
+			while (next.size() != 0)
+			{
+				counter++;
+				getline(fin, next);
+
+			} 
+
+			rows = counter - 1;
 
 			if (next.length() > 5)
 			{
@@ -155,7 +166,7 @@ int main()
 		{
 			cout << endl << "-----------------------------------------------------------------" << endl;
 			cout << endl << "Do you want to save the current state of the board in order "
-				<< endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
+				 << endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
 
 			cin.clear(); // clear error state
 						 //cin.ignore(1000, '\n');
