@@ -24,21 +24,16 @@ void Board::make()
 	xy.resize(rows, vector<char>(columns, '.'));
 }
 
-
 void setcolor(unsigned int color)
 {
 	HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hcon, color);
-
 }
-
 
 void paint(char a) 
 {
-
-	if (isalpha(a) || a == ' ' || a == '.') {
+	if (isalpha(a) || a == ' ' || a == '.')
 		setcolor(112);
-	}
 	else if (a == '#')
 		setcolor(7);
 	else
@@ -123,12 +118,12 @@ string Board::isEmpty()
 		}
 		else if (i < 100)
 		{
-			fileName = fileName = "0" + to_string(i) + ".txt";
+			fileName = fileName + "0" + to_string(i) + ".txt";
 			fin.open(fileName);
 		}
 		else
 		{
-			fileName = fileName = to_string(i) + ".txt";
+			fileName = fileName + to_string(i) + ".txt";
 			fin.open(fileName);
 		}
 
@@ -161,7 +156,7 @@ void Board::saveFile(string thesaurusFile)
 	//saves the current board into a file
 	for (unsigned i = 0; i < rows; i++)
 	{
-		for (unsigned j = 0; j < rows; j++)
+		for (unsigned j = 0; j < columns; j++)
 		{
 			fout << xy.at(i).at(j) << " ";
 		}
@@ -174,7 +169,15 @@ void Board::saveFile(string thesaurusFile)
 	//saves the respective positions and words on the board
 	for (unsigned i = 0; i < wordCoordinates.size(); i++)
 	{
-		fout << wordCoordinates.at(i) << "  " << placedWords.at(i) << endl;
+		//trying not to place a space at the end
+		if (i == 0)
+		{
+			fout << wordCoordinates.at(i) << "  " << placedWords.at(i);
+		}
+		else
+		{
+			fout << endl << wordCoordinates.at(i) << "  " << placedWords.at(i);
+		}
 	}
 
 	fout.close();
@@ -258,6 +261,7 @@ bool Board::wildcardMatch(const char *str, const char *strWild)
 				return false;
 		}
 	}
+
 	// Have a match? Only if both are at the end...
 	return !*str && !*strWild;
 }
@@ -416,6 +420,7 @@ void Board::help(string position, vector<string> validWords)
 			}
 		}
 	}
+
 	//gives a list of 10 random words that fit
 	while (j < 10)
 	{

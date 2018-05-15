@@ -17,7 +17,7 @@ int main()
 		   option,
 		   option2,
 		   savedFile;
-	int rows, columns,counter;
+	int rows = 0, columns, counter = 0;
 	vector<string> validWords, wordCoordinates, placedWords;
 
 	ifstream fin;
@@ -48,9 +48,9 @@ int main()
 	if (option == "1")
 	{
 		cout << endl
-			<< "-------------------------" << endl
-			<< "CREATE PUZZLE" << endl
-			<< "-------------------------" << endl;
+			 << "-------------------------" << endl
+			 << "CREATE PUZZLE" << endl
+			 << "-------------------------" << endl;
 
 		cout << "Thesaurus file name? ";
 		cin >> thesaurusFile;
@@ -70,9 +70,9 @@ int main()
 	//--------------------------------------------------------------------------------------------------------------
 	//END of OPTION 1
 
-	else if (option == "2")
 	//OPTION 2
 	//--------------------------------------------------------------------------------------------------------------
+	else if (option == "2")
 	{
 		cout << endl << "File that cointains a saved board? ";
 		cin >> savedFile;
@@ -92,38 +92,29 @@ int main()
 		getline(fin, thesaurusFile);
 
 		//extracts the header words to a vector
+		getline(fin, next);
+		getline(fin, next);
+
+		columns = (next.length() / 2);
+
+		while (next.length() != 0)
+		{
+			rows++;
+			getline(fin, next);
+
+		}
+
 		while (!fin.eof())
 		{
 			getline(fin, next);
-			getline(fin, next);
-
-			columns = next.size();
-
-			while (next.size() != 0)
+			//the used method to know where the coordiantes and the words relies on the fact that those two are separatted by 2 spaces
+			if ((next.at(3) == ' ') && (next.at(4) == ' '))
 			{
-				counter++;
-				getline(fin, next);
-
-			} 
-
-			rows = counter - 1;
-
-			if (next.length() > 5)
-			{
-				//the used method to know where the coordiantes and the words relies on the fact that those two are separatted by 2 spaces
-				if ((next.at(3) == ' ') && (next.at(4) == ' '))
-				{
-					wordCoordinates.push_back(next.substr(0, 3));
-					placedWords.push_back(next.substr(5, (next.length() - 5)));
-				}
+				wordCoordinates.push_back(next.substr(0, 3));
+				placedWords.push_back(next.substr(5, (next.length() - 5)));
 			}
 		}
-
-		fin.close();
 		//--------------------------------------------------------------------------------------------------------------
-
-		cout << endl << "Board size (rows, columns)? ";
-		cin >> rows >> columns;
 	}
 	//--------------------------------------------------------------------------------------------------------------
 	//END of OPTION 2
@@ -243,10 +234,13 @@ int main()
 				brd.show();
 			}
 		}
-	} while (!brd.checkIfFull() && brd.doubleValidCheck(validWords));
+	} 
+	while (!brd.checkIfFull() && brd.doubleValidCheck(validWords));
 
 	//saves the file if it's full
 	brd.saveFile(thesaurusFile);
+
+	fin.close();
 
 	return 0;
 }
