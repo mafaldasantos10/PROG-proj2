@@ -66,16 +66,18 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 
 /*bool DictionaryPlay::isValid(string word, vector<string> validWords)
 {
-bool present = false;
-// this->validWords;
-for (unsigned int i = 0; i < validWords.size(); i++)
-{
-//case insensitive comparison
-if (_strcmpi(word.c_str(), validWords.at(i).c_str()) == 0)
-{
-present = true;
-break;
-}
-}
-return present;
+	bool present = false;
+	// this->validWords;
+
+	for (unsigned int i = 0; i < validWords.size(); i++)
+	{
+		//case insensitive comparison
+		if (_strcmpi(word.c_str(), validWords.at(i).c_str()) == 0)
+		{
+			present = true;
+			break;
+		}
+	}
+
+	return present;
 }*/

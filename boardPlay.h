@@ -25,7 +25,6 @@ public:
 	bool fit(string position, string word);
 	void upload();
 	void fillSpaces();
-	void setcolor(unsigned int color);
 private:
 	vector < vector <char> > xy; //board
 	vector<string> wordCoordinates; //vector that stores the positions of the respective words on the board
