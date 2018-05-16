@@ -409,7 +409,7 @@ bool BoardPlay::checkIfFull()
 		for (unsigned int c = 0; c < columns; c++)
 		{
 			//searches for empty spaces
-			if (xy.at(r).at(c) == '.')
+			if (xy.at(r).at(c) != '%' )
 			{
 				filled = false;
 				break;

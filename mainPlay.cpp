@@ -154,16 +154,16 @@ int main()
 					if (brd.fit(position, word))
 					{
 						//checks if the position is valid, i.e., if it won't overwrite other words
-						if (brd.validPosition(word, position))
-						{
+						//if (brd.validPosition(word, position))
+						//{
 							brd.insert(position, word); //because it's valid, it is placed in the board
 							brd.track(position, word); //keeps track of the coordinates and words placed in the board
-						}
+						/*}
 						else
 						{
 							cout << endl << "-------------------------------------------------------" << endl;
 							cout << endl << "You can't overwrite previously placed words. Try again!" << endl << endl;
-						}
+						}*/
 					}
 					else
 					{
@@ -179,7 +179,7 @@ int main()
 			}
 		}
 	}
-	brd.saveFile(name, thesaurusFile, wordCoordinates, placedWords);
+	//brd.saveFile(name, thesaurusFile, wordCoordinates, placedWords);
 
 	return 0;
 }
