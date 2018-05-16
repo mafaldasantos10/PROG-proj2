@@ -16,7 +16,7 @@ public:
 	//vector<string> validWords;
 	string caps(string word); //capitalizes the first letter of the word given by the user
 	map<string, vector<string> > validWords;
-
+	void clues(vector<string> words, vector<string> coordinates);
 private:
 	
 	vector<string> synonymes;

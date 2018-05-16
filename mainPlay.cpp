@@ -19,6 +19,8 @@ int main()
 	ifstream fin;
 	map<string, vector<string> > validWords;
 
+	srand(time(NULL));
+
 	//OPTION 1
 	//--------------------------------------------------------------------------------------------------------------
 
@@ -104,6 +106,7 @@ int main()
 	validWords = dict.validWords;
 
 	//cout << validWords["zero"] << endl;
+	dict.clues(placedWords, wordCoordinates);
 	do
 	{
 		cout << endl;

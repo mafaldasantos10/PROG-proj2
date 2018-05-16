@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <time.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -88,4 +90,30 @@ bool DictionaryPlay::isValid(string word, map<string, vector<string> > validWord
 
 
 	return present;
+}
+
+
+void DictionaryPlay::clues(vector<string> words, vector<string> coordinates)
+{
+	this->validWords;
+
+	for (unsigned int i = 0; i < words.size(); i++)
+	{
+		if (coordinates.at(i).at(2) == 'V')
+		{
+			int randomIndex = rand() % words.size();
+			cout << "Vertical words: " << endl;
+
+			cout << coordinates.at(i) << "   " << (validWords[words.at(i)]).at(randomIndex) << endl;
+
+
+		}
+		else if (coordinates.at(i).at(2) == 'H')
+		{
+			int randomIndex = rand() % words.size();
+			cout << "Horizontal words: " << endl;
+			cout << coordinates.at(i) << "   " << (validWords[words.at(i)]).at(randomIndex) << endl;
+
+		}
+	}
 }
