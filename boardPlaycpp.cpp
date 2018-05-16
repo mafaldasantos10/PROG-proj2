@@ -239,6 +239,56 @@ bool BoardPlay::validPosition(string word, string position)
 	return present;
 }
 
+//removes the word in the coordinate given by the user
+void BoardPlay::remove(string position,vector<string>coordinates, vector<string> words)
+{
+	bool present = false;
+	this->wordCoordinates;
+	this->placedWords;
+
+	//finds the index both in the coordinates vector and the word vector and deletes it
+	for (unsigned int i = 0; i < wordCoordinates.size(); i++)
+	{
+		if (wordCoordinates.at(i) == position)
+		{
+			placedWords.erase(placedWords.begin() + i);
+			wordCoordinates.erase(wordCoordinates.begin() + i);
+			present = true;
+			break;
+		}
+	}
+
+	//clears the board and resizes it
+	xy.clear();
+	make();
+
+	if (present)
+	{
+		for (unsigned int j = 0; j < words.size(); j++)
+		{
+			//rewrites the words that are left in the vector in the board
+			insert(coordinates.at(j), words.at(j));
+		}
+
+		cout << endl;
+		
+		fillSpaces();
+		//displays the board
+
+		for (unsigned int j = 0; j < placedWords.size(); j++)
+		{
+			//rewrites the words that are left in the vector in the board
+			insert(wordCoordinates.at(j), placedWords.at(j));
+		}
+
+		show();
+	}
+	else
+	{
+		cout << "That word doesn't exist!" << endl;
+	}
+}
+
 
 void BoardPlay::fillSpaces()
 {

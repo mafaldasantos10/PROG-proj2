@@ -20,7 +20,7 @@ public:
 	void track(string position, string word);
 	//void occupied(string position, string word);
 	string getWord(string position, string word);
-	void remove(string position);
+	void remove(string position,vector<string>coordinates,vector<string> words);
 	string isEmpty();
 	void saveFile(string name, string thesaurusFile, vector<string> word, vector<string>coordinates);
 	DictionaryPlay* newDict;

@@ -114,13 +114,13 @@ int main()
 			return 0;
 		}
 
-		cout << "Word ( - = remove / ? = help ) ? ";
+		cout << "Word ( - = remove) ? ";
 		cin >> word;
 		word = dict.caps(word);
 		
 		if (word == "-")
 		{
-
+			brd.remove(position,wordCoordinates,placedWords);
 		}
 		else
 		{
