@@ -389,8 +389,7 @@ bool Board::fit(string position, string word)
 //Gives the user a list of 10 words that fit in the position given
 void Board::help(string position, vector<string> validWords)
 {
-	this->helpVec;
-	//bool present = false;
+	vector<string> helpVec;
 	int j = 0;
 
 	//for every word in the dictionary it checks if it fits in the board
@@ -415,7 +414,6 @@ void Board::help(string position, vector<string> validWords)
 				if (validPosition(validWords.at(i), position))
 				{
 					helpVec.push_back(validWords.at(i));
-					//present = true;
 				}
 			}
 		}

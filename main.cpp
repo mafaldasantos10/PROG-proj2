@@ -187,7 +187,7 @@ int main()
 		cout << "Word ( - = remove / ? = help ) ? ";
 		cin >> word;
 
-		if (word == "help")
+		if (word == "?")
 		{
 			cout << "These are some words that can fit in that position!" << endl << endl;
 			brd.help(position, validWords);

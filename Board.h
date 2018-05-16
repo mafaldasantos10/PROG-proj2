@@ -38,7 +38,6 @@ private:
 	unsigned int rows, columns;
 	string position, word;
 	string newWord;
-	vector<string> helpVec;
 	vector<string> validWords;
 };
 #endif
