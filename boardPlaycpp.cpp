@@ -112,6 +112,132 @@ void BoardPlay::insert(string position, string word)
 }
 
 
+//checks if the word is not being used again
+bool BoardPlay::notUsedWord(string word)
+{
+	this->placedWords;
+
+	bool Present = true;
+
+	for (unsigned int i = 0; i < placedWords.size(); i++)
+	{
+		if (placedWords.at(i) == word)
+		{
+			Present = false;
+			cout << endl << "----------------------------------------" << endl << endl;
+			cout << endl << "You already used that word. Try another!" << endl << endl;
+			break;
+		}
+	}
+
+	return Present;
+}
+
+//keeps track of all words and positions
+void BoardPlay::track(string position, string word)
+{
+	wordCoordinates.push_back(position); //vector that stores the positions of the respective words on the board
+	placedWords.push_back(word); //vector that stores all the words placed on the board
+}
+
+//gets a string of the contents of the indicated position of the word
+string BoardPlay::getWord(string position, string word)
+{
+	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
+	unsigned int uC = ((int)upperCase - 'A'), lC = ((int)lowerCase - 'a');
+	vector<char> temp;
+
+	if (orientation == 'V')
+	{
+		for (unsigned int i = uC, k = 0, j = lC; k < word.length(); i++, k++)
+		{
+			temp.push_back(xy.at(i).at(j)); //the contents are stored in a temporary vector
+		}
+
+		string newWord(temp.begin(), temp.end()); //makes the string out of the chars in the temp vector
+		return newWord;
+	}
+	else
+	{
+		for (unsigned int i = uC, k = 0, j = lC; k < word.length(); j++, k++)
+		{
+			temp.push_back(xy.at(i).at(j)); //the contents are stored in a temporary vector
+		}
+
+		string newWord(temp.begin(), temp.end()); //makes the string out of the chars in the temp vector
+		return newWord;
+	}
+}
+
+bool BoardPlay::wildcardMatch(const char *str, const char *strWild)
+{
+	// We have a special case where string is empty ("") and the mask is "*".
+
+	while (*strWild)
+	{
+		// Single wildcard character
+		if (*strWild == '?')
+		{
+			// Matches any character except empty string
+			if (!*str)
+				return false;
+			// OK next
+			++str;
+			++strWild;
+		}
+		else if (*strWild == '*')
+		{
+			// 1. The wildcard * is ignored.
+			// So just an empty string matches. This is done by recursion.
+
+			if (wildcardMatch(str, strWild + 1))
+				// we have a match and the * replaces no other character
+				return true;
+
+			if (*str && wildcardMatch(str + 1, strWild))
+				return true;
+			// Nothing worked with this wildcard.
+			return false;
+		}
+		else
+		{
+			// Standard compare of 2 chars. Note that *str might be 0 here,
+			// that has always a value while inside this loop.
+			if (toupper(*str++) != toupper(*strWild++))
+				return false;
+		}
+	}
+
+	// Have a match? Only if both are at the end...
+	return !*str && !*strWild;
+}
+
+
+//checks if the indicated position is valid for the word the user wants to place
+bool BoardPlay::validPosition(string word, string position)
+{
+	bool present = false;
+	string newWord;
+	//complete row/line of the wanted position
+	newWord = getWord(position, word);
+
+	//changes the '.'to '?'
+	for (unsigned int i = 0; i < newWord.length(); i++)
+	{
+		if (newWord.at(i) == '.')
+		{
+			newWord.at(i) = '?';
+		}
+	}
+
+	//calls the wildcard function to check
+	if (wildcardMatch(word.c_str(), newWord.c_str()))
+		present = true;
+
+	return present;
+}
+
+
 void BoardPlay::fillSpaces()
 {
 	this->xy;
@@ -300,3 +426,27 @@ bool BoardPlay::checkIfFull()
 	return filled;
 }
 
+//sees if the word fits in the position
+bool BoardPlay::fit(string position, string word)
+{
+	this->columns;
+	this->rows;
+
+	if (position.at(2) == 'H')
+	{
+		//checks if there is enough space in the column for the word
+		if ((columns - ((int)(position.at(1) - 'a'))) >= word.size())
+		{
+			return true;
+		}
+	}
+	if (position.at(2) == 'V')
+	{
+		//checks if there is enough space in the row for the word
+		if ((rows - ((int)(position.at(0) - 'A'))) >= word.size())
+		{
+			return true;
+		}
+	}
+	return false;
+}

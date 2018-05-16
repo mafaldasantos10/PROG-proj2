@@ -97,6 +97,8 @@ int main()
 	brd.fillSpaces();
 
 	brd.show();
+	validWords = dict.validWords;
+
 	while (!brd.checkIfFull())
 	{
 		cout << endl;
@@ -117,14 +119,14 @@ int main()
 				if (option2 == "save")
 				{
 					cout << endl << "GOOD GAME! It will be saved for you to came back! " << endl << endl;
-					brd.saveFile(name,thesaurusFile,wordCoordinates,placedWords);
+					brd.saveFile(name, thesaurusFile, wordCoordinates, placedWords);
 					return 0;
 				}
-				else
+				else if (option2 == "finish")
 				{
 					cout << endl << "GOOD GAME!" << endl << endl;
 					brd.fillSpaces();
-					brd.saveFile(name,thesaurusFile, wordCoordinates, placedWords);
+					brd.saveFile(name, thesaurusFile, wordCoordinates, placedWords);
 					return 0;
 				}
 			}
@@ -132,8 +134,50 @@ int main()
 
 		cout << "Word ( - = remove / ? = help ) ? ";
 		cin >> word;
-		cout << endl;
-		brd.checkAnswer(word, position, wordCoordinates, placedWords);
+		if (word == "-")
+		{
+
+		}
+		else
+		{
+			if (!dict.isValid(word, validWords))
+			{
+				cerr << "Invalid word. Try again!" << endl << endl;
+				exit(1);
+			}
+			else
+			{
+				//checks if the word was already used
+				if (brd.notUsedWord(word))
+				{
+					//checks if the word fits in the desired postion (size wise)
+					if (brd.fit(position, word))
+					{
+						//checks if the position is valid, i.e., if it won't overwrite other words
+						if (brd.validPosition(word, position))
+						{
+							brd.insert(position, word); //because it's valid, it is placed in the board
+							brd.track(position, word); //keeps track of the coordinates and words placed in the board
+						}
+						else
+						{
+							cout << endl << "-------------------------------------------------------" << endl;
+							cout << endl << "You can't overwrite previously placed words. Try again!" << endl << endl;
+						}
+					}
+					else
+					{
+						cout << endl << "--------------------------------------------------------" << endl;
+						cout << endl << "That word does not fit in the place you want. Try again!" << endl << endl;
+					}
+				}
+				cout << endl;
+				brd.show();
+
+				//cout << endl;
+				//brd.checkAnswer(word, position, wordCoordinates, placedWords);
+			}
+		}
 	}
 	brd.saveFile(name, thesaurusFile, wordCoordinates, placedWords);
 

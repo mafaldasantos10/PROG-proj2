@@ -34,7 +34,7 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 		{
 			if (next.at(i) == ':')
 			{
-				//validWords.push_back(next.substr(0, i));
+				validWords.push_back(next.substr(0, i));
 				key = next.substr(0, i);
 				index = i + 2;
 				break;

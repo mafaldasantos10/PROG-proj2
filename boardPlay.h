@@ -26,9 +26,11 @@ public:
 	DictionaryPlay* newDict;
 	bool fit(string position, string word);
 	void upload();
+	bool wildcardMatch(const char *str, const char *strWild);
 	void fillSpaces();
 	void checkAnswer(string word, string position, vector<string> coordinates, vector<string>placedwords);
 	bool checkIfFull();
+	bool validPosition(string word, string position);
 private:
 	vector < vector <char> > xy; //board
 	vector<string> wordCoordinates; //vector that stores the positions of the respective words on the board
