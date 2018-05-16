@@ -11,7 +11,23 @@
 
 using namespace std;
 
-//constructor
+void setcolor(unsigned int color)
+{
+	HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hcon, color);
+}
+
+void paint(char a)
+{
+	if (isalpha(a) || a == ' ' || a == '.')
+		setcolor(112);
+	else if (a == '#')
+		setcolor(7);
+	else
+		setcolor(200);
+}
+
+//board constructor
 Board::Board(unsigned int rows, unsigned int columns)
 {
 	this->rows = rows;
@@ -24,23 +40,7 @@ void Board::make()
 	xy.resize(rows, vector<char>(columns, '.'));
 }
 
-void setcolor(unsigned int color)
-{
-	HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hcon, color);
-}
-
-void paint(char a) 
-{
-	if (isalpha(a) || a == ' ' || a == '.')
-		setcolor(112);
-	else if (a == '#')
-		setcolor(7);
-	else
-		setcolor(200);	
-}
-
-//shows the current board
+//shows the current board state
 void Board::show()
 {
 	cout << "   ";
@@ -48,7 +48,7 @@ void Board::show()
 	setcolor(12);
 
 	for (unsigned int i = 97; i < 97 + columns; i++)
-	{	
+	{
 		cout << char(i) << ' ';
 	}
 
@@ -64,7 +64,7 @@ void Board::show()
 			setcolor(112);
 			cout << ' ';
 			paint(xy.at(k).at(j));
-         	cout << xy.at(k).at(j);
+			cout << xy.at(k).at(j);
 		}
 
 		cout << ' ' << endl;
@@ -73,7 +73,7 @@ void Board::show()
 	setcolor(15);
 }
 
-//checks if the word is not being used again
+//checks if the given word has not been used in that board before
 bool Board::notUsedWord(string word)
 {
 	this->placedWords;
@@ -101,6 +101,7 @@ void Board::track(string position, string word)
 	placedWords.push_back(word); //vector that stores all the words placed on the board
 }
 
+//determines the name of the first available (empty) file usign the name format BXXX.txt
 string Board::isEmpty()
 {
 	string fileName = "b";
@@ -185,7 +186,7 @@ void Board::saveFile(string thesaurusFile)
 	cout << "Saved to file: " << fileName << endl << endl;
 }
 
-//inserts words in the board
+//inserts new words on the board using the given position and word
 void Board::insert(string position, string word)
 {
 	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
