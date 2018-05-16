@@ -24,12 +24,12 @@ public:
 	string getWord(string position, string word);
 	bool validPosition(string word, string position);
 	void remove(string position);
-	void help(string postion, vector<string> validWords);
+	void help(string postion, vector<string> &validWords);
 	Dictionary* newDict;
 	bool fit(string position, string word);
 	bool checkIfFull();
 	void fillSpaces();
-	bool doubleValidCheck(vector<string> validWords);
+	bool doubleValidCheck(vector<string> &validWords);
 	string isEmpty();
 private:
 	vector < vector <char> > xy; //board

@@ -85,8 +85,8 @@ bool Board::notUsedWord(string word)
 		if (placedWords.at(i) == word)
 		{
 			Present = false;
-			cout << endl << "----------------------------------------" << endl << endl;
-			cout << endl << "You already used that word. Try another!" << endl << endl;
+			cout << endl << "----------------------------------------" << endl;
+			cout << endl << "You already used that word. Try another!" << endl;
 			break;
 		}
 	}
@@ -387,7 +387,7 @@ bool Board::fit(string position, string word)
 }
 
 //Gives the user a list of 10 words that fit in the position given
-void Board::help(string position, vector<string> validWords)
+void Board::help(string position, vector<string> &validWords)
 {
 	vector<string> helpVec;
 	int j = 0;
@@ -480,7 +480,7 @@ void Board::fillSpaces()
 }
 
 //double checks if all the words in the board are valid
-bool Board::doubleValidCheck(vector<string> validWords)
+bool Board::doubleValidCheck(vector<string> &validWords)
 {
 	this->placedWords;
 	this->wordCoordinates;

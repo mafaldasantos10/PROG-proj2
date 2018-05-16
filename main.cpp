@@ -12,16 +12,22 @@ int main()
 {
 	//variables
 	string thesaurusFile, //file that contains the dictionary
-		   position, //position of the word
-		   word, //word to insert
-		   option,
-		   option2,
-		   savedFile;
-	int rows = 0, columns, counter = 0;
-	vector<string> validWords, wordCoordinates, placedWords;
+		   position, //position where the user wants to insert the word
+		   word, //word to insert in the board
+		   option, //which game option the user chooses
+		   option2, //decision between saving or finishing the current board contrction after ctrl-z
+		   savedFile; //file to use in the game option 2
+
+	int rows = 0, //rows of the board
+		columns; //columns of the board
+
+	vector<string> validWords, //vector with the header words extracted from the thesaurus file
+				   wordCoordinates, //vector that contains the words that have been placed in the board
+				   placedWords; //vector that contains the position of each word placed in the board
 
 	ifstream fin;
 
+	//new random seed
 	srand(time(NULL));
 
 	//INTERFACE
@@ -55,6 +61,7 @@ int main()
 		cout << "Thesaurus file name? ";
 		cin >> thesaurusFile;
 
+		//opens the chosen thesaurus file
 		fin.open(thesaurusFile);
 
 		//checks wether the indicated file is valid
@@ -77,7 +84,7 @@ int main()
 		cout << endl << "File that cointains a saved board? ";
 		cin >> savedFile;
 
-		//--------------------------------------------------------------------------------------------------------------
+		//opens the chosen file that contains the saved board
 		fin.open(savedFile);
 
 		//checks wether the indicated file is valid
@@ -87,34 +94,33 @@ int main()
 			exit(1);
 		}
 
-		string next;
+		string next; //string with each line extracted
 
+		//first line of the file contains the used thesaurus file
 		getline(fin, thesaurusFile);
 
-		//extracts the header words to a vector
-		getline(fin, next);
+		//empty line
 		getline(fin, next);
 
-		columns = (next.length() / 2);
+		//gets the first row of the board
+		getline(fin, next);
+		columns = (next.length() / 2); //determines the number of columns using its length
 
+		//till it reaches an empty line (end of the board) it'll count the rows
 		while (next.length() != 0)
 		{
 			rows++;
 			getline(fin, next);
-
 		}
 
+		//after the last empty line (that indicates the end of the board) it'll extract the words and their postions
 		while (!fin.eof())
 		{
 			getline(fin, next);
-			//the used method to know where the coordiantes and the words relies on the fact that those two are separatted by 2 spaces
-			if ((next.at(3) == ' ') && (next.at(4) == ' '))
-			{
-				wordCoordinates.push_back(next.substr(0, 3));
-				placedWords.push_back(next.substr(5, (next.length() - 5)));
-			}
+			//AaV  example
+			wordCoordinates.push_back(next.substr(0, 3));
+			placedWords.push_back(next.substr(5, (next.length() - 5)));
 		}
-		//--------------------------------------------------------------------------------------------------------------
 	}
 	//--------------------------------------------------------------------------------------------------------------
 	//END of OPTION 2
@@ -123,28 +129,31 @@ int main()
 	//OPTION 3
 	//--------------------------------------------------------------------------------------------------------------
 	{
+		//exits if that option is chosen
 		return 0;
 	}
 	//--------------------------------------------------------------------------------------------------------------
 	//END of OPTION 3
 
+	//constructs and empty board
 	Board brd(rows, columns);
 	brd.make();
 
-	//builds
+	//in case it's used a saved board, it'll add the already placed words in the respective places
 	for (unsigned int j = 0; j < placedWords.size(); j++)
 	{
-		//rewrites the words that are left in the vector in the board
 		brd.insert(wordCoordinates.at(j), placedWords.at(j));
 	}
 
 	cout << endl;
 	cout << endl;
 
+	//shows the current state of the board
 	brd.show();
 
-	//vector with the valid words from the thesaurus
+	//constructs the dictionary vector
 	Dictionary dict(thesaurusFile);
+	//vector with the valid words from the thesaurus
 	validWords = dict.validWords;
 
 	do
@@ -152,59 +161,50 @@ int main()
 		cout << endl << "Position ( RCD / CTRL-Z = stop ) ? ";
 		cin >> position;
 
-		//ctrl-z
+		//checks for a "ctrl-z" input that will immidiately stop the building of the board
 		if (cin.eof())
 		{
 			cout << endl << "-----------------------------------------------------------------" << endl;
 			cout << endl << "Do you want to save the current state of the board in order "
 				 << endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
 
-			cin.clear(); // clear error state
-						 //cin.ignore(1000, '\n');
+			cin.clear(); //clears the buffer
 
 			cin >> option2;
 
 			if (option2 == "save")
 			{
 				cout << endl << "GOOD GAME! It will be saved for you to came back! " << endl << endl;
-				brd.saveFile(thesaurusFile);
+				brd.saveFile(thesaurusFile); //saves it
 				return 0;
 			}
 			else
 			{
 				cout << endl << "GOOD GAME!" << endl << endl;
-				brd.fillSpaces();
-				brd.saveFile(thesaurusFile);
+				brd.fillSpaces(); //before saving the board, it completes it by filling the empty spaces ( "." )
+				brd.saveFile(thesaurusFile); //saves it
 				return 0;
 			}
 		}
 
-		//+3 letras, erro
-		//ordem MmV
-		//ver casos mmv
 		cout << endl;
 
 		cout << "Word ( - = remove / ? = help ) ? ";
 		cin >> word;
 
-		if (word == "?")
+		if (word == "?") //the user might ask for help
 		{
 			cout << "These are some words that can fit in that position!" << endl << endl;
 			brd.help(position, validWords);
 		}
-		else if (word == "-")
+		else if (word == "-") //the user might want to remove a previously placed word
 		{
 			brd.remove(position);
 		}
 		else
 		{
 			//checks whether the chosen word is valid
-			if (!dict.isValid(word, validWords))
-			{
-				cerr << "Invalid word. Try again!" << endl << endl;
-				exit(1);
-			}
-			else
+			if (dict.isValid(word, validWords))
 			{
 				//checks if the word was already used
 				if (brd.notUsedWord(word))
@@ -221,25 +221,32 @@ int main()
 						else
 						{
 							cout << endl << "-------------------------------------------------------" << endl;
-							cout << endl << "You can't overwrite previously placed words. Try again!" << endl << endl;
+							cout << endl << "You can't overwrite previously placed words. Try again!" << endl;
 						}
 					}
 					else
 					{
 						cout << endl << "--------------------------------------------------------" << endl;
-						cout << endl << "That word does not fit in the place you want. Try again!" << endl << endl;
+						cout << endl << "That word does not fit in the place you want. Try again!" << endl;
 					}
 				}
-				cout << endl;
-				brd.show();
 			}
+			else
+			{
+				cout << endl << "------------------------" << endl;
+				cout << endl << "Invalid word. Try again!" << endl;
+			}
+
+			cout << endl;
+			brd.show(); //shows the current state of the board
 		}
-	} 
-	while (!brd.checkIfFull() && brd.doubleValidCheck(validWords));
+	}
+	while (!brd.checkIfFull() && brd.doubleValidCheck(validWords)); //checks if the board is full and double checks the placed words after each iteration
 
 	//saves the file if it's full
 	brd.saveFile(thesaurusFile);
 
+	//closes the input file
 	fin.close();
 
 	return 0;
@@ -248,7 +255,7 @@ int main()
 /*
 cwcreator
 main.cpp
-Extraction of a word list from a synonym dictionary
+Creates a playable crossword board.
 @author Diogo & Mafalda
 @version 1.0 29/04/2018
 */
