@@ -12,11 +12,12 @@ int main()
 {
 	//variables
 	string thesaurusFile, //file that contains the dictionary
-		   position, //position where the user wants to insert the word
+	   	   position, //position where the user wants to insert the word
 		   word, //word to insert in the board
 		   option, //which game option the user chooses
 		   option2, //decision between saving or finishing the current board contrction after ctrl-z
-		   savedFile; //file to use in the game option 2
+		   savedFile, //file to use in the game option 2
+		   wantsToFinish; //user might decide between yes or no when the board is filled
 
 	int rows = 0, //rows of the board
 		columns; //columns of the board
@@ -28,7 +29,7 @@ int main()
 	ifstream fin;
 
 	//new random seed
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 
 	//INTERFACE
 	//-----------------------------------------------------------------
@@ -55,8 +56,8 @@ int main()
 	{
 		cout << endl
 			 << "-------------------------" << endl
-			 << "CREATE PUZZLE" << endl
-			 << "-------------------------" << endl;
+			 << "----- CREATE PUZZLE -----" << endl
+			 << "-------------------------" << endl << endl;
 
 		cout << "Thesaurus file name? ";
 		cin >> thesaurusFile;
@@ -67,12 +68,24 @@ int main()
 		//checks wether the indicated file is valid
 		if (!fin.is_open())
 		{
-			cerr << "Input file not found!\n" << endl;
+			cerr << "Input file not found!" << endl << endl;
 			exit(1);
 		}
 
 		cout << "Board size (rows, columns)? ";
 		cin >> rows >> columns;
+
+		//input validation
+		while (cin.fail())
+		{
+			// user didn't input a number
+			cin.clear(); // reset failbit
+			cin.ignore(1000, '\n'); //skip bad input
+
+			cout << "Board size (rows, columns)? ";
+			cin >> rows >> columns;
+		}
+
 	}
 	//--------------------------------------------------------------------------------------------------------------
 	//END of OPTION 1
@@ -81,7 +94,7 @@ int main()
 	//--------------------------------------------------------------------------------------------------------------
 	else if (option == "2")
 	{
-		cout << endl << "File that cointains a saved board? ";
+		cout << endl << "File that cointains a previously saved board? ";
 		cin >> savedFile;
 
 		//opens the chosen file that contains the saved board
@@ -90,7 +103,7 @@ int main()
 		//checks wether the indicated file is valid
 		if (!fin.is_open())
 		{
-			cerr << "Input file not found!\n" << endl;
+			cerr << "Input file not found!" << endl << endl;
 			exit(1);
 		}
 
@@ -104,7 +117,7 @@ int main()
 
 		//gets the first row of the board
 		getline(fin, next);
-		columns = (next.length() / 2); //determines the number of columns using its length
+		columns = (unsigned int)(next.length() / 2); //determines the number of columns using its length
 
 		//till it reaches an empty line (end of the board) it'll count the rows
 		while (next.length() != 0)
@@ -117,6 +130,16 @@ int main()
 		while (!fin.eof())
 		{
 			getline(fin, next);
+
+			//covers the case where the file has an empty board saved
+			if (next.length() == 0)
+			{
+				cout << endl
+					 << "-----------------------------------" << endl
+					 << "That file contained an empty board!";
+				break;
+			}
+
 			//AaV  example
 			wordCoordinates.push_back(next.substr(0, 3));
 			placedWords.push_back(next.substr(5, (next.length() - 5)));
@@ -130,10 +153,17 @@ int main()
 	//--------------------------------------------------------------------------------------------------------------
 	{
 		//exits if that option is chosen
+		cout << endl 
+			 << "-------------" << endl;
+		cout << "-- SEE YOU --" << endl;
+		cout << "-------------" << endl << endl;
 		return 0;
 	}
 	//--------------------------------------------------------------------------------------------------------------
 	//END of OPTION 3
+
+	//--------------------------------------------------------------------------------------------------------------
+	//--------------------------------------------------------------------------------------------------------------
 
 	//constructs and empty board
 	Board brd(rows, columns);
@@ -143,6 +173,13 @@ int main()
 	for (unsigned int j = 0; j < placedWords.size(); j++)
 	{
 		brd.insert(wordCoordinates.at(j), placedWords.at(j));
+	}
+
+	//the loaded board might be already full
+	if (brd.checkIfFull())
+	{
+		cout << endl << "-----------------------------------------------------------------------------------------------------------" << endl;
+		cout << endl << "Bear in mind this board is full. If you want to change anything you have to first remove at least one word!";
 	}
 
 	cout << endl;
@@ -158,34 +195,45 @@ int main()
 
 	do
 	{
-		cout << endl << "Position ( RCD / CTRL-Z = stop ) ? ";
-		cin >> position;
-
-		//checks for a "ctrl-z" input that will immidiately stop the building of the board
-		if (cin.eof())
+		do 
 		{
-			cout << endl << "-----------------------------------------------------------------" << endl;
-			cout << endl << "Do you want to save the current state of the board in order "
-				 << endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
+			cout << endl << "Position ( RCD / CTRL-Z = stop ) ? ";
+			cin >> position;
 
-			cin.clear(); //clears the buffer
-
-			cin >> option2;
-
-			if (option2 == "save")
+			//checks for a "ctrl-z" input that will immidiately stop the building of the board
+			if (cin.eof())
 			{
-				cout << endl << "GOOD GAME! It will be saved for you to came back! " << endl << endl;
-				brd.saveFile(thesaurusFile); //saves it
-				return 0;
+				cout << endl << "-----------------------------------------------------------------" << endl;
+				cout << endl << "Do you want to save the current state of the board in order "
+					<< endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
+
+				cin.clear(); //clears the buffer
+
+				do
+				{
+					cout << endl << " Answer? ";
+					cin >> option2;
+
+				//only allows "save" or "finish" as an answer
+				} while (option2 != "save" && option2 != "finish");
+
+				if (option2 == "save")
+				{
+					cout << endl << "GOOD GAME! It will be saved for you to came back! " << endl << endl;
+					brd.saveFile(thesaurusFile); //saves it
+					return 0;
+				}
+				else
+				{
+					cout << endl << "GOOD GAME!" << endl << endl;
+					brd.fillSpaces(); //before saving the board, it completes it by filling the empty spaces ( "." )
+					brd.saveFile(thesaurusFile); //saves it
+					return 0;
+				}
 			}
-			else
-			{
-				cout << endl << "GOOD GAME!" << endl << endl;
-				brd.fillSpaces(); //before saving the board, it completes it by filling the empty spaces ( "." )
-				brd.saveFile(thesaurusFile); //saves it
-				return 0;
-			}
-		}
+
+		//format has to be, for instance, AaV
+		} while ( (position.length() > 3) || (position.at(0) < 'A') || (position.at(0) > ('A' + (rows - 1))) || (position.at(1) < 'a') || (position.at(1) > ('a' + (columns - 1))) || ((position.at(2) != 'H') && (position.at(2) != 'V')) );
 
 		cout << endl;
 
@@ -240,8 +288,22 @@ int main()
 			cout << endl;
 			brd.show(); //shows the current state of the board
 		}
-	}
-	while (!brd.checkIfFull() && brd.doubleValidCheck(validWords)); //checks if the board is full and double checks the placed words after each iteration
+
+		if (brd.checkIfFull() && brd.doubleValidCheck(validWords)) //checks if the board is full and double checks the placed words after each iteration
+		{
+			cout << endl << " yes - saves the board" << endl
+				         << " no - you might edit it" << endl;
+
+			do
+			{
+				cout << endl << " Answer? ";
+				cin >> wantsToFinish;
+				
+			//only allows "yes" or "no" as an answer
+			} while (wantsToFinish != "yes" && wantsToFinish != "no");
+		}
+
+	}while (wantsToFinish != "yes"); //keeps doing it till the board is full and the user wants to finish
 
 	//saves the file if it's full
 	brd.saveFile(thesaurusFile);
@@ -259,7 +321,3 @@ Creates a playable crossword board.
 @author Diogo & Mafalda
 @version 1.0 29/04/2018
 */
-
-//board is full when loading
-//MvV
-//newDict parametro

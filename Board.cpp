@@ -47,7 +47,7 @@ void Board::show()
 
 	setcolor(12);
 
-	for (unsigned int i = 97; i < 97 + columns; i++)
+	for (unsigned int i = 'a'; i < 'a' + columns; i++)
 	{
 		cout << char(i) << ' ';
 	}
@@ -57,7 +57,7 @@ void Board::show()
 	for (unsigned int k = 0; k < rows; k++)
 	{
 		setcolor(12);
-		cout << char(k + 65) << ' ';
+		cout << char(k + 'A') << ' ';
 
 		for (unsigned int j = 0; j < columns; j++)
 		{
@@ -183,7 +183,7 @@ void Board::saveFile(string thesaurusFile)
 
 	fout.close();
 
-	cout << "Saved to file: " << fileName << endl << endl;
+	cout << endl << " Saved to file: " << fileName << endl << endl;
 }
 
 //inserts new words on the board using the given position and word
@@ -358,7 +358,8 @@ void Board::remove(string position)
 	}
 	else
 	{
-		cout << "That word doesn't exist!" << endl;
+		cout << endl << "----------------------------------------------------" << endl;
+		cout << endl << "There is no word placed in that position. Try again!" << endl;
 	}
 }
 
@@ -452,8 +453,8 @@ bool Board::checkIfFull()
 
 	if (filled)
 	{
-		cout << endl << "-----------------------------" << endl;
-		cout << endl << "The board is full. Well done!" << endl << endl;
+		cout << endl << "-------------------------------------------------------------------------------" << endl;
+		cout <<	"The board is full and all words are correctly placed. Do you want to finish it?" << endl;
 	}
 
 	return filled;

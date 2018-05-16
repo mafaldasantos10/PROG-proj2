@@ -29,7 +29,7 @@ public:
 	void fillSpaces(); //fills the empty spaces
 	bool doubleValidCheck(vector<string> &validWords); //double checks if all the words in the board are valid
 	string isEmpty(); //determines the name of the first available (empty) file usign the name format BXXX.txt
-	Dictionary* newDict; //NEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEDS
+	Dictionary* newDict;
 private:
 	vector < vector <char> > xy; //board
 
