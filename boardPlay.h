@@ -21,11 +21,14 @@ public:
 	//void occupied(string position, string word);
 	string getWord(string position, string word);
 	void remove(string position);
+	string isEmpty();
+	void saveFile(string name, string thesaurusFile, vector<string> word, vector<string>coordinates);
 	DictionaryPlay* newDict;
 	bool fit(string position, string word);
 	void upload();
 	void fillSpaces();
 	void checkAnswer(string word, string position, vector<string> coordinates, vector<string>placedwords);
+	bool checkIfFull();
 private:
 	vector < vector <char> > xy; //board
 	vector<string> wordCoordinates; //vector that stores the positions of the respective words on the board

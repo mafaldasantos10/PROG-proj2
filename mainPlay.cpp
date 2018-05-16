@@ -11,7 +11,7 @@ using namespace std;
 int main()
 {
 	//variables
-	string thesaurusFile, name,  savedFile, word, position; //file that contains the dictionary
+	string thesaurusFile, name,  savedFile, word, position, option2; //file that contains the dictionary
     vector<string> validWords, wordCoordinates, placedWords;
 	int rows = 0, columns;
 	ifstream fin;
@@ -97,19 +97,45 @@ int main()
 	brd.fillSpaces();
 
 	brd.show();
-	while (true)
+	while (!brd.checkIfFull())
 	{
 		cout << endl;
-		cout << "position: ";
-		cout << endl;
+		cout << "Position ( RCD / CTRL-Z = stop ) ? ";
 		cin >> position;
+		if (cin.eof())
+		{
+			{
+				cout << endl << "-----------------------------------------------------------------" << endl;
+				cout << endl << "Do you want to save the current state of the board in order "
+					<< endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
 
-		cout << "word: ";
-		cout << endl;
+				cin.clear(); // clear error state
+							 //cin.ignore(1000, '\n');
+
+				cin >> option2;
+
+				if (option2 == "save")
+				{
+					cout << endl << "GOOD GAME! It will be saved for you to came back! " << endl << endl;
+					brd.saveFile(name,thesaurusFile,wordCoordinates,placedWords);
+					return 0;
+				}
+				else
+				{
+					cout << endl << "GOOD GAME!" << endl << endl;
+					brd.fillSpaces();
+					brd.saveFile(name,thesaurusFile, wordCoordinates, placedWords);
+					return 0;
+				}
+			}
+		}
+
+		cout << "Word ( - = remove / ? = help ) ? ";
 		cin >> word;
 		cout << endl;
 		brd.checkAnswer(word, position, wordCoordinates, placedWords);
 	}
-	
+	brd.saveFile(name, thesaurusFile, wordCoordinates, placedWords);
+
 	return 0;
 }

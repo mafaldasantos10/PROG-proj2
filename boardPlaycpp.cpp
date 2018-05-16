@@ -165,7 +165,6 @@ void BoardPlay::upload()
 }
 
 
-
 void BoardPlay::checkAnswer(string word, string position, vector<string> coordinates, vector<string>words)
 {
 	bool present = false;
@@ -179,7 +178,7 @@ void BoardPlay::checkAnswer(string word, string position, vector<string> coordin
 				cout << endl;
 				cout << "You got it right! That's the word!";
 				cout << endl;
-				present == true;
+				present = true;
 				break;
 		}
 	}
@@ -189,3 +188,115 @@ void BoardPlay::checkAnswer(string word, string position, vector<string> coordin
 		cout << "it's wrong." << endl;
 	}
 }
+
+//checks in witch file to save the board 
+string BoardPlay::isEmpty()
+{
+	string fileName = "b";
+
+	ifstream fin;
+	ofstream fout;
+
+	//cycle
+	for (unsigned i = 1; i < 999; i++)
+	{
+		if (i < 10)
+		{
+			fileName = fileName + "00" + to_string(i) + ".txt";
+			fin.open(fileName);
+		}
+		else if (i < 100)
+		{
+			fileName = fileName + "0" + to_string(i) + ".txt";
+			fin.open(fileName);
+		}
+		else
+		{
+			fileName = fileName + to_string(i) + ".txt";
+			fin.open(fileName);
+		}
+
+		//returns true if empty
+		if (fin.peek() == EOF)
+		{
+			return fileName;
+		}
+
+		fin.close();
+		fileName = "b";
+	}
+}
+
+//saves the board
+void BoardPlay::saveFile(string name, string thesaurusFile, vector<string>words, vector<string> coordinates)
+{
+	ofstream fout;
+
+	//if the file is empty, it is written
+	//string fileName = isEmpty();
+
+	fout.open(name);
+
+	fout << thesaurusFile << endl << endl;
+
+	//saves the current board into a file
+	for (unsigned i = 0; i < rows; i++)
+	{
+		for (unsigned j = 0; j < columns; j++)
+		{
+			fout << xy.at(i).at(j) << " ";
+		}
+
+		fout << endl;
+	}
+
+	fout << endl;
+
+	//saves the respective positions and words on the board
+	for (unsigned i = 0; i < wordCoordinates.size(); i++)
+	{
+		//trying not to place a space at the end
+		if (i == 0)
+		{
+			fout << wordCoordinates.at(i) << "  " << placedWords.at(i);
+		}
+		else
+		{
+			fout << endl << wordCoordinates.at(i) << "  " << placedWords.at(i);
+		}
+	}
+
+	fout.close();
+
+	cout << "Saved to file: " << name << endl << endl;
+}
+//checks if all the spaces in the board are filled
+bool BoardPlay::checkIfFull()
+{
+	this->xy;
+	this->rows;
+	this->columns;
+	bool filled = true;
+
+	for (unsigned int r = 0; r < rows; r++)
+	{
+		for (unsigned int c = 0; c < columns; c++)
+		{
+			//searches for empty spaces
+			if (xy.at(r).at(c) == '.')
+			{
+				filled = false;
+				break;
+			}
+		}
+	}
+
+	if (filled)
+	{
+		cout << endl << "-----------------------------" << endl;
+		cout << endl << "The board is full. Well done!" << endl << endl;
+	}
+
+	return filled;
+}
+
