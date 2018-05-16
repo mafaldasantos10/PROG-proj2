@@ -63,7 +63,7 @@ void BoardPlay::show()
 		{
 			//setcolor(112);
 			cout << ' ';
-			paint(xy.at(k).at(j));
+			//paint(xy.at(k).at(j));
 			cout << xy.at(k).at(j);
 		}
 
@@ -72,6 +72,7 @@ void BoardPlay::show()
 
 	//setcolor(15);
 }
+
 
 void BoardPlay::insert(string position, string word)
 {
@@ -110,6 +111,7 @@ void BoardPlay::insert(string position, string word)
 	}
 }
 
+
 void BoardPlay::fillSpaces()
 {
 	this->xy;
@@ -121,23 +123,22 @@ void BoardPlay::fillSpaces()
 		for (unsigned int c = 0; c < columns; c++)
 		{
 			//searches for empty spaces
-			if (xy.at(r).at(c) > 65 && xy.at(r).at(c) < 97)
+			if (isalpha(xy.at(r).at(c)))
 			{
 				//places a % in that space
 				setcolor(112);
-				xy.at(r).at(c) = ' ';
+				xy.at(r).at(c) = '%';
 			}
-
 			else
 			{
-				setcolor(50);
+				setcolor(15);
 				xy.at(r).at(c) = ' ';
 			}
 			
 		}
-	
+		//setcolor(15);	
 	}
-	setcolor(15);
+	
 }
 
 
@@ -161,4 +162,30 @@ void BoardPlay::upload()
 		//displays the board
 		show();
 
+}
+
+
+
+void BoardPlay::checkAnswer(string word, string position, vector<string> coordinates, vector<string>words)
+{
+	bool present = false;
+
+	for (unsigned int i = 0; i < coordinates.size(); i++)
+	{
+		if (word == words.at(i) && position == coordinates.at(i))
+		{
+				insert(position, word);
+				show();
+				cout << endl;
+				cout << "You got it right! That's the word!";
+				cout << endl;
+				present == true;
+				break;
+		}
+	}
+
+	if (!present)
+	{
+		cout << "it's wrong." << endl;
+	}
 }

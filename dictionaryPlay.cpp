@@ -44,8 +44,6 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 				mapped.push_back(next.substr(index, (next.find_first_of(',') - index)));
 				index = i + 2;
 			}
-
-
 		}
 		if (synonyms.count(key) != 0)
 		{
@@ -64,7 +62,7 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 	fin.close();
 }
 
-/*bool DictionaryPlay::isValid(string word, vector<string> validWords)
+bool DictionaryPlay::isValid(string word, vector<string> validWords)
 {
 	bool present = false;
 	// this->validWords;
@@ -80,4 +78,4 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 	}
 
 	return present;
-}*/
+}

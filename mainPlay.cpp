@@ -11,7 +11,7 @@ using namespace std;
 int main()
 {
 	//variables
-	string thesaurusFile, name,  savedFile; //file that contains the dictionary
+	string thesaurusFile, name,  savedFile, word, position; //file that contains the dictionary
     vector<string> validWords, wordCoordinates, placedWords;
 	int rows = 0, columns;
 	ifstream fin;
@@ -21,25 +21,12 @@ int main()
 
 	cout << endl
 		<< "-------------------------" << endl
-		<< "CREATE PUZZLE" << endl
+		<< "          PLAY" << endl
 		<< "-------------------------" << endl;
 
-	cout << "Thesaurus file name? ";
-	cin >> thesaurusFile;
-
-	fin.open(thesaurusFile);
-
-	//checks wether the indicated file is valid
-	if (!fin.is_open())
-	{
-		cerr << "Input file not found!\n" << endl;
-		exit(1);
-	}
 	cout << "Player name: ";
 	cin >> name;
-	DictionaryPlay dict(thesaurusFile);
 
-	fin.close();
 	cout << endl << "File that cointains a saved board? ";
 	cin >> savedFile;
 
@@ -55,6 +42,7 @@ int main()
 
 	string next;
 
+	//gets the thesaurus file
 	getline(fin, thesaurusFile);
 
 	//extracts the header words to a vector
@@ -63,38 +51,40 @@ int main()
 
 	columns = (next.length() / 2);
 
+	//computes the number of rows of the saved board
 	while (next.length() != 0)
 	{
 		rows++;
 		getline(fin, next);
-
 	}
 
+	//extracts the words and its coordinates to vectors
 	while (!fin.eof())
 	{
 		getline(fin, next);
-		//the used method to know where the coordiantes and the words relies on the fact that those two are separatted by 2 spaces
-		if ((next.at(3) == ' ') && (next.at(4) == ' '))
-		{
-			wordCoordinates.push_back(next.substr(0, 3));
-			placedWords.push_back(next.substr(5, (next.length() - 5)));
-		}
+
+		wordCoordinates.push_back(next.substr(0, 3));
+		placedWords.push_back(next.substr(5, (next.length() - 5)));
 	}
 
 	fin.close();
-	//--------------------------------------------------------------------------------------------------------------
 
-	for (int i = 0; i < placedWords.size(); i++)
+	fin.open(thesaurusFile);
+
+	//checks wether the indicated file is valid
+	if (!fin.is_open())
 	{
-		cout << placedWords.at(i);  // vetores tao vazios n sei pq tenho de ver
+		cerr << "Input file not found!" << endl << endl;
+		exit(1);
 	}
 
+	DictionaryPlay dict(thesaurusFile);
+
 	BoardPlay brd(rows, columns);
-	//brd.upload();
 
 	brd.make();
 
-	//builds
+	//builds the board
 	for (unsigned int j = 0; j < placedWords.size(); j++)
 	{
 		//rewrites the words that are left in the vector in the board
@@ -107,7 +97,19 @@ int main()
 	brd.fillSpaces();
 
 	brd.show();
+	while (true)
+	{
+		cout << endl;
+		cout << "position: ";
+		cout << endl;
+		cin >> position;
 
-
+		cout << "word: ";
+		cout << endl;
+		cin >> word;
+		cout << endl;
+		brd.checkAnswer(word, position, wordCoordinates, placedWords);
+	}
+	
 	return 0;
 }
