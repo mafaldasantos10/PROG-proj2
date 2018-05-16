@@ -20,7 +20,7 @@ int main()
 		   wantsToFinish; //user might decide between yes or no when the board is filled
 
 	int rows = 0, //rows of the board
-		columns; //columns of the board
+	    columns; //columns of the board
 
 	vector<string> validWords, //vector with the header words extracted from the thesaurus file
 				   wordCoordinates, //vector that contains the words that have been placed in the board
@@ -154,7 +154,7 @@ int main()
 	{
 		//exits if that option is chosen
 		cout << endl 
-			 << "-------------" << endl;
+		     << "-------------" << endl;
 		cout << "-- SEE YOU --" << endl;
 		cout << "-------------" << endl << endl;
 		return 0;
