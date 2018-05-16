@@ -259,3 +259,7 @@ Creates a playable crossword board.
 @author Diogo & Mafalda
 @version 1.0 29/04/2018
 */
+
+//board is full when loading
+//MvV
+//newDict parametro
