@@ -26,31 +26,47 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 	string next;
 	string words;
 
+	this->synonymes;
+
 
 	//extracts the header words to a vector
 	while (!fin.eof())
 	{
 		getline(fin, next);
-		index = 0;
+
 		for (unsigned int i = 0; i < next.length(); i++)
 		{
+			//deletes the space in the beggining of the word
+			if (next.at(0) == ' ')
+			{
+				next.erase(0, 1);
+			}
+
 			if (next.at(i) == ':')
 			{
-				//validWords.push_back(next.substr(0, i));
 				key = caps(next.substr(0, i));
-				index = i + 2;
-				break;
+				next.erase(next.begin(), next.begin() + (i + 1));
+				i = 0;
 			}
 			if (next.at(i) == ',')
 			{
-				synonymes.push_back(next.substr(index, (next.find_first_of(',') - index)));
-				index = i + 2;
+				synonymes.push_back(caps(next.substr(0, i)));
+				next.erase(next.begin(), next.begin() + (i + 1));
+				i = 0;
+			}
+			if (i == (next.length() - 1))
+			{
+				synonymes.push_back(caps(next));
 			}
 		}
+
+		cout << synonymes.size() << endl;
+
 		if (validWords.count(key) != 0)
 		{
-			for (size_t i = 0; i < synonymes.size(); i++)
+			for (unsigned int i = 0; i < synonymes.size(); i++)
 				validWords[key].push_back(synonymes[i]);
+
 		}
 		else
 		{
