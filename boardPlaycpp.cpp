@@ -10,6 +10,7 @@
 #include <windows.h>
 
 
+
 using namespace std;
 
 void setcolor(unsigned int color) 

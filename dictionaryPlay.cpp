@@ -34,48 +34,58 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 		{
 			if (next.at(i) == ':')
 			{
-				validWords.push_back(next.substr(0, i));
-				key = next.substr(0, i);
+				//validWords.push_back(next.substr(0, i));
+				key = caps(next.substr(0, i));
 				index = i + 2;
 				break;
 			}
 			if (next.at(i) == ',')
 			{
-				mapped.push_back(next.substr(index, (next.find_first_of(',') - index)));
+				synonymes.push_back(next.substr(index, (next.find_first_of(',') - index)));
 				index = i + 2;
 			}
 		}
-		if (synonyms.count(key) != 0)
+		if (validWords.count(key) != 0)
 		{
-			for (size_t i = 0; i < mapped.size(); i++)
-				synonyms[key].push_back(mapped[i]);
+			for (size_t i = 0; i < synonymes.size(); i++)
+				validWords[key].push_back(synonymes[i]);
 		}
 		else
 		{
-			synonyms.insert(pair <string, vector<string> >(key, mapped));
+			validWords.insert(pair <string, vector<string> >(key, synonymes));
 
 		}
-		mapped.clear();
+		synonymes.clear();
 
 	}
 
 	fin.close();
 }
 
-bool DictionaryPlay::isValid(string word, vector<string> validWords)
+string DictionaryPlay::caps(string word)
+{
+
+	for (unsigned int i = 0; i < word.size(); i++)
+	{
+		word.at(i) = toupper(word.at(i));
+	}
+	return word;
+}
+	
+
+bool DictionaryPlay::isValid(string word, map<string, vector<string> > validWords)
 {
 	bool present = false;
-	// this->validWords;
+	this->validWords;
+	string newWord = caps(word);
+	map<string, vector<string> >::iterator it;
 
-	for (unsigned int i = 0; i < validWords.size(); i++)
-	{
-		//case insensitive comparison
-		if (_strcmpi(word.c_str(), validWords.at(i).c_str()) == 0)
-		{
-			present = true;
-			break;
-		}
-	}
+	 it = validWords.find(word);
+	 if (it != validWords.end())
+	 {
+		 present = true;
+	 }
+
 
 	return present;
 }

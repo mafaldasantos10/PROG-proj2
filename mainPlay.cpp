@@ -5,16 +5,19 @@
 #include <string>
 #include <vector>
 #include <time.h>
+#include <map>
 
 using namespace std;
+
 
 int main()
 {
 	//variables
 	string thesaurusFile, name,  savedFile, word, position, option2; //file that contains the dictionary
-    vector<string> validWords, wordCoordinates, placedWords;
+    vector<string> wordCoordinates, placedWords;
 	int rows = 0, columns;
 	ifstream fin;
+	map<string, vector<string> > validWords;
 
 	//OPTION 1
 	//--------------------------------------------------------------------------------------------------------------
@@ -79,7 +82,7 @@ int main()
 	}
 
 	DictionaryPlay dict(thesaurusFile);
-
+		
 	BoardPlay brd(rows, columns);
 
 	brd.make();
@@ -97,8 +100,10 @@ int main()
 	brd.fillSpaces();
 
 	brd.show();
+
 	validWords = dict.validWords;
 
+	//cout << validWords["zero"] << endl;
 	do
 	{
 		cout << endl;
@@ -106,34 +111,13 @@ int main()
 		cin >> position;
 		if (cin.eof())
 		{
-			{
-				cout << endl << "-----------------------------------------------------------------" << endl;
-				cout << endl << "Do you want to save the current state of the board in order "
-					<< endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
-
-				cin.clear();
-							
-
-				cin >> option2;
-
-				if (option2 == "save")
-				{
-					cout << endl << "GOOD GAME! It will be saved for you to came back! " << endl << endl;
-					brd.saveFile(name, thesaurusFile, wordCoordinates, placedWords);
-					return 0;
-				}
-				else if (option2 == "finish")
-				{
-					cout << endl << "GOOD GAME!" << endl << endl;
-					brd.fillSpaces();
-					brd.saveFile(name, thesaurusFile, wordCoordinates, placedWords);
-					return 0;
-				}
-			}
+			return 0;
 		}
 
 		cout << "Word ( - = remove / ? = help ) ? ";
 		cin >> word;
+		word = dict.caps(word);
+		
 		if (word == "-")
 		{
 
