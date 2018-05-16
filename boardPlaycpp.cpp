@@ -11,12 +11,14 @@
 
 
 using namespace std;
+
 void setcolor(unsigned int color) 
 {
 	HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hcon, color); 
 
 }
+
 //constructor
 BoardPlay::BoardPlay(unsigned int rows, unsigned int columns)
 {
@@ -29,6 +31,7 @@ void BoardPlay::make()
 {
 	xy.resize(rows, vector<char>(columns, '.'));
 }
+
 
 void paint(char a)
 {
@@ -110,7 +113,6 @@ void BoardPlay::insert(string position, string word)
 			xy.at(uC).at(lC + word.length()) = '#';
 	}
 }
-
 
 //checks if the word is not being used again
 bool BoardPlay::notUsedWord(string word)
@@ -212,7 +214,6 @@ bool BoardPlay::wildcardMatch(const char *str, const char *strWild)
 	return !*str && !*strWild;
 }
 
-
 //checks if the indicated position is valid for the word the user wants to place
 bool BoardPlay::validPosition(string word, string position)
 {
@@ -224,7 +225,7 @@ bool BoardPlay::validPosition(string word, string position)
 	//changes the '.'to '?'
 	for (unsigned int i = 0; i < newWord.length(); i++)
 	{
-		if (newWord.at(i) == '.')
+		if (newWord.at(i) == '%')
 		{
 			newWord.at(i) = '?';
 		}
@@ -291,28 +292,39 @@ void BoardPlay::upload()
 }
 
 
-void BoardPlay::checkAnswer(string word, string position, vector<string> coordinates, vector<string>words)
+void BoardPlay::checkAnswers(string word, string position, vector<string> coordinates, vector<string>words)
 {
+	this->wordCoordinates;
+	this->placedWords;
 	bool present = false;
 
-	for (unsigned int i = 0; i < coordinates.size(); i++)
+	for (unsigned int k = 0; k < wordCoordinates.size(); k++)
 	{
-		if (word == words.at(i) && position == coordinates.at(i))
+		for (unsigned int i = 0; i < coordinates.size(); i++)
 		{
+			if (placedWords.at(k) == words.at(i) && wordCoordinates.at(k) == coordinates.at(i))
+			{
 				insert(position, word);
-				show();
-				cout << endl;
-				cout << "You got it right! That's the word!";
-				cout << endl;
 				present = true;
 				break;
+			}
+		}
+
+		if (!present)
+		{
+			break;
 		}
 	}
 
-	if (!present)
+	if (present)
 	{
-		cout << "it's wrong." << endl;
+		cout << "All words are correct, congratulations!" << endl;
 	}
+	else
+	{
+		cout << "But you didnt complete the board successfuly." << endl;
+	}
+
 }
 
 //checks in witch file to save the board 
@@ -409,7 +421,7 @@ bool BoardPlay::checkIfFull()
 		for (unsigned int c = 0; c < columns; c++)
 		{
 			//searches for empty spaces
-			if (xy.at(r).at(c) != '%' )
+			if (xy.at(r).at(c) == '%' )
 			{
 				filled = false;
 				break;
@@ -420,7 +432,7 @@ bool BoardPlay::checkIfFull()
 	if (filled)
 	{
 		cout << endl << "-----------------------------" << endl;
-		cout << endl << "The board is full. Well done!" << endl << endl;
+		cout << endl << "The board is full." << endl;
 	}
 
 	return filled;

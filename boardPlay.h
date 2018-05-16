@@ -28,7 +28,7 @@ public:
 	void upload();
 	bool wildcardMatch(const char *str, const char *strWild);
 	void fillSpaces();
-	void checkAnswer(string word, string position, vector<string> coordinates, vector<string>placedwords);
+	void checkAnswers(string word, string position, vector<string> coordinates, vector<string>placedwords);
 	bool checkIfFull();
 	bool validPosition(string word, string position);
 private:

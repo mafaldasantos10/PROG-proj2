@@ -99,7 +99,7 @@ int main()
 	brd.show();
 	validWords = dict.validWords;
 
-	while (!brd.checkIfFull())
+	do
 	{
 		cout << endl;
 		cout << "Position ( RCD / CTRL-Z = stop ) ? ";
@@ -111,8 +111,8 @@ int main()
 				cout << endl << "Do you want to save the current state of the board in order "
 					<< endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
 
-				cin.clear(); // clear error state
-							 //cin.ignore(1000, '\n');
+				cin.clear();
+							
 
 				cin >> option2;
 
@@ -153,17 +153,18 @@ int main()
 					//checks if the word fits in the desired postion (size wise)
 					if (brd.fit(position, word))
 					{
+					
 						//checks if the position is valid, i.e., if it won't overwrite other words
-						//if (brd.validPosition(word, position))
-						//{
+						if (brd.validPosition(word, position))
+						{
 							brd.insert(position, word); //because it's valid, it is placed in the board
 							brd.track(position, word); //keeps track of the coordinates and words placed in the board
-						/*}
+						}
 						else
 						{
 							cout << endl << "-------------------------------------------------------" << endl;
-							cout << endl << "You can't overwrite previously placed words. Try again!" << endl << endl;
-						}*/
+							cout << endl << "You can't overwrite previously placed words. Try again!" << endl;
+						}
 					}
 					else
 					{
@@ -178,8 +179,10 @@ int main()
 				//brd.checkAnswer(word, position, wordCoordinates, placedWords);
 			}
 		}
-	}
-	//brd.saveFile(name, thesaurusFile, wordCoordinates, placedWords);
+	} while (!brd.checkIfFull());
+
+	brd.checkAnswers(word, position, wordCoordinates, placedWords);
+	brd.saveFile(name, thesaurusFile, wordCoordinates, placedWords);
 
 	return 0;
 }
