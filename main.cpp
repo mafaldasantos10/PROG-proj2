@@ -12,15 +12,17 @@ int main()
 {
 	//variables
 	string thesaurusFile, //file that contains the dictionary
-	   	   position, //position where the user wants to insert the word
+		   position, //position where the user wants to insert the word
 		   word, //word to insert in the board
 		   option, //which game option the user chooses
 		   option2, //decision between saving or finishing the current board contrction after ctrl-z
 		   savedFile, //file to use in the game option 2
 		   wantsToFinish; //user might decide between yes or no when the board is filled
 
+	bool resumedBoard = false; //indicates if the board was resumed so that it's saved with the correct name format
+
 	int rows = 0, //rows of the board
-	    columns; //columns of the board
+		columns; //columns of the board
 
 	vector<string> validWords, //vector with the header words extracted from the thesaurus file
 				   wordCoordinates, //vector that contains the words that have been placed in the board
@@ -144,6 +146,9 @@ int main()
 			wordCoordinates.push_back(next.substr(0, 3));
 			placedWords.push_back(next.substr(5, (next.length() - 5)));
 		}
+
+		//turned to true because it was loaded
+		resumedBoard = true;
 	}
 	//--------------------------------------------------------------------------------------------------------------
 	//END of OPTION 2
@@ -154,7 +159,7 @@ int main()
 	{
 		//exits if that option is chosen
 		cout << endl 
-		     << "-------------" << endl;
+			 << "-------------" << endl;
 		cout << "-- SEE YOU --" << endl;
 		cout << "-------------" << endl << endl;
 		return 0;
@@ -220,14 +225,14 @@ int main()
 				if (option2 == "save")
 				{
 					cout << endl << "GOOD GAME! It will be saved for you to came back! " << endl << endl;
-					brd.saveFile(thesaurusFile); //saves it
+					brd.saveFile(thesaurusFile, resumedBoard, savedFile); //saves it
 					return 0;
 				}
 				else
 				{
 					cout << endl << "GOOD GAME!" << endl << endl;
 					brd.fillSpaces(); //before saving the board, it completes it by filling the empty spaces ( "." )
-					brd.saveFile(thesaurusFile); //saves it
+					brd.saveFile(thesaurusFile, resumedBoard, savedFile); //saves it
 					return 0;
 				}
 			}
@@ -306,7 +311,7 @@ int main()
 	}while (wantsToFinish != "yes"); //keeps doing it till the board is full and the user wants to finish
 
 	//saves the file if it's full
-	brd.saveFile(thesaurusFile);
+	brd.saveFile(thesaurusFile, resumedBoard, savedFile);
 
 	//closes the input file
 	fin.close();

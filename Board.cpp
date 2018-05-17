@@ -140,16 +140,25 @@ string Board::isEmpty()
 }
 
 //saves the board
-void Board::saveFile(string thesaurusFile)
+void Board::saveFile(string thesaurusFile, bool resumedBoard, string savedFile)
 {
 	this->placedWords; //vector that stores the positions of the respective words on the board
 	this->wordCoordinates; //vector that stores all the words placed on the board
 
+	string fileName;
+
 	ofstream fout;
 
-	//if the file is empty, it is written
-	string fileName = isEmpty();
+	if (resumedBoard)
+	{
+		fileName = savedFile; //if the board is resumed, it is saved in the same file
+	}
+	else
+	{
+		fileName = isEmpty(); //otherwise it will search for the next empty file name
+	}
 
+	//opens the file that will will be written
 	fout.open(fileName);
 
 	fout << thesaurusFile << endl << endl;

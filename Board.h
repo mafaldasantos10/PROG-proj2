@@ -18,7 +18,7 @@ public:
 	void insert(string position, string word); //inserts new words on the board using the given position and word
 	bool notUsedWord(string word); //checks if the given word has not been used in that board before
 	void track(string position, string word); //keeps track of all words and positions
-	void saveFile(string thesaurusFile); //saves the board
+	void saveFile(string thesaurusFile, bool resumedBoard, string savedFile); //saves the board
 	bool wildcardMatch(const char *str, const char *strWild);
 	string getWord(string position, string word); //gets a string of the contents of the indicated position of the word
 	bool validPosition(string word, string position); //checks if the indicated position is valid for the word the user wants to place
