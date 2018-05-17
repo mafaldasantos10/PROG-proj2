@@ -333,17 +333,16 @@ void BoardPlay::checkAnswers(string word, string position, vector<string> coordi
 		for (unsigned int i = 0; i < coordinates.size(); i++)
 		{
 			//compares the vectors filled with the words and coordinates that were originally on the board with the vectors that have the words and positions writen by the user
-			if (placedWords.at(k) == words.at(i) && wordCoordinates.at(k) == coordinates.at(i)) 
+			if (!(placedWords.at(k) == words.at(i) && wordCoordinates.at(k) == coordinates.at(i)))
 			{
 				insert(position, word);
-				present = true;
-				break;
+				present = false;
 			}
 		}
 
 	}
 
-	if (present)
+	if (!present)
 	{
 		cout << "All words are correct, congratulations!" << endl;
 	}
