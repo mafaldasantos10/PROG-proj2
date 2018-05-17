@@ -9,39 +9,56 @@
 
 using namespace std;
 
-
 int main()
 {
 	//variables
-	string thesaurusFile, name,  savedFile, word, position, option2; //file that contains the dictionary
-    vector<string> wordCoordinates, placedWords;
-	int rows = 0, columns;
-	ifstream fin;
+	string thesaurusFile, //file that contains the dictionary
+		   position, //position where the user wants to insert the word
+		   word, //word to insert in the board
+		   option, //which game option the user chooses
+		   option2, //decision between saving or finishing the current board contrction after ctrl-z
+		   savedFile, //file to use in the game option 2
+		   name, //name of the player
+		   wantsToFinish; //user might decide between yes or no when the board is filled
+
+
+	vector<string> wordCoordinates, //vector that contains the words that have been placed in the board
+				   placedWords; //vector that contains the position of each word placed in the board
+
+	int rows = 0, //rows of the board
+		columns; //columns of the board
+
 	map<string, vector<string> > validWords;
 
-	srand(time(NULL));
+	ifstream fin;
 
-	//OPTION 1
-	//--------------------------------------------------------------------------------------------------------------
+	//new random seed
+	srand((unsigned int)time(NULL));
 
-	cout << endl
-		<< "--------------------" << endl
-		<< "------- PLAY -------" << endl
-		<< "--------------------" << endl;
+
+	//INTERFACE
+	//-----------------------------------------------------------------
+
+	cout << "--------------------" << endl
+		 << "------- PLAY -------" << endl
+		 << "--------------------" << endl;
 
 	cout << "Player name: ";
 	cin >> name;
 
-	cout << endl << "File that cointains a saved board? ";
+	cout << endl 
+		 << "File that cointains a saved board? ";
+
 	cin >> savedFile;
 
+	//Board load
 	//--------------------------------------------------------------------------------------------------------------
 	fin.open(savedFile);
 
 	//checks wether the indicated file is valid
 	if (!fin.is_open())
 	{
-		cerr << "Input file not found!\n" << endl;
+		cerr << "Input file not found!" << endl << endl;
 		exit(1);
 	}
 
@@ -54,7 +71,7 @@ int main()
 	getline(fin, next);
 	getline(fin, next);
 
-	columns = (next.length() / 2);
+	columns = (unsigned int)(next.length() / 2);
 
 	//computes the number of rows of the saved board
 	while (next.length() != 0)
@@ -63,17 +80,29 @@ int main()
 		getline(fin, next);
 	}
 
-	//extracts the words and its coordinates to vectors
+	//after the last empty line (that indicates the end of the board) it'll extract the words and their postions
 	while (!fin.eof())
 	{
 		getline(fin, next);
 
+		//covers the case where the file has an empty board saved
+		if (next.length() == 0)
+		{
+			cout << endl
+				<< "-----------------------------------" << endl
+				<< "That file contained an empty board!";
+			break;
+		}
+
+		//AaV  example
 		wordCoordinates.push_back(next.substr(0, 3));
 		placedWords.push_back(next.substr(5, (next.length() - 5)));
 	}
 
+	//closes the file where the board was
 	fin.close();
 
+	//opens the thesaurus file used to build the loaded board
 	fin.open(thesaurusFile);
 
 	//checks wether the indicated file is valid
@@ -84,15 +113,14 @@ int main()
 	}
 
 	DictionaryPlay dict(thesaurusFile);
-		
+	
+	//constructs and empty board
 	BoardPlay brd(rows, columns);
-
 	brd.make();
 
-	//builds the board
+	//in case it's used a saved board, it'll add the already placed words in the respective places
 	for (unsigned int j = 0; j < placedWords.size(); j++)
 	{
-		//rewrites the words that are left in the vector in the board
 		brd.insert(wordCoordinates.at(j), placedWords.at(j));
 	}
 
@@ -101,38 +129,49 @@ int main()
 
 	brd.fillSpaces();
 
+	//shows the current state of the board
 	brd.show();
 
+	//vector with the valid words from the thesaurus
 	validWords = dict.validWords;
 
-	//cout << validWords["zero"] << endl;
 	dict.clues(placedWords, wordCoordinates);
+
 	do
 	{
+		do
+		{
+			cout << endl << "Position ( RCD / CTRL-Z = stop ) ? ";
+			cin >> position;
+
+		//format has to be, for instance, AaV
+		} while ((position.length() > 3) || (position.at(0) < 'A') || (position.at(0) > ('A' + (rows - 1))) || (position.at(1) < 'a') || (position.at(1) > ('a' + (columns - 1))) || ((position.at(2) != 'H') && (position.at(2) != 'V')));
+
 		cout << endl;
-		cout << "Position ( RCD / CTRL-Z = stop ) ? ";
-		cin >> position;
-		if (cin.eof())
+
+		/*if (cin.eof())
 		{
 			return 0;
-		}
+		}*/
 
 		cout << "Word ( - = remove) ? ";
 		cin >> word;
+
 		word = dict.caps(word);
 		
-		if (word == "-")
+		if (word == "?") //the user might ask for help
 		{
-			brd.remove(position,wordCoordinates,placedWords);
+			cout << "These are some words that can fit in that position!" << endl << endl;
+			//brd.help(position, validWords);
+		}
+		else if (word == "-")
+		{
+			brd.remove(position,wordCoordinates,placedWords); //the user might want to remove a previously placed word
 		}
 		else
 		{
-			if (!dict.isValid(word, validWords))
-			{
-				cerr << "Invalid word. Try again!" << endl << endl;
-				exit(1);
-			}
-			else
+			//checks whether the chosen word is valid
+			if (dict.isValid(word, validWords))
 			{
 				//checks if the word was already used
 				if (brd.notUsedWord(word))
@@ -140,7 +179,6 @@ int main()
 					//checks if the word fits in the desired postion (size wise)
 					if (brd.fit(position, word))
 					{
-					
 						//checks if the position is valid, i.e., if it won't overwrite other words
 						if (brd.validPosition(word, position))
 						{
@@ -156,20 +194,47 @@ int main()
 					else
 					{
 						cout << endl << "--------------------------------------------------------" << endl;
-						cout << endl << "That word does not fit in the place you want. Try again!" << endl << endl;
+						cout << endl << "That word does not fit in the place you want. Try again!" << endl;
 					}
 				}
-				cout << endl;
-				brd.show();
-
-				//cout << endl;
-				//brd.checkAnswer(word, position, wordCoordinates, placedWords);
 			}
-		}
-	} while (!brd.checkIfFull());
+			else
+			{
+				cout << endl << "------------------------" << endl;
+				cout << endl << "Invalid word. Try again!" << endl;
+			}
 
+			cout << endl;
+			brd.show(); //shows the current state of the board
+
+			//cout << endl;
+			//brd.checkAnswer(word, position, wordCoordinates, placedWords);
+		}
+
+		if (brd.checkIfFull())
+			//&& brd.doubleValidCheck(validWords)) //checks if the board is full and double checks the placed words after each iteration
+		{
+			cout << endl << " yes - validates the board" << endl
+						 << " no - you might edit it" << endl;
+
+			do
+			{
+				cout << endl << " Answer? ";
+				cin >> wantsToFinish;
+
+				//only allows "yes" or "no" as an answer
+			} while (wantsToFinish != "yes" && wantsToFinish != "no");
+		}
+
+	} while (wantsToFinish != "yes"); //keeps doing it till the board is full and the user wants to finish
+
+	//validates the board by checking the attempt
 	brd.checkAnswers(word, position, wordCoordinates, placedWords);
+
+	//saves the file if it's full
 	brd.saveFile(name, thesaurusFile, wordCoordinates, placedWords);
+	//closes the input file
+	fin.close();
 
 	return 0;
 }
