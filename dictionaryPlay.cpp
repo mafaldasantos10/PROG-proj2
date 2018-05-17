@@ -117,18 +117,22 @@ void DictionaryPlay::clues(vector<string> words, vector<string> coordinates)
 	for (unsigned int i = 0; i < words.size(); i++)
 	{
 		int randomIndex = rand() % words.size();
-
+	
 		if (coordinates.at(i).at(2) == 'V')
 		{
+			string position = coordinates.at(i).erase(1,1);
 			//stores vertical words and their position
-			tempCoord.push_back(coordinates.at(i));
+			tempCoord.push_back(position);
 		    tempWord.push_back(validWords[caps(words.at(i))].at(randomIndex));
 
 		}
 		else if (coordinates.at(i).at(2) == 'H')
-		{	
+			
+		{
+			string position = coordinates.at(i).erase(1,1);
+			int randomIndex = rand() % words.size();
 			//shows the user the synonyms for the horizontal words
-			cout << coordinates.at(i).at(0)<< coordinates.at(i).at(1) << "   " << (validWords[caps(words.at(i))]).at(randomIndex) << endl;
+			cout << position << "   " << (validWords[caps(words.at(i))]).at(randomIndex) << endl;
 		}
 	}
 	cout << endl;
