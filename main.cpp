@@ -24,9 +24,10 @@ int main()
 	int rows = 0, //rows of the board
 		columns; //columns of the board
 
-	vector<string> validWords, //vector with the header words extracted from the thesaurus file
-				   wordCoordinates, //vector that contains the words that have been placed in the board
+	vector<string>   wordCoordinates, //vector that contains the words that have been placed in the board
 				   placedWords; //vector that contains the position of each word placed in the board
+
+	map<string, vector<string> > validWords; //map with the header words extracted from the thesaurus file and its synonyms
 
 	ifstream fin;
 
@@ -244,7 +245,7 @@ int main()
 
 		cout << "Word ( - = remove / ? = help ) ? ";
 		cin >> word;
-
+		word = dict.caps(word);
 		if (word == "?") //the user might ask for help
 		{
 			cout << "These are some words that can fit in that position!" << endl << endl;

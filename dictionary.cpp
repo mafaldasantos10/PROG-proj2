@@ -3,14 +3,18 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <map>
+#include <time.h>
+#include <stdlib.h>
 
 using namespace std;
 
 Dictionary::Dictionary(string thesaurusFile)
 {
+	string key;
 	ifstream fin;
+	int index;
 
-	//opens the thesaurus file
 	fin.open(thesaurusFile);
 
 	//checks wether the indicated file is valid
@@ -20,8 +24,11 @@ Dictionary::Dictionary(string thesaurusFile)
 		exit(1);
 	}
 
-	//string that will hold each line
 	string next;
+	string words;
+
+	this->synonyms;
+
 
 	//extracts the header words to a vector
 	while (!fin.eof())
@@ -30,33 +37,68 @@ Dictionary::Dictionary(string thesaurusFile)
 
 		for (unsigned int i = 0; i < next.length(); i++)
 		{
-			//extracts all words proceeded by " : "
+			//deletes the space in the beggining of the word
+			if (next.at(0) == ' ')
+			{
+				next.erase(0, 1);
+			}
+
 			if (next.at(i) == ':')
 			{
-				validWords.push_back(next.substr(0, i)); //places it in the vector
-				break; //there's only 1 header word per line
+				key = caps(next.substr(0, i));
+				next.erase(next.begin(), next.begin() + (i + 1));
+				i = 0;
+			}
+			if (next.at(i) == ',')
+			{
+				synonyms.push_back(caps(next.substr(0, i)));
+				next.erase(next.begin(), next.begin() + (i + 1));
+				i = 0;
+			}
+			if (i == (next.length() - 1))
+
+			{
+				synonyms.push_back(caps(next));
 			}
 		}
+
+		//cout << synonymes.size() << endl;
+
+
+		validWords.insert(pair <string, vector<string> >(key, synonyms));
+
+
+		synonyms.clear();
+
 	}
 
-	//closes the input file
 	fin.close();
 }
+//writes the words in caps
+string Dictionary::caps(string word)
+{
 
-//checks if the given word is in the vector holding the words from the thesaurus
-bool Dictionary::isValid(string word, vector<string> &validWords)
+	for (unsigned int i = 0; i < word.size(); i++)
+	{
+		word.at(i) = toupper(word.at(i));
+	}
+	return word;
+}
+
+//checks if the word is in the thesaurus file
+bool Dictionary::isValid(string word, map<string, vector<string> > validWords)
 {
 	bool present = false;
+	this->validWords;
+	string newWord = caps(word);
+	map<string, vector<string> >::iterator it;
 
-	for (unsigned int i = 0; i < validWords.size(); i++)
+	it = validWords.find(word);
+	if (it != validWords.end())
 	{
-		//case insensitive comparison
-		if (_strcmpi(word.c_str(), validWords.at(i).c_str()) == 0)
-		{
-			present = true;
-			break;
-		}
+		present = true;
 	}
+
 
 	return present;
 }

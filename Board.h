@@ -6,6 +6,7 @@
 #include <string>
 #include <istream>
 #include "dictionary.h"
+#include <map>
 
 using namespace std;
 
@@ -23,11 +24,11 @@ public:
 	string getWord(string position, string word); //gets a string of the contents of the indicated position of the word
 	bool validPosition(string word, string position); //checks if the indicated position is valid for the word the user wants to place
 	void remove(string position); //removes the word in the coordinate given by the user
-	void help(string postion, vector<string> &validWords); //Gives the user a list of 10 words that fit in the position given
+	void help(string postion, map<string, vector<string> > &validWords); //Gives the user a list of 10 words that fit in the position given
 	bool fit(string position, string word); //sees if the word fits in the position
 	bool checkIfFull(); //checks if all the spaces in the board are filled
 	void fillSpaces(); //fills the empty spaces
-	bool doubleValidCheck(vector<string> &validWords); //double checks if all the words in the board are valid
+	bool doubleValidCheck(map<string, vector<string> >&validWords); //double checks if all the words in the board are valid
 	string isEmpty(); //determines the name of the first available (empty) file usign the name format BXXX.txt
 	Dictionary* newDict;
 private:

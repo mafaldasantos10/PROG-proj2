@@ -398,18 +398,21 @@ bool Board::fit(string position, string word)
 }
 
 //Gives the user a list of 10 words that fit in the position given
-void Board::help(string position, vector<string> &validWords)
+void Board::help(string position, map<string, vector<string> > &validWords)
 {
 	vector<string> helpVec;
 	int j = 0;
 
 	//for every word in the dictionary it checks if it fits in the board
-	for (unsigned int i = 0; i < validWords.size(); i++)
+	//for (unsigned int i = 0; i < validWords.size(); i++)
+	//{
+	for (map<string, vector<string> >::iterator it = validWords.begin(); it != validWords.end(); ++it)
 	{
-		if (fit(position, validWords.at(i)))
+
+		if (fit(position,it->first))
 		{
 			//complete row/line of the wanted position
-			newWord = getWord(position, validWords.at(i));
+			newWord = getWord(position, it->first);
 
 			//changes the '.'to '*'
 			for (unsigned int i = 0; i < newWord.length(); i++)
@@ -420,11 +423,11 @@ void Board::help(string position, vector<string> &validWords)
 				}
 			}
 
-			if (wildcardMatch(validWords.at(i).c_str(), newWord.c_str()))
+			if (wildcardMatch(it->first.c_str(), newWord.c_str()))
 			{
-				if (validPosition(validWords.at(i), position))
+				if (validPosition(it->first, position))
 				{
-					helpVec.push_back(validWords.at(i));
+					helpVec.push_back(it->first);
 				}
 			}
 		}
@@ -491,7 +494,7 @@ void Board::fillSpaces()
 }
 
 //double checks if all the words in the board are valid
-bool Board::doubleValidCheck(vector<string> &validWords)
+bool Board::doubleValidCheck(map<string, vector<string> > &validWords)
 {
 	this->placedWords;
 	this->wordCoordinates;
