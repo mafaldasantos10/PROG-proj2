@@ -14,6 +14,7 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 	string key;
 	ifstream fin;
 	int index;
+
 	fin.open(thesaurusFile);
 
 	//checks wether the indicated file is valid
@@ -26,9 +27,9 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 	string next;
 	string words;
 
-	this->synonymes;
+	this->synonyms;
 
-
+	
 	//extracts the header words to a vector
 	while (!fin.eof())
 	{
@@ -50,36 +51,30 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 			}
 			if (next.at(i) == ',')
 			{
-				synonymes.push_back(caps(next.substr(0, i)));
+				synonyms.push_back(caps(next.substr(0, i)));
 				next.erase(next.begin(), next.begin() + (i + 1));
 				i = 0;
 			}
-			if (i == (next.length() - 1))
+			if (i == (next.length() - 1))		
+
 			{
-				synonymes.push_back(caps(next));
+				synonyms.push_back(caps(next));
 			}
 		}
 
-		cout << synonymes.size() << endl;
+		//cout << synonymes.size() << endl;
 
-		if (validWords.count(key) != 0)
-		{
-			for (unsigned int i = 0; i < synonymes.size(); i++)
-				validWords[key].push_back(synonymes[i]);
+		
+			validWords.insert(pair <string, vector<string> >(key, synonyms));
 
-		}
-		else
-		{
-			validWords.insert(pair <string, vector<string> >(key, synonymes));
-
-		}
-		synonymes.clear();
-
+		
+		synonyms.clear();
+		
 	}
 
 	fin.close();
 }
-
+//writes the words in caps
 string DictionaryPlay::caps(string word)
 {
 
@@ -90,7 +85,7 @@ string DictionaryPlay::caps(string word)
 	return word;
 }
 	
-
+//checks if the word is in the thesaurus file
 bool DictionaryPlay::isValid(string word, map<string, vector<string> > validWords)
 {
 	bool present = false;
@@ -108,28 +103,40 @@ bool DictionaryPlay::isValid(string word, map<string, vector<string> > validWord
 	return present;
 }
 
-
+//gives the user the position and a synonym for the correct word
 void DictionaryPlay::clues(vector<string> words, vector<string> coordinates)
 {
 	this->validWords;
+	vector<string> tempCoord;
+	vector<string> tempWord;
+
+	cout << endl;
+	//writes the horizontal word synonyms
+	cout << "Horizontal words: " << endl;
 
 	for (unsigned int i = 0; i < words.size(); i++)
 	{
+		int randomIndex = rand() % words.size();
+
 		if (coordinates.at(i).at(2) == 'V')
 		{
-			int randomIndex = rand() % words.size();
-			cout << "Vertical words: " << endl;
-
-			cout << coordinates.at(i) << "   " << (validWords[words.at(i)]).at(randomIndex) << endl;
-
+			//stores vertical words and their position
+			tempCoord.push_back(coordinates.at(i));
+		    tempWord.push_back(validWords[caps(words.at(i))].at(randomIndex));
 
 		}
 		else if (coordinates.at(i).at(2) == 'H')
-		{
-			int randomIndex = rand() % words.size();
-			cout << "Horizontal words: " << endl;
-			cout << coordinates.at(i) << "   " << (validWords[words.at(i)]).at(randomIndex) << endl;
-
+		{	
+			//shows the user the synonyms for the horizontal words
+			cout << coordinates.at(i).at(0)<< coordinates.at(i).at(1) << "   " << (validWords[caps(words.at(i))]).at(randomIndex) << endl;
 		}
+	}
+	cout << endl;
+	//writes the vertical word synonyms
+	cout << "Vertical words: " << endl;
+	//the words that were stored in a temporary vector are now displayed in the vertical words
+	for (unsigned int i = 0; i < tempCoord.size(); i++)
+	{
+		cout << tempCoord.at(i).at(0) << tempCoord.at(i).at(1) << "   " << tempWord.at(i) << endl;
 	}
 }

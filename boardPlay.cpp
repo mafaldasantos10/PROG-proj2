@@ -33,7 +33,7 @@ void BoardPlay::make()
 	xy.resize(rows, vector<char>(columns, '.'));
 }
 
-
+//changes the color of some caracters
 void paint(char a)
 {
 	if (isalpha(a) || a == ' ' || a == '.')
@@ -77,7 +77,7 @@ void BoardPlay::show()
 	//setcolor(15);
 }
 
-
+//puts the words on the board
 void BoardPlay::insert(string position, string word)
 {
 	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
@@ -124,9 +124,11 @@ bool BoardPlay::notUsedWord(string word)
 
 	for (unsigned int i = 0; i < placedWords.size(); i++)
 	{
+		//checks if there has already been used that word
 		if (placedWords.at(i) == word)
 		{
-			Present = false;
+
+			Present = false;//it has already been used
 			cout << endl << "----------------------------------------" << endl << endl;
 			cout << endl << "You already used that word. Try another!" << endl << endl;
 			break;
@@ -266,18 +268,18 @@ void BoardPlay::remove(string position,vector<string>coordinates, vector<string>
 	{
 		for (unsigned int j = 0; j < words.size(); j++)
 		{
-			//rewrites the words that are left in the vector in the board
+			//rewrites the words that are left in the vector with the inicial words
 			insert(coordinates.at(j), words.at(j));
 		}
 
 		cout << endl;
-		
+		//hides the words
 		fillSpaces();
 		//displays the board
 
 		for (unsigned int j = 0; j < placedWords.size(); j++)
 		{
-			//rewrites the words that are left in the vector in the board
+			//rewrites the words that are left in the vector with the words the user wrote
 			insert(wordCoordinates.at(j), placedWords.at(j));
 		}
 
@@ -289,7 +291,7 @@ void BoardPlay::remove(string position,vector<string>coordinates, vector<string>
 	}
 }
 
-
+//hides the words from the board
 void BoardPlay::fillSpaces()
 {
 	this->xy;
@@ -319,30 +321,7 @@ void BoardPlay::fillSpaces()
 	
 }
 
-
-void BoardPlay::upload()
-{
-	this->wordCoordinates;
-	this->placedWords;
-
-	xy.clear();
-	make();
-
-		for (unsigned int j = 0; j < placedWords.size(); j++)
-		{
-			//rewrites the words that are left in the vector in the board
-			insert(wordCoordinates.at(j), placedWords.at(j));
-		}
-		cout << endl;
-		cout << endl;
-
-		fillSpaces();
-		//displays the board
-		show();
-
-}
-
-
+//checks if the words on the board are the right ones
 void BoardPlay::checkAnswers(string word, string position, vector<string> coordinates, vector<string>words)
 {
 	this->wordCoordinates;
@@ -353,7 +332,8 @@ void BoardPlay::checkAnswers(string word, string position, vector<string> coordi
 	{
 		for (unsigned int i = 0; i < coordinates.size(); i++)
 		{
-			if (placedWords.at(k) == words.at(i) && wordCoordinates.at(k) == coordinates.at(i))
+			//compares the vectors filled with the words and coordinates that were originally on the board with the vectors that have the words and positions writen by the user
+			if (placedWords.at(k) == words.at(i) && wordCoordinates.at(k) == coordinates.at(i)) 
 			{
 				insert(position, word);
 				present = true;
@@ -361,10 +341,6 @@ void BoardPlay::checkAnswers(string word, string position, vector<string> coordi
 			}
 		}
 
-		if (!present)
-		{
-			break;
-		}
 	}
 
 	if (present)
@@ -459,6 +435,7 @@ void BoardPlay::saveFile(string name, string thesaurusFile, vector<string>words,
 
 	cout << "Saved to file: " << name << endl << endl;
 }
+
 //checks if all the spaces in the board are filled
 bool BoardPlay::checkIfFull()
 {

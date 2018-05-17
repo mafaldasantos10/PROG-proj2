@@ -19,6 +19,6 @@ public:
 	void clues(vector<string> words, vector<string> coordinates);
 private:
 	
-	vector<string> synonymes;
+	vector<string> synonyms;
 };
 #endif
