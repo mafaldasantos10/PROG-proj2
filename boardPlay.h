@@ -1,4 +1,4 @@
-#ifndef BoardPlay_h
+ #ifndef BoardPlay_h
 #define BoardPlay_h
 
 #include <iostream>

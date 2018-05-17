@@ -1,5 +1,6 @@
 #include "dictionaryPlay.h"
 #include "boardPlay.h"
+#include "player.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -26,7 +27,9 @@ int main()
 				   placedWords; //vector that contains the position of each word placed in the board
 
 	int rows = 0, //rows of the board
-		columns; //columns of the board
+		columns, //columns of the board
+		time1, //registers the time when the user starts playing
+		time2;	//registers the time when the user finishes playing
 
 	map<string, vector<string> > validWords;
 
@@ -45,6 +48,8 @@ int main()
 
 	cout << "Player name: ";
 	cin >> name;
+
+	Player currentPlayer(name);
 
 	cout << endl 
 		 << "File that cointains a saved board? ";
@@ -137,6 +142,9 @@ int main()
 
 	dict.clues(placedWords, wordCoordinates);
 
+	//registers the time when the user starts playing
+	time1 = time(NULL);
+
 	do
 	{
 		do
@@ -227,6 +235,12 @@ int main()
 		}
 
 	} while (wantsToFinish != "yes"); //keeps doing it till the board is full and the user wants to finish
+
+	//registers the time when the user finishes playing
+	time2 = time(NULL);
+
+	//determines the time it takes till the user finishes playing
+	currentPlayer.getTime(time1, time2);
 
 	//validates the board by checking the attempt
 	brd.checkAnswers(word, position, wordCoordinates, placedWords);
