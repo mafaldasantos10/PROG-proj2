@@ -178,6 +178,7 @@ int main()
 	//in case it's used a saved board, it'll add the already placed words in the respective places
 	for (unsigned int j = 0; j < placedWords.size(); j++)
 	{
+		brd.track(wordCoordinates.at(j), placedWords.at(j));
 		brd.insert(wordCoordinates.at(j), placedWords.at(j));
 	}
 
@@ -211,7 +212,7 @@ int main()
 			{
 				cout << endl << "-----------------------------------------------------------------" << endl;
 				cout << endl << "Do you want to save the current state of the board in order "
-					<< endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
+					 << endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
 
 				cin.clear(); //clears the buffer
 
@@ -246,6 +247,7 @@ int main()
 		cout << "Word ( - = remove / ? = help ) ? ";
 		cin >> word;
 		word = dict.caps(word);
+
 		if (word == "?") //the user might ask for help
 		{
 			cout << "These are some words that can fit in that position!" << endl << endl;
@@ -253,7 +255,7 @@ int main()
 		}
 		else if (word == "-") //the user might want to remove a previously placed word
 		{
-			brd.remove(position);
+			brd.removeWord(position);
 		}
 		else
 		{

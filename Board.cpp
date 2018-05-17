@@ -151,6 +151,9 @@ void Board::saveFile(string thesaurusFile, bool resumedBoard, string savedFile)
 
 	if (resumedBoard)
 	{
+		fout.open(savedFile, ofstream::out | ofstream::trunc); //clears the file
+		fout.close();
+
 		fileName = savedFile; //if the board is resumed, it is saved in the same file
 	}
 	else
@@ -330,7 +333,7 @@ bool Board::validPosition(string word, string position)
 }
 
 //removes the word in the coordinate given by the user
-void Board::remove(string position)
+void Board::removeWord(string position)
 {
 	bool present = false;
 	this->wordCoordinates;
@@ -404,8 +407,6 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 	int j = 0;
 
 	//for every word in the dictionary it checks if it fits in the board
-	//for (unsigned int i = 0; i < validWords.size(); i++)
-	//{
 	for (map<string, vector<string> >::iterator it = validWords.begin(); it != validWords.end(); ++it)
 	{
 
