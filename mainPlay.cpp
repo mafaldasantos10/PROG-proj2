@@ -170,7 +170,7 @@ int main()
 		if (word == "?") //the user might ask for help
 		{
 			cout << "These are some words that can fit in that position!" << endl << endl;
-			//brd.help(position, validWords);
+			dict.synonymHelp(position,placedWords,wordCoordinates);
 		}
 		else if (word == "-")
 		{
