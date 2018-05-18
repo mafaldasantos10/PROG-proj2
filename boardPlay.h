@@ -1,4 +1,4 @@
-#ifndef BoardPlay_h
+ #ifndef BoardPlay_h
 #define BoardPlay_h
 
 #include <iostream>
@@ -31,6 +31,7 @@ public:
 	void checkAnswers(string word, string position, vector<string> coordinates, vector<string>placedwords);
 	bool checkIfFull();
 	bool validPosition(string word, string position);
+	
 private:
 	vector < vector <char> > xy; //board
 	vector<string> wordCoordinates; //vector that stores the positions of the respective words on the board
@@ -38,5 +39,6 @@ private:
 	unsigned int rows, columns;
 	string position, word;
 	vector<string> validWords;
+	vector<string> usedClues;
 };
 #endif

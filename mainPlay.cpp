@@ -140,13 +140,17 @@ int main()
 	//vector with the valid words from the thesaurus
 	validWords = dict.validWords;
 
-	dict.clues(placedWords, wordCoordinates);
+	//dict.clues(placedWords, wordCoordinates);
 
 	//registers the time when the user starts playing
 	time1 = time(NULL);
 
 	do
 	{
+
+		//shows the user the inicial clues
+		dict.showClues(placedWords, wordCoordinates);
+
 		do
 		{
 			cout << endl << "Position ( RCD / CTRL-Z = stop ) ? ";

@@ -12,13 +12,16 @@ class DictionaryPlay
 {
 public:
 	DictionaryPlay(string thesaurusFile);
-	bool isValid(string word, map<string, vector<string> > validWords);
+	bool isValid(string word, map<string, vector<string> > &validWords);
 	string caps(string word); //capitalizes the first letter of the word given by the user
 	map<string, vector<string> > validWords;
-	void clues(vector<string> words, vector<string> coordinates);
-	void synonymHelp(string position,vector<string> words, vector<string> coordinates);
+	vector<string> clues(vector<string> &words, vector<string> &coordinates);
+	void synonymHelp(string position,vector<string> &words, vector<string> &coordinates);
+	void showClues(vector<string> &words, vector<string> &coordinates);
 private:
 	
-	vector<string> synonyms;
+	vector<string> synonyms,
+		tempCoord,
+		tempWord;
 };
 #endif

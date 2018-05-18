@@ -30,7 +30,7 @@ double Player::getTime(int initialTime, int finishTime)
 
 	// display data to user
 	cout << endl << "The player took: " << hour << " hours, "
-		         << min << " minutes, and " << sec << " seconds!" << endl < endl;
+		         << min << " minutes, and " << sec << " seconds!" << endl << endl;
 	
 	return elapsedTime;
 }
