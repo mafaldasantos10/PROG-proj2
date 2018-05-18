@@ -8,6 +8,7 @@
 #include "dictionary.h"
 #include <iomanip>
 #include <windows.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -407,7 +408,7 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 {
 	vector<string> helpVec;
 	int j = 0;
-	vector<string> usedwords;
+	vector<string> usedwords; //stores the words that have already been given by clues
 	bool hashtag = false;
 
 	cout << endl;
@@ -415,7 +416,7 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 	for (map<string, vector<string> >::iterator it = validWords.begin(); it != validWords.end(); ++it)
 	{
 
-		if (fit(position,it->first))
+		if (fit(position, it->first))
 		{
 			//complete row/line of the wanted position
 			newWord = getWord(position, it->first);
@@ -444,27 +445,38 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 		}
 	}
 
+
 	if (hashtag)
 	{
 		cout << "You cant overwrite a #! " << endl;
 	}
 	else
 	{
-     	//gives a list of 10 random words that fit
-		while (j < 10 || j == helpVec.size())
+		//gives a list of 10 random words that fit
+		while ((j != helpVec.size()) && (j < 10))
 		{
 			int randomIndex = rand() % helpVec.size();
 			string clue = helpVec.at(randomIndex);
 
 			if (notUsedWord(clue, usedwords))
 			{
-				cout << "- " << clue << endl;
-				usedwords.push_back(helpVec.at(randomIndex));
-				j++;
-			}	
+				if (notUsedWord(clue, placedWords)) //sees if the word is already on the board
+				{
+					cout << "- " << clue << endl;
+					usedwords.push_back(clue);
+					j++;	
+				}
+				else
+				{
+					helpVec.erase(helpVec.begin() + randomIndex);
+				}
+			}
+			
 		}
+		usedwords.clear();
 	}
 }
+
 
 //checks if all the spaces in the board are filled
 bool Board::checkIfFull()

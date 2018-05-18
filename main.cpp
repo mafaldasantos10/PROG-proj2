@@ -258,7 +258,7 @@ int main()
 		}
 		else
 		{
-
+			//keeps the placedWords vec from te board in the wordVec from main
 			wordVec = brd.Words();
 
 			//checks whether the chosen word is valid
