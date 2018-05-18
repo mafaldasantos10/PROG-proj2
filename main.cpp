@@ -25,7 +25,8 @@ int main()
 		columns; //columns of the board
 
 	vector<string>   wordCoordinates, //vector that contains the words that have been placed in the board
-				   placedWords; //vector that contains the position of each word placed in the board
+		placedWords, //vector that contains the position of each word placed in the board
+		wordVec;
 
 	map<string, vector<string> > validWords; //map with the header words extracted from the thesaurus file and its synonyms
 
@@ -178,7 +179,6 @@ int main()
 	//in case it's used a saved board, it'll add the already placed words in the respective places
 	for (unsigned int j = 0; j < placedWords.size(); j++)
 	{
-		brd.track(wordCoordinates.at(j), placedWords.at(j));
 		brd.insert(wordCoordinates.at(j), placedWords.at(j));
 	}
 
@@ -212,7 +212,7 @@ int main()
 			{
 				cout << endl << "-----------------------------------------------------------------" << endl;
 				cout << endl << "Do you want to save the current state of the board in order "
-					 << endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
+					<< endl << "to resume later  or do you want to finish it now? (save / finish)" << endl << endl;
 
 				cin.clear(); //clears the buffer
 
@@ -247,23 +247,25 @@ int main()
 		cout << "Word ( - = remove / ? = help ) ? ";
 		cin >> word;
 		word = dict.caps(word);
-
 		if (word == "?") //the user might ask for help
 		{
-			cout << "These are some words that can fit in that position!" << endl << endl;
+			cout << "A few words that would be correct in that position are: " ;
 			brd.help(position, validWords);
 		}
 		else if (word == "-") //the user might want to remove a previously placed word
 		{
-			brd.removeWord(position);
+			brd.remove(position);
 		}
 		else
 		{
+
+			wordVec = brd.Words();
+
 			//checks whether the chosen word is valid
 			if (dict.isValid(word, validWords))
 			{
 				//checks if the word was already used
-				if (brd.notUsedWord(word))
+				if (brd.notUsedWord(word,wordVec))
 				{
 					//checks if the word fits in the desired postion (size wise)
 					if (brd.fit(position, word))
@@ -285,6 +287,11 @@ int main()
 						cout << endl << "--------------------------------------------------------" << endl;
 						cout << endl << "That word does not fit in the place you want. Try again!" << endl;
 					}
+				}
+				else
+				{
+					cout << endl << "----------------------------------------" << endl;
+					cout << endl << "You already used that word. Try another!" << endl;
 				}
 			}
 			else

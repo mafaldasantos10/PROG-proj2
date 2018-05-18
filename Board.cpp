@@ -73,8 +73,15 @@ void Board::show()
 	setcolor(15);
 }
 
+//allows the main to use the vector
+vector<string> Board::Words()
+{
+	return placedWords;
+}
+
+
 //checks if the given word has not been used in that board before
-bool Board::notUsedWord(string word)
+bool Board::notUsedWord(string word,vector<string> placedWords)
 {
 	this->placedWords;
 
@@ -85,8 +92,6 @@ bool Board::notUsedWord(string word)
 		if (placedWords.at(i) == word)
 		{
 			Present = false;
-			cout << endl << "----------------------------------------" << endl;
-			cout << endl << "You already used that word. Try another!" << endl;
 			break;
 		}
 	}
@@ -151,9 +156,6 @@ void Board::saveFile(string thesaurusFile, bool resumedBoard, string savedFile)
 
 	if (resumedBoard)
 	{
-		fout.open(savedFile, ofstream::out | ofstream::trunc); //clears the file
-		fout.close();
-
 		fileName = savedFile; //if the board is resumed, it is saved in the same file
 	}
 	else
@@ -333,7 +335,7 @@ bool Board::validPosition(string word, string position)
 }
 
 //removes the word in the coordinate given by the user
-void Board::removeWord(string position)
+void Board::remove(string position)
 {
 	bool present = false;
 	this->wordCoordinates;
@@ -405,8 +407,11 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 {
 	vector<string> helpVec;
 	int j = 0;
+	vector<string> usedwords;
+	bool hashtag = false;
 
-	//for every word in the dictionary it checks if it fits in the board
+	cout << endl;
+
 	for (map<string, vector<string> >::iterator it = validWords.begin(); it != validWords.end(); ++it)
 	{
 
@@ -418,6 +423,11 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 			//changes the '.'to '*'
 			for (unsigned int i = 0; i < newWord.length(); i++)
 			{
+				if (newWord.at(i) == '#')
+				{
+					hashtag = true;
+					break;
+				}
 				if (newWord.at(i) == '.')
 				{
 					newWord.at(i) = '*';
@@ -434,12 +444,25 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 		}
 	}
 
-	//gives a list of 10 random words that fit
-	while (j < 10)
+	if (hashtag)
 	{
-		int randomIndex = rand() % helpVec.size();
-		cout << "- " << helpVec.at(randomIndex) << endl;
-		j++;
+		cout << "You cant overwrite a #! " << endl;
+	}
+	else
+	{
+     	//gives a list of 10 random words that fit
+		while (j < 10 || j == helpVec.size())
+		{
+			int randomIndex = rand() % helpVec.size();
+			string clue = helpVec.at(randomIndex);
+
+			if (notUsedWord(clue, usedwords))
+			{
+				cout << "- " << clue << endl;
+				usedwords.push_back(helpVec.at(randomIndex));
+				j++;
+			}	
+		}
 	}
 }
 

@@ -74,6 +74,7 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 
 	fin.close();
 }
+
 //writes the words in caps
 string DictionaryPlay::caps(string word)
 {
@@ -121,26 +122,70 @@ void DictionaryPlay::clues(vector<string> words, vector<string> coordinates)
 		if (coordinates.at(i).at(2) == 'V')
 		{
 			string position = coordinates.at(i).erase(2,1);
+			string synonym = validWords[caps(words.at(i))].at(randomIndex);
 			//stores vertical words and their position
 			tempCoord.push_back(position);
-		    tempWord.push_back(validWords[caps(words.at(i))].at(randomIndex));
+		    tempWord.push_back(synonym);
+			validWords.erase(synonym);
 
 		}
 		else if (coordinates.at(i).at(2) == 'H')
 			
 		{
 			string position = coordinates.at(i).erase(2,1);
-			int randomIndex = rand() % words.size();
+			string synonym = validWords[caps(words.at(i))].at(randomIndex);
 			//shows the user the synonyms for the horizontal words
-			cout << position << "   " << (validWords[caps(words.at(i))]).at(randomIndex) << endl;
+			cout << position << "   " << synonym << endl;
+			//deletes the synonym from map so it cant be used again
+			validWords.erase(synonym);
+			/*
+			map<string, vector<string> >::iterator it;
+			it = synonym;
+
+			for (unsigned int j = 0; j < validWords[caps(words.at(i))].size(); j++)
+			{
+				if(validWords[caps(words.at(i))].at(j) == synonym)
+				{
+				map<string, vector<string> >::iterator it;
+				it = validWords.find(caps(words.at(i)));
+
+				validWords.erase(it);
+				}
+
+			}*/
 		}
 	}
 	cout << endl;
+
 	//writes the vertical word synonyms
 	cout << "Vertical words: " << endl;
 	//the words that were stored in a temporary vector are now displayed in the vertical words
 	for (unsigned int i = 0; i < tempCoord.size(); i++)
 	{
 		cout << tempCoord.at(i).at(0) << tempCoord.at(i).at(1) << "   " << tempWord.at(i) << endl;
+	}
+}
+
+void DictionaryPlay::synonymHelp(string position, vector<string> words, vector<string> coordinates)
+{
+	for (unsigned int i = 0; i < words.size(); i++)
+	{
+		int randomIndex = rand() % words.size();
+
+		if (position == coordinates.at(i))
+		{
+			if (validWords[caps(words.at(i))].size() == 0)
+			{
+				cout << "There arent any more synonymes for the hiden word" << endl;
+			}
+			else
+			{
+				string synonym = validWords[caps(words.at(i))].at(randomIndex);
+				cout << "Another synonym for the hiden word: " << synonym << endl;
+				validWords.erase(synonym);
+				break;
+			}
+		}
+		
 	}
 }

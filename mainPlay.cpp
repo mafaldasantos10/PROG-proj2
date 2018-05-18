@@ -162,14 +162,14 @@ int main()
 			return 0;
 		}*/
 
-		cout << "Word ( - = remove) ? ";
+		cout << "Word ( - = remove / ? = help ) ? ";
 		cin >> word;
 
 		word = dict.caps(word);
 		
 		if (word == "?") //the user might ask for help
 		{
-			cout << "These are some words that can fit in that position!" << endl << endl;
+			
 			dict.synonymHelp(position,placedWords,wordCoordinates);
 		}
 		else if (word == "-")

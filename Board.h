@@ -17,20 +17,22 @@ public:
 	void make(); //creates a board
 	void show(); //shows the current board state
 	void insert(string position, string word); //inserts new words on the board using the given position and word
-	bool notUsedWord(string word); //checks if the given word has not been used in that board before
+	bool notUsedWord(string word, vector<string> placedWords); //checks if the given word has not been used in that board before
 	void track(string position, string word); //keeps track of all words and positions
 	void saveFile(string thesaurusFile, bool resumedBoard, string savedFile); //saves the board
 	bool wildcardMatch(const char *str, const char *strWild);
 	string getWord(string position, string word); //gets a string of the contents of the indicated position of the word
 	bool validPosition(string word, string position); //checks if the indicated position is valid for the word the user wants to place
-	void removeWord(string position); //removes the word in the coordinate given by the user
+	void remove(string position); //removes the word in the coordinate given by the user
 	void help(string postion, map<string, vector<string> > &validWords); //Gives the user a list of 10 words that fit in the position given
 	bool fit(string position, string word); //sees if the word fits in the position
 	bool checkIfFull(); //checks if all the spaces in the board are filled
 	void fillSpaces(); //fills the empty spaces
 	bool doubleValidCheck(map<string, vector<string> >&validWords); //double checks if all the words in the board are valid
 	string isEmpty(); //determines the name of the first available (empty) file usign the name format BXXX.txt
+	vector<string> Words();
 	Dictionary* newDict;
+	
 private:
 	vector < vector <char> > xy; //board
 
