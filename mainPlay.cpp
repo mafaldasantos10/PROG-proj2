@@ -145,8 +145,8 @@ int main()
 	//dict.clues(placedWords, wordCoordinates);
 
 	//registers the time when the user starts playing
-	time1 = time(NULL);
-	
+	time1 = (unsigned)time(NULL);
+
 	dict.clues(placedWords);
 
 	do
@@ -245,7 +245,7 @@ int main()
 	} while (wantsToFinish != "yes"); //keeps doing it till the board is full and the user wants to finish
 
 	//registers the time when the user finishes playing
-	time2 = time(NULL);
+	time2 = (unsigned)time(NULL);
 
 	//determines the time it takes till the user finishes playing
 	elapsedTime = currentPlayer.getTime(time1, time2);

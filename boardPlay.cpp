@@ -344,49 +344,13 @@ void BoardPlay::checkAnswers(string word, string position, vector<string> coordi
 
 	if (!present)
 	{
+		cout << endl << "---------------------------------------" << endl;
 		cout << endl << "All words are correct, congratulations!" << endl << endl;
 	}
 	else
 	{
+		cout << endl << "---------------------------------------------" << endl;
 		cout << endl << "But you didnt complete the board successfuly." << endl << endl;
-	}
-}
-
-//checks in witch file to save the board 
-string BoardPlay::isEmpty()
-{
-	string fileName = "b";
-
-	ifstream fin;
-	ofstream fout;
-
-	//cycle
-	for (unsigned i = 1; i < 999; i++)
-	{
-		if (i < 10)
-		{
-			fileName = fileName + "00" + to_string(i) + ".txt";
-			fin.open(fileName);
-		}
-		else if (i < 100)
-		{
-			fileName = fileName + "0" + to_string(i) + ".txt";
-			fin.open(fileName);
-		}
-		else
-		{
-			fileName = fileName + to_string(i) + ".txt";
-			fin.open(fileName);
-		}
-
-		//returns true if empty
-		if (fin.peek() == EOF)
-		{
-			return fileName;
-		}
-
-		fin.close();
-		fileName = "b";
 	}
 }
 

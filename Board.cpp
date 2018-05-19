@@ -110,13 +110,14 @@ void Board::track(string position, string word)
 //determines the name of the first available (empty) file usign the name format BXXX.txt
 string Board::isEmpty()
 {
-	string fileName = "b";
+	string warningMessage = "full", //warning for cases where all 999 available file names were used
+		   fileName = "b";
 
 	ifstream fin;
 	ofstream fout;
 
 	//cycle
-	for (unsigned i = 1; i < 999; i++)
+	for (unsigned i = 1; i < 2; i++)
 	{
 		if (i < 10)
 		{
@@ -143,6 +144,8 @@ string Board::isEmpty()
 		fin.close();
 		fileName = "b";
 	}
+
+	return warningMessage;
 }
 
 //saves the board
@@ -151,7 +154,8 @@ void Board::saveFile(string thesaurusFile, bool resumedBoard, string savedFile)
 	this->placedWords; //vector that stores the positions of the respective words on the board
 	this->wordCoordinates; //vector that stores all the words placed on the board
 
-	string fileName;
+	string fileName,
+		   readyToContinue;
 
 	ofstream fout;
 
@@ -164,6 +168,19 @@ void Board::saveFile(string thesaurusFile, bool resumedBoard, string savedFile)
 		fileName = isEmpty(); //otherwise it will search for the next empty file name
 	}
 
+	//when all files are full
+	do
+	{
+		cout << "---------------------------------------------------------------";
+		cout << endl << "But wait! All file slots are full, try to clean some old stuff!" << endl;
+		cout << endl << "Press any letter to continue if you've cleaned the clutter." << endl << endl;
+
+		cin >> readyToContinue;
+
+		fileName = isEmpty();
+
+	} while (fileName == "full");
+	
 	//opens the file that will will be written
 	fout.open(fileName);
 

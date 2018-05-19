@@ -13,7 +13,6 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 {
 	string key;
 	ifstream fin;
-	int index;
 
 	fin.open(thesaurusFile);
 
