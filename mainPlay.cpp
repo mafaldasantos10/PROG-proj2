@@ -146,6 +146,8 @@ int main()
 
 	//registers the time when the user starts playing
 	time1 = time(NULL);
+	
+	dict.clues(placedWords);
 
 	do
 	{
