@@ -344,13 +344,12 @@ void BoardPlay::checkAnswers(string word, string position, vector<string> coordi
 
 	if (!present)
 	{
-		cout << "All words are correct, congratulations!" << endl;
+		cout << endl << "All words are correct, congratulations!" << endl << endl;
 	}
 	else
 	{
-		cout << "But you didnt complete the board successfuly." << endl;
+		cout << endl << "But you didnt complete the board successfuly." << endl << endl;
 	}
-
 }
 
 //checks in witch file to save the board 
@@ -392,14 +391,11 @@ string BoardPlay::isEmpty()
 }
 
 //saves the board
-void BoardPlay::saveFile(string name, string thesaurusFile, vector<string>words, vector<string> coordinates)
+void BoardPlay::saveFile(string thesaurusFile, vector<string>words, vector<string> coordinates, string savedFile)
 {
 	ofstream fout;
 
-	//if the file is empty, it is written
-	//string fileName = isEmpty();
-
-	fout.open(name);
+	fout.open(savedFile);
 
 	fout << thesaurusFile << endl << endl;
 
@@ -432,7 +428,7 @@ void BoardPlay::saveFile(string name, string thesaurusFile, vector<string>words,
 
 	fout.close();
 
-	cout << "Saved to file: " << name << endl << endl;
+	cout << " Saved to file: " << savedFile << endl << endl;
 }
 
 //checks if all the spaces in the board are filled

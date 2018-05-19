@@ -22,7 +22,7 @@ public:
 	string getWord(string position, string word);
 	void remove(string position,vector<string>coordinates,vector<string> words);
 	string isEmpty();
-	void saveFile(string name, string thesaurusFile, vector<string> word, vector<string>coordinates);
+	void saveFile(string thesaurusFile, vector<string> word, vector<string>coordinates, string savedFile);
 	DictionaryPlay* newDict;
 	bool fit(string position, string word);
 	void upload();

@@ -18,9 +18,10 @@ int main()
 		   word, //word to insert in the board
 		   option, //which game option the user chooses
 		   option2, //decision between saving or finishing the current board contrction after ctrl-z
-		   savedFile, //file to use in the game option 2
+		   savedFile, //file with the loaded board
 		   name, //name of the player
-		   wantsToFinish; //user might decide between yes or no when the board is filled
+		   wantsToFinish, //user might decide between yes or no when the board is filled
+		   elapsedTime; //time taken by the player to solve the puzzle
 
 
 	vector<string> wordCoordinates, //vector that contains the words that have been placed in the board
@@ -29,7 +30,8 @@ int main()
 	int rows = 0, //rows of the board
 		columns, //columns of the board
 		time1, //registers the time when the user starts playing
-		time2;	//registers the time when the user finishes playing
+		time2,	//registers the time when the user finishes playing
+		tipAmount = 0; //amount of tips used by the palyer
 
 	map<string, vector<string> > validWords;
 
@@ -173,7 +175,7 @@ int main()
 		
 		if (word == "?") //the user might ask for help
 		{
-			
+			tipAmount++;
 			dict.synonymHelp(position,placedWords,wordCoordinates);
 		}
 		else if (word == "-")
@@ -244,13 +246,17 @@ int main()
 	time2 = time(NULL);
 
 	//determines the time it takes till the user finishes playing
-	currentPlayer.getTime(time1, time2);
+	elapsedTime = currentPlayer.getTime(time1, time2);
 
 	//validates the board by checking the attempt
 	brd.checkAnswers(word, position, wordCoordinates, placedWords);
 
 	//saves the file if it's full
-	brd.saveFile(name, thesaurusFile, wordCoordinates, placedWords);
+	brd.saveFile(thesaurusFile, wordCoordinates, placedWords, savedFile);
+
+	//saves the stats of the game
+	currentPlayer.saveFile(savedFile, elapsedTime, tipAmount);
+
 	//closes the input file
 	fin.close();
 
