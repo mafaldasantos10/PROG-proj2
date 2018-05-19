@@ -105,69 +105,59 @@ bool DictionaryPlay::isValid(string word, map<string, vector<string> > &validWor
 }
 
 //gives the user the position and a synonym for the correct word
-vector<string> DictionaryPlay::clues(vector<string> &words, vector<string> &coordinates)
+void DictionaryPlay::clues(vector<string> &words)
 {
 	this->validWords;
-	this->tempCoord;
-	this->tempWord;
+	this->tempWord; //stores the synonyms 
 
 	cout << endl;
+	tempWord.clear();
 	//writes the horizontal word synonyms
 	for (unsigned int i = 0; i < words.size(); i++)
 	{
+		//range for the random index
 		int randomIndex = rand() % validWords[caps(words.at(i))].size();
 
+		//random synonym
 		string synonym = validWords[caps(words.at(i))].at(randomIndex);
 
 		//stores vertical words and their position
-		tempCoord = coordinates;
 		tempWord.push_back(synonym);
+		usedSynonym.push_back(synonym);
 	}
-
-	return tempWord;
 }
-		
-
-		/*
-		map<string, vector<string> >::iterator it;
-		it = synonym;
-
-		for (unsigned int j = 0; j < validWords[caps(words.at(i))].size(); j++)
-		{
-			if(validWords[caps(words.at(i))].at(j) == synonym)
-			{
-			map<string, vector<string> >::iterator it;
-			it = validWords.find(caps(words.at(i)));
-
-			validWords.erase(it);
-			}
-
-		}*/
-
-
+	
+//prints the clues 
 void DictionaryPlay::showClues(vector<string> &words, vector<string> &coordinates)
 {
-	vector<string> synonyms,
-		pos,
-		vertical;
+	vector<string> pos, //saves the position of the vertical words
+		vertical; //saves the vertical words
 
-	synonyms = clues(words,coordinates);
+	//clues(words); 
+	
+	this->tempWord;
 
 	cout << "Horizontal Words: " << endl;
 
 	for (unsigned int i = 0; i < coordinates.size(); i++)
 	{
+		//saves the last character (V or H)
 		char dir = coordinates.at(i).at(2);
 
 		if (dir == 'H')
 		{
-			string position = coordinates.at(i).erase(2, 1);
+			//saves the first two caracters(row and column)
+			string position = coordinates.at(i).substr(0, 2);
 			cout << position << "   " << tempWord.at(i) << endl;
 		}
 		else if (dir == 'V')
 		{
-			string position = coordinates.at(i).erase(2, 1);
+			//saves the first two caracters(row and column)
+			string position = coordinates.at(i).substr(0, 2);
+
+			//saves in a temporary vector with the vertical words synonyms
 			vertical.push_back(tempWord.at(i));
+			//saves in a temporary vector with the vertical words positions
 			pos.push_back(position);
 		}
 		
@@ -179,31 +169,54 @@ void DictionaryPlay::showClues(vector<string> &words, vector<string> &coordinate
 
 	for (unsigned int i = 0; i < vertical.size(); i++)
 	{
-        	string position = coordinates.at(i).erase(2, 1);
+		//using the temporary vectors prints the positio and the synonyms
+        	string position = coordinates.at(i).substr(2, 1);
 			cout << pos.at(i) << "   " << vertical.at(i) << endl;
 
 	}	
 }
 
+//checks if a word has aleady been used
+bool DictionaryPlay::notUsedWord (string word, vector<string> &vector)
+{
+	bool Present = true;
+
+	for (unsigned int i = 0; i < vector.size(); i++)
+	{
+		//finds the word in the vector
+		if (vector.at(i) == word)
+		{
+			Present = false;
+			break;
+		}
+	}
+
+	return Present;
+}
+
+//when the user asks for help prints a new synonym for the word in the given position
 void DictionaryPlay::synonymHelp(string position, vector<string> &words, vector<string> &coordinates)
 {
+	this->usedSynonym;
 	for (unsigned int i = 0; i < words.size(); i++)
 	{
-		int randomIndex = rand() % words.size();
-
+		//looks in the vector that has the hiden words the index of the writen position
 		if (position == coordinates.at(i))
 		{
-			if (validWords[caps(words.at(i))].size() == 0)
-			{
-				cout << "There arent any more synonymes for the hiden word" << endl;
-			}
-			else
-			{
-				string synonym = validWords[caps(words.at(i))].at(randomIndex);
-				cout << "Another synonym for the hiden word: " << synonym << endl;
-				validWords.erase(synonym);
-				break;
-			}
+			    int randomIndex = rand() % validWords[caps(words.at(i))].size(); //returns a random index
+
+		         //random synonym acquired with the random index
+				string synonym = validWords[caps(words.at(i))].at(randomIndex); 
+
+				    //checks if it has been previously used
+					while (notUsedWord(synonym, usedSynonym)) 
+					{
+						cout << "Another synonym for the hiden word: " << synonym << endl;
+						//checks if it has been previously used
+						usedSynonym.push_back(synonym);
+						break;
+					}
+					
 		}
 		
 	}
