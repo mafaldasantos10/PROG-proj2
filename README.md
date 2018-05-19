@@ -9,3 +9,4 @@ cwcreator is almost complete
  cwplayer
  - doubleCheck()
  - sees # has a space in the fitting validation
+ - when the board is complete, it saves it without %s
