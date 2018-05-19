@@ -117,7 +117,7 @@ string Board::isEmpty()
 	ofstream fout;
 
 	//cycle
-	for (unsigned i = 1; i < 2; i++)
+	for (unsigned i = 1; i < 999; i++)
 	{
 		if (i < 10)
 		{
