@@ -33,17 +33,6 @@ void BoardPlay::make()
 	xy.resize(rows, vector<char>(columns, '.'));
 }
 
-//changes the color of some caracters
-void paint(char a)
-{
-	if (isalpha(a) || a == ' ' || a == '.')
-		setcolor(112);
-	else if (a == '#')
-		setcolor(7);
-	else
-		setcolor(200);
-}
-
 //shows the current board
 void BoardPlay::show()
 {
@@ -346,17 +335,18 @@ bool BoardPlay::checkAnswers(vector<string> &coordinates, vector<string> &words)
 	//searches in the wordCoordinates vector 
 	for (unsigned int i = 0; i < wordCoordinates.size(); i++)
 	{
-		for (unsigned int j = 0; j < placedWords.size(); j++)
+		for (unsigned int j = 0; j < coordinates.size(); j++)
 		{
 			//finds in the wordcoordinates vector the positions present in the coordinates vec
-			if (coordinates.at(i) == wordCoordinates.at(j))
+			if (coordinates.at(j) == wordCoordinates.at(i))
 			{
 				//if at the same index the words of both words vector and placed Words vector are different that word isnt correct
-				if (words.at(i) != placedWords.at(i))
+				if (words.at(j) != placedWords.at(i))
 				{
 					correct = false;
 					break;
 				}
+				
 			}
 		}
 	}
@@ -453,4 +443,28 @@ bool BoardPlay::fit(string position, string word)
 	}
 
 	return false;
+}
+
+//double checks if all the words in the board are valid
+bool BoardPlay::doubleValidCheck(map<string, vector<string> > &validWords)
+{
+	this->placedWords;
+	this->wordCoordinates;
+	bool valid = true;
+	//word extracted from the board using the given position and length of the word that is to be placed there
+	string newWord;
+
+	for (unsigned int i = 0; i < placedWords.size(); i++)
+	{
+		//takes the word from the board
+		newWord = getWord(wordCoordinates.at(i), placedWords.at(i));
+		//uses the disctionary function is valid
+		if (!newDict->isValid(newWord, validWords))
+		{
+			valid = false;
+			break;
+		}
+	}
+
+	return valid;
 }

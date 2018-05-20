@@ -29,6 +29,7 @@ public:
 	bool checkAnswers(vector<string> &coordinates, vector<string> &placedwords);
 	bool checkIfFull();
 	bool validPosition(string word, string position);
+	bool doubleValidCheck(map<string, vector<string> > &validWords);
 	
 private:
 	vector < vector <char> > xy; //board

@@ -228,8 +228,7 @@ int main()
 			//brd.checkAnswer(word, position, wordCoordinates, placedWords);
 		}
 
-		if (brd.checkIfFull())
-			//&& brd.doubleValidCheck(validWords)) //checks if the board is full and double checks the placed words after each iteration
+		if (brd.checkIfFull() ) //checks if the board is full 
 		{
 			if (brd.checkAnswers(wordCoordinates, placedWords))
 			{
@@ -248,7 +247,7 @@ int main()
 			}
 		}
 
-	} while (!(brd.checkIfFull()) || !(brd.checkAnswers(wordCoordinates, placedWords))); //keeps doing it till the board is full and the user wants to finish
+	} while (!(brd.checkIfFull()) || !(brd.checkAnswers(wordCoordinates, placedWords))); //|| !brd.doubleValidCheck(validWords))); //keeps doing it till the board is full and double checks the placed words after each iteration and the user wants to finish
 
 	//registers the time when the user finishes playing
 	time2 = (unsigned)time(NULL);
