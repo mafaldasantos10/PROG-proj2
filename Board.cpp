@@ -12,20 +12,28 @@
 
 using namespace std;
 
+//function for changing color of the board
 void setcolor(unsigned int color)
 {
 	HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hcon, color);
 }
 
-void paint(char a)
+//changes the color of hashtags,letters and "."
+void setColor2(char a)
 {
 	if (isalpha(a) || a == ' ' || a == '.')
+	{
 		setcolor(112);
+	}
 	else if (a == '#')
+	{
 		setcolor(7);
+	}
 	else
+	{
 		setcolor(200);
+	}
 }
 
 //board constructor
@@ -64,7 +72,7 @@ void Board::show()
 		{
 			setcolor(112);
 			cout << ' ';
-			paint(xy.at(k).at(j));
+			setColor2(xy.at(k).at(j));
 			cout << xy.at(k).at(j);
 		}
 
@@ -79,7 +87,6 @@ vector<string> Board::Words()
 {
 	return placedWords;
 }
-
 
 //checks if the given word has not been used in that board before
 bool Board::notUsedWord(string word,vector<string> placedWords)
@@ -493,7 +500,6 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 		usedwords.clear();
 	}
 }
-
 
 //checks if all the spaces in the board are filled
 bool Board::checkIfFull()
