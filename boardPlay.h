@@ -36,7 +36,7 @@ private:
 	vector<string> wordCoordinates; //vector that stores the positions of the respective words on the board
 	vector<string> placedWords; //vector that stores all the words placed on the board
 	unsigned int rows, columns;
-	string position, word;
+	string position, word, newWord;
 	vector<string> validWords;
 	vector<string> usedClues;
 };

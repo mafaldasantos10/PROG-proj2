@@ -9,15 +9,13 @@
 #include <iomanip>
 #include <windows.h>
 
-
-
 using namespace std;
 
+//function for changing color of the board
 void setcolor(unsigned int color) 
 {
 	HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hcon, color); 
-
 }
 
 //constructor
@@ -30,6 +28,7 @@ BoardPlay::BoardPlay(unsigned int rows, unsigned int columns)
 //makes a new empty board with the indicated size
 void BoardPlay::make()
 {
+	//resized the vector in order to have the correct size according to the rows and columns specified
 	xy.resize(rows, vector<char>(columns, '.'));
 }
 
@@ -41,7 +40,8 @@ void BoardPlay::show()
 
 	setcolor(12);
 
-	for (unsigned int i = 97; i < 97 + columns; i++)
+	//increases the alphabet till the specified number of columns is reached
+	for (unsigned int i = 'a'; i < 'a' + columns; i++)
 	{
 		cout << char(i) << ' ';
 		
@@ -49,12 +49,14 @@ void BoardPlay::show()
 	setcolor(7);
 	cout << endl;
 
+	//increases the alphabet till the specified number of rows is reached
 	for (unsigned int k = 0; k < rows; k++)
 	{
 		setcolor(12);
-		cout << char(k + 65) << ' ';
+		cout << char(k + 'A') << ' ';
 		setcolor(7);
 
+		//prints the contents of the vector and therefore of the board
 		for (unsigned int j = 0; j < columns; j++)
 		{
 			
@@ -62,20 +64,17 @@ void BoardPlay::show()
 			{
 				setcolor(15);
 				cout << "  ";
-				
 			}
 			else
 			{
 				setcolor(112);
 				cout << ' ';
-				//paint(xy.at(k).at(j));
 				cout << xy.at(k).at(j);	
 			}
 
 		}
 
 		cout << ' ' << endl;
-		
 	}
 
 	setcolor(15);
@@ -84,7 +83,7 @@ void BoardPlay::show()
 //puts the words on the board
 void BoardPlay::insert(string position, string word)
 {
-	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
+	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2); //each letter is stored in each variable
 	unsigned int uC = ((int)upperCase - 'A'), lC = ((int)lowerCase - 'a');
 
 	//vertically
@@ -124,22 +123,22 @@ bool BoardPlay::notUsedWord(string word)
 {
 	this->placedWords;
 
-	bool Present = true;
+	bool notUsed = true; //true if the word being compared is in the vector that contains the placed words
 
 	for (unsigned int i = 0; i < placedWords.size(); i++)
 	{
-		//checks if there has already been used that word
+		//if that word is in the vector, it means it has been used before
 		if (placedWords.at(i) == word)
 		{
 
-			Present = false;//it has already been used
+			notUsed = false; //it has already been used
 			cout << endl << "----------------------------------------" << endl << endl;
 			cout << endl << "You already used that word. Try another!" << endl << endl;
 			break;
 		}
 	}
 
-	return Present;
+	return notUsed;
 }
 
 //keeps track of all words and positions
@@ -152,8 +151,8 @@ void BoardPlay::track(string position, string word)
 //gets a string of the contents of the indicated position of the word
 string BoardPlay::getWord(string position, string word)
 {
-	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
-	unsigned int uC = ((int)upperCase - 'A'), lC = ((int)lowerCase - 'a');
+	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2); //each letter is stored in each variable
+	unsigned int uC = (upperCase - 'A'), lC = (lowerCase - 'a');
 	vector<char> temp;
 
 	if (orientation == 'V')
@@ -164,7 +163,6 @@ string BoardPlay::getWord(string position, string word)
 		}
 
 		string newWord(temp.begin(), temp.end()); //makes the string out of the chars in the temp vector
-		return newWord;
 	}
 	else
 	{
@@ -174,8 +172,9 @@ string BoardPlay::getWord(string position, string word)
 		}
 
 		string newWord(temp.begin(), temp.end()); //makes the string out of the chars in the temp vector
-		return newWord;
 	}
+
+	return newWord;
 }
 
 bool BoardPlay::wildcardMatch(const char *str, const char *strWild)
@@ -224,12 +223,12 @@ bool BoardPlay::wildcardMatch(const char *str, const char *strWild)
 //checks if the indicated position is valid for the word the user wants to place
 bool BoardPlay::validPosition(string word, string position)
 {
-	bool present = false;
-	string newWord;
-	//complete row/line of the wanted position
-	newWord = getWord(position, word);
+	bool present = false; //true if the word can be placed~in that position
 
-	//changes the '%'to '?'
+	//complete row/line of the wanted position
+	string newWord = getWord(position, word);
+
+	//changes the '.'to '?'
 	for (unsigned int i = 0; i < newWord.length(); i++)
 	{
 		if (newWord.at(i) == '.')
@@ -240,7 +239,7 @@ bool BoardPlay::validPosition(string word, string position)
 
 	//calls the wildcard function to check
 	if (wildcardMatch(word.c_str(), newWord.c_str()))
-		present = true;
+		present = true; //if the wildcardFunction return true, it means the position is valid
 
 	return present;
 }
@@ -359,8 +358,10 @@ void BoardPlay::saveFile(string thesaurusFile, vector<string>words, vector<strin
 {
 	ofstream fout;
 
+	//opens the file that will be used to store
 	fout.open(savedFile);
 
+	//name of the thesaurusFile used
 	fout << thesaurusFile << endl << endl;
 
 	//saves the current board into a file
@@ -379,7 +380,7 @@ void BoardPlay::saveFile(string thesaurusFile, vector<string>words, vector<strin
 	//saves the respective positions and words on the board
 	for (unsigned i = 0; i < wordCoordinates.size(); i++)
 	{
-		//trying not to place a space at the end
+		//so that it doesn't place a space at the end of the last word
 		if (i == 0)
 		{
 			fout << wordCoordinates.at(i) << "  " << placedWords.at(i);
@@ -390,9 +391,10 @@ void BoardPlay::saveFile(string thesaurusFile, vector<string>words, vector<strin
 		}
 	}
 
+	//closes the output file used
 	fout.close();
 
-	cout << " Saved to file: " << savedFile << endl << endl;
+	cout << " Saved to file: " << savedFile << endl << endl; //tells the user the name of the file where it was saved
 }
 
 //checks if all the spaces in the board are filled
@@ -401,7 +403,7 @@ bool BoardPlay::checkIfFull()
 	this->xy;
 	this->rows;
 	this->columns;
-	bool filled = true;
+	bool filled = true; //true if the board is full
 
 	for (unsigned int r = 0; r < rows; r++)
 	{
@@ -410,7 +412,7 @@ bool BoardPlay::checkIfFull()
 			//searches for empty spaces
 			if (xy.at(r).at(c) == '.' )
 			{
-				filled = false;
+				filled = false; //if a "." if found, it means it's not full, making "filled" become false
 				break;
 			}
 		}
@@ -425,24 +427,28 @@ bool BoardPlay::fit(string position, string word)
 	this->columns;
 	this->rows;
 
+	bool fits = false;
+
+	//checks horizontally
 	if (position.at(2) == 'H')
 	{
 		//checks if there is enough space in the column for the word
 		if ((columns - ((int)(position.at(1) - 'a'))) >= word.size())
 		{
-			return true;
+			fits = true;
 		}
 	}
+	//checks vertically
 	if (position.at(2) == 'V')
 	{
 		//checks if there is enough space in the row for the word
 		if ((rows - ((int)(position.at(0) - 'A'))) >= word.size())
 		{
-			return true;
+			fits = true;
 		}
 	}
 
-	return false;
+	return fits;
 }
 
 //double checks if all the words in the board are valid
