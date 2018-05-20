@@ -169,7 +169,8 @@ void Board::saveFile(string thesaurusFile, bool resumedBoard, string savedFile)
 	}
 
 	//when all files are full
-	do
+	
+	while (fileName == "full")
 	{
 		cout << "---------------------------------------------------------------";
 		cout << endl << "But wait! All file slots are full, try to clean some old stuff!" << endl;
@@ -178,8 +179,7 @@ void Board::saveFile(string thesaurusFile, bool resumedBoard, string savedFile)
 		cin >> readyToContinue;
 
 		fileName = isEmpty();
-
-	} while (fileName == "full");
+	}
 	
 	//opens the file that will will be written
 	fout.open(fileName);

@@ -230,19 +230,19 @@ int main()
 		if (brd.checkIfFull())
 			//&& brd.doubleValidCheck(validWords)) //checks if the board is full and double checks the placed words after each iteration
 		{
-			cout << endl << " yes - validates the board" << endl
-						 << " no - you might edit it" << endl;
-
-			do
+			if (brd.checkAnswers(wordCoordinates, placedWords))
 			{
-				cout << endl << " Answer? ";
-				cin >> wantsToFinish;
-
-				//only allows "yes" or "no" as an answer
-			} while (wantsToFinish != "yes" && wantsToFinish != "no");
+				cout << endl << "---------------------------------------" << endl;
+				cout << endl << "All words are correct, congratulations!" << endl << endl;
+			}
+			else
+			{
+				cout << endl << "---------------------------------------------" << endl;
+				cout << endl << "You didn't complete the board successfuly. Keep trying!" << endl << endl;
+			}
 		}
 
-	} while (wantsToFinish != "yes"); //keeps doing it till the board is full and the user wants to finish
+	} while (!(brd.checkIfFull()) || !(brd.checkAnswers(wordCoordinates, placedWords))); //keeps doing it till the board is full and the user wants to finish
 
 	//registers the time when the user finishes playing
 	time2 = (unsigned)time(NULL);
@@ -251,7 +251,7 @@ int main()
 	elapsedTime = currentPlayer.getTime(time1, time2);
 
 	//validates the board by checking the attempt
-	brd.checkAnswers(word, position, wordCoordinates, placedWords);
+	//brd.checkAnswers(word, position, wordCoordinates, placedWords);
 
 	//saves the file if it's full
 	brd.saveFile(thesaurusFile, wordCoordinates, placedWords, savedFile);

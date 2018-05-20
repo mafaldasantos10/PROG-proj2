@@ -225,7 +225,7 @@ bool BoardPlay::validPosition(string word, string position)
 	//complete row/line of the wanted position
 	newWord = getWord(position, word);
 
-	//changes the '.'to '?'
+	//changes the '%'to '?'
 	for (unsigned int i = 0; i < newWord.length(); i++)
 	{
 		if (newWord.at(i) == '%')
@@ -322,35 +322,32 @@ void BoardPlay::fillSpaces()
 }
 
 //checks if the words on the board are the right ones
-void BoardPlay::checkAnswers(string word, string position, vector<string> coordinates, vector<string>words)
+bool BoardPlay::checkAnswers(vector<string> coordinates, vector<string>words)
 {
 	this->wordCoordinates;
 	this->placedWords;
-	bool present = false;
 
-	for (unsigned int k = 0; k < wordCoordinates.size(); k++)
+	bool correct = true;
+
+	for (unsigned int i = 0; i < wordCoordinates.size(); i++)
 	{
-		for (unsigned int i = 0; i < coordinates.size(); i++)
+		if (coordinates.at(i) == wordCoordinates.at(i))
 		{
-			//compares the vectors filled with the words and coordinates that were originally on the board with the vectors that have the words and positions writen by the user
-			if (!(placedWords.at(k) == words.at(i) && wordCoordinates.at(k) == coordinates.at(i)))
+			if (words.at(i) != placedWords.at(i))
 			{
-				insert(position, word);
-				present = false;
+				correct = false;
+				break;
 			}
 		}
-
 	}
 
-	if (!present)
+	if (correct)
 	{
-		cout << endl << "---------------------------------------" << endl;
-		cout << endl << "All words are correct, congratulations!" << endl << endl;
+		return true;
 	}
 	else
 	{
-		cout << endl << "---------------------------------------------" << endl;
-		cout << endl << "But you didnt complete the board successfuly." << endl << endl;
+		return false;
 	}
 }
 
@@ -416,11 +413,11 @@ bool BoardPlay::checkIfFull()
 		}
 	}
 
-	if (filled)
+	/*if (filled)
 	{
 		cout << endl << "--------------------------------------------" << endl;
 		cout << endl << "The board is full. Do you want to finish it?" << endl;
-	}
+	}*/
 
 	return filled;
 }
