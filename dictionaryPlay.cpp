@@ -80,9 +80,10 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 //writes the words in caps
 string DictionaryPlay::caps(string word)
 {
-
+	//searches in the string word
 	for (unsigned int i = 0; i < word.size(); i++)
 	{
+		//for each position putas te letter in capital letters
 		word.at(i) = toupper(word.at(i));
 	}
 	return word;
@@ -91,17 +92,23 @@ string DictionaryPlay::caps(string word)
 //checks if the word is in the thesaurus file
 bool DictionaryPlay::isValid(string word, map<string, vector<string> > &validWords)
 {
-	bool present = false;
+	//will check if the word is in the synonym dictionary
+	bool present = false; 
+	//map
 	this->validWords;
+	//user a previous function to creat a new string that is the word all writen in capitals
 	string newWord = caps(word);
+	//iterator the validWords map
 	map<string, vector<string> >::iterator it;
 
+	//finds the newWord in the map
 	 it = validWords.find(word);
+	 //if the word is in the map
 	 if (it != validWords.end())
 	 {
+		 //it is present
 		 present = true;
 	 }
-
 
 	return present;
 }
@@ -109,14 +116,17 @@ bool DictionaryPlay::isValid(string word, map<string, vector<string> > &validWor
 //gives the user the position and a synonym for the correct word
 void DictionaryPlay::clues(vector<string> &words)
 {
-	this->validWords;
+	this->validWords; // map
 	this->tempWord; //stores the synonyms 
-	this->SynonymsVec;
+	this->SynonymsVec; //stores the synoyms from map
 
+	//map iterator it
 	map<string, vector<string> >::iterator it;
 
 	cout << endl;
+	//everytime the function is used the vector is empty
 	tempWord.clear();
+
 	//writes the horizontal word synonyms
 	for (unsigned int i = 0; i < words.size(); i++)
 	{
@@ -135,9 +145,11 @@ void DictionaryPlay::clues(vector<string> &words)
 
 			//stores vertical words and their position
 			tempWord.push_back(synonym);
-			
+
+			//erases the synonym that has been saved to the vector so it cant be used again
 			SynonymsVec.erase(SynonymsVec.begin() + randomIndex);
 
+			//saves the vector without the synonym in the map
 			it->second = SynonymsVec;
 			
 		}
@@ -148,12 +160,11 @@ void DictionaryPlay::clues(vector<string> &words)
 void DictionaryPlay::showClues(vector<string> &words, vector<string> &coordinates)
 {
 	vector<string> pos, //saves the position of the vertical words
-		vertical; //saves the vertical words
-
-	//clues(words); 
+		vertical; //saves the vertical words 
 	
+	//synonym vector with the synonyms that where added in the clue function
 	this->tempWord;
-
+	
 	cout << "Horizontal Words: " << endl;
 
 	for (unsigned int i = 0; i < coordinates.size(); i++)
@@ -161,12 +172,16 @@ void DictionaryPlay::showClues(vector<string> &words, vector<string> &coordinate
 		//saves the last character (V or H)
 		char dir = coordinates.at(i).at(2);
 
+		//checks if the word is horizontal
 		if (dir == 'H')
 		{
 			//saves the first two caracters(row and column)
 			string position = coordinates.at(i).substr(0, 2);
+
+			//shows the position and the synonyms of the horizontal words
 			cout << position << "   " << tempWord.at(i) << endl;
 		}
+		//checks if the word is vertical
 		else if (dir == 'V')
 		{
 			//saves the first two caracters(row and column)
@@ -188,6 +203,8 @@ void DictionaryPlay::showClues(vector<string> &words, vector<string> &coordinate
 	{
 		//using the temporary vectors prints the positio and the synonyms
         	string position = coordinates.at(i).substr(2, 1);
+
+			//shows the position and the synonym
 			cout << pos.at(i) << "   " << vertical.at(i) << endl;
 
 	}	
@@ -196,13 +213,16 @@ void DictionaryPlay::showClues(vector<string> &words, vector<string> &coordinate
 //checks if a word has aleady been used
 bool DictionaryPlay::notUsedWord (string word, vector<string> &vector)
 {
+	//checks is the word is in the vector
 	bool Present = true;
 
+	//searches in the vector
 	for (unsigned int i = 0; i < vector.size(); i++)
 	{
-		//finds the word in the vector
+		//searches for the word in the vector
 		if (vector.at(i) == word)
 		{
+			//if the word is present it has already been used
 			Present = false;
 			break;
 		}
@@ -214,9 +234,13 @@ bool DictionaryPlay::notUsedWord (string word, vector<string> &vector)
 //when the user asks for help prints a new synonym for the word in the given position
 void DictionaryPlay::synonymHelp(string position, vector<string> &words, vector<string> &coordinates)
 {
+	//vector that will store the synonyms in map
 	this->SynonymsVec;
+
+	//map iterator
 	map<string, vector<string> >::iterator it;
 
+	//searches in the xoordinates vector
 		for (unsigned int i = 0; i < coordinates.size(); i++)
 		{
 			if (position == coordinates.at(i))
@@ -224,28 +248,33 @@ void DictionaryPlay::synonymHelp(string position, vector<string> &words, vector<
 				
 					//looks in the map for the hiden word in that position 
 					it = validWords.find(caps(words.at(i)));
+					//if the hiden word is there
 					if (it != validWords.end())
 					{
 						//transfers the vector of the map for another vector
 						SynonymsVec = it->second;
 
-						//checks if it has been previously used
+						//checks if it is empty
 						if (SynonymsVec.empty())
 						{
+							//doent show a synonym
 							cout << endl << "There aren't more clues to show!" << endl;
 							break;	
 						}
 						else
 						{
-							int randomIndex = rand() % SynonymsVec.size(); //returns a random index
+							//returns a random index not over the amount od synonyms in the vector
+							int randomIndex = rand() % SynonymsVec.size(); 
 
 							//random synonym acquired with the random index
 							string synonym = SynonymsVec.at(randomIndex);
 
+							//shows the synonym
 							cout << endl << "Another synonym for the hiden word: " << synonym << endl;
 
-							//checks if it has been previously used
+							//erases the shown synonym from the vector so it cant be used again
 							SynonymsVec.erase(SynonymsVec.begin() + randomIndex);
+							//puts the synonymsVec back on the map
 							it->second = SynonymsVec;
 							break;
 						}
