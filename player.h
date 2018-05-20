@@ -37,6 +37,6 @@ public:
 
 private:
 	string playerName; //name of the player
-	int time; //time taken by the user to finish (determined)
+	int Time; //time taken by the user to finish (determined)
 };
 #endif

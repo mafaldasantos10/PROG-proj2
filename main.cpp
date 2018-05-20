@@ -89,7 +89,6 @@ int main()
 			cout << "Board size (rows, columns)? ";
 			cin >> rows >> columns;
 		}
-
 	}
 	//--------------------------------------------------------------------------------------------------------------
 	//END of OPTION 1
@@ -169,8 +168,10 @@ int main()
 	//--------------------------------------------------------------------------------------------------------------
 	//END of OPTION 3
 
+
 	//--------------------------------------------------------------------------------------------------------------
 	//--------------------------------------------------------------------------------------------------------------
+
 
 	//constructs and empty board
 	Board brd(rows, columns);
@@ -246,7 +247,10 @@ int main()
 
 		cout << "Word ( - = remove / ? = help ) ? ";
 		cin >> word;
+
+		//capitalizes the word
 		word = dict.caps(word);
+
 		if (word == "?") //the user might ask for help
 		{
 			cout << "A few words that would be correct in that position are: " ;

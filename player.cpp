@@ -13,7 +13,7 @@ Player::Player(string name)
 //determines the time it took the player to finish the board
 string Player::getTime(int initialTime, int finishTime)
 {
-	this->time;
+	this->Time;
 
 	string elapsedTime; //string formated with the time taken
 
@@ -22,14 +22,14 @@ string Player::getTime(int initialTime, int finishTime)
 		sec = 0; //seconds taken
 
 	//determines the time elapsed from start to finish
-	time = finishTime - initialTime;
+	Time = finishTime - initialTime;
 
 	//converting time to HH:MM:SS
-	hour = time / 3600;
-	time = time % 3600;
-	min = time / 60;
-	time = time % 60;
-	sec = time;
+	hour = Time / 3600;
+	Time = Time % 3600;
+	min = Time / 60;
+	Time = Time % 60;
+	sec = Time;
 
 	//formatted string
 	elapsedTime = "Solved in: " + to_string(hour) + " hours, " + to_string(min) + " minutes and " + to_string(sec) + " seconds!";

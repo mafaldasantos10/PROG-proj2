@@ -23,7 +23,6 @@ int main()
 		   wantsToFinish, //user might decide between yes or no when the board is filled
 		   elapsedTime; //time taken by the player to solve the puzzle
 
-
 	vector<string> wordCoordinates, //vector that contains the words that have been placed in the board
 				   placedWords; //vector that contains the position of each word placed in the board
 
@@ -48,6 +47,7 @@ int main()
 		 << "------- PLAY -------" << endl
 		 << "--------------------" << endl;
 
+
 	cout << "Player name: ";
 	cin >> name;
 
@@ -58,8 +58,7 @@ int main()
 
 	cin >> savedFile;
 
-	//Board load
-	//--------------------------------------------------------------------------------------------------------------
+	//board load
 	fin.open(savedFile);
 
 	//checks wether the indicated file is valid
@@ -69,7 +68,7 @@ int main()
 		exit(1);
 	}
 
-	string next;
+	string next; //string that hold lines extracted from the file
 
 	//gets the thesaurus file
 	getline(fin, thesaurusFile);
@@ -121,6 +120,7 @@ int main()
 
 	DictionaryPlay dict(thesaurusFile);
 	
+	//creates the clues for the words on the board
 	dict.clues(placedWords);
 
 	//constructs and empty board
@@ -152,7 +152,6 @@ int main()
 
 	do
 	{
-
 		do
 		{
 			cout << endl << "Position ( RCD / CTRL-Z = stop ) ? ";
@@ -162,7 +161,6 @@ int main()
 		} while ((position.length() > 3) || (position.at(0) < 'A') || (position.at(0) > ('A' + (rows - 1))) || (position.at(1) < 'a') || (position.at(1) > ('a' + (columns - 1))) || ((position.at(2) != 'H') && (position.at(2) != 'V')));
 
 		cout << endl;
-
 
 		cout << "Word ( - = remove / ? = help ) ? ";
 		cin >> word;
@@ -223,9 +221,6 @@ int main()
 			dict.showClues(placedWords, wordCoordinates);
 			cout << endl;
 			brd.show(); //shows the current state of the board
-					
-			//cout << endl;
-			//brd.checkAnswer(word, position, wordCoordinates, placedWords);
 		}
 
 		if (brd.checkIfFull() ) //checks if the board is full 
@@ -241,22 +236,19 @@ int main()
 			{
 				cout << endl << "-------------------------------------------------------" << endl;
 				cout << endl << "You didn't complete the board successfuly. Keep trying!" << endl << endl;
-				dict.showClues(placedWords, wordCoordinates);
+				dict.showClues(placedWords, wordCoordinates); //shows the clues
 				cout << endl;
 				brd.show(); //shows the current state of the board
 			}
 		}
 
-	} while (!(brd.checkIfFull()) || !(brd.checkAnswers(wordCoordinates, placedWords))); //|| !brd.doubleValidCheck(validWords))); //keeps doing it till the board is full and double checks the placed words after each iteration and the user wants to finish
+	} while (!(brd.checkIfFull()) || !(brd.checkAnswers(wordCoordinates, placedWords)) || !brd.doubleValidCheck(validWords)); //keeps doing it till the board is full and double checks the placed words after each iteration and the user wants to finish
 
 	//registers the time when the user finishes playing
 	time2 = (unsigned)time(NULL);
 
 	//determines the time it takes till the user finishes playing
 	elapsedTime = currentPlayer.getTime(time1, time2);
-
-	//validates the board by checking the attempt
-	//brd.checkAnswers(word, position, wordCoordinates, placedWords);
 
 	//saves the file if it's full
 	brd.saveFile(thesaurusFile, wordCoordinates, placedWords, savedFile);
