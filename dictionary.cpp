@@ -30,7 +30,6 @@ Dictionary::Dictionary(string thesaurusFile)
 	 //header file vector that will save the synonymes for each key taken from the dictionary file
 	this->synonyms; 
 
-
 	//extracts the header words to a vector
 	while (!fin.eof())
 	{
@@ -77,13 +76,13 @@ Dictionary::Dictionary(string thesaurusFile)
 	fin.close();
 }
 
-//writes the words in caps
+//capitalizes the word
 string Dictionary::caps(string word)
 {
 	//searches in the string word
 	for (unsigned int i = 0; i < word.size(); i++)
 	{
-		//for each position putas te letter in capital letters
+		//for each position capitalizes the letter
 		word.at(i) = toupper(word.at(i));
 	}
 	return word;

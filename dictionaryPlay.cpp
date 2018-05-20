@@ -27,9 +27,8 @@ DictionaryPlay::DictionaryPlay(string thesaurusFile)
 
 	string next; //line from the file
 
-				 //header file vector that will save the synonymes for each key taken from the dictionary file
+	//header file vector that will save the synonyms for each key taken from the dictionary file
 	this->synonyms;
-
 
 	//extracts the header words to a vector
 	while (!fin.eof())
@@ -90,7 +89,7 @@ string DictionaryPlay::caps(string word)
 }
 	
 //checks if the word is in the thesaurus file
-bool DictionaryPlay::isValid(string word, map<string, vector<string> > &validWords)
+bool DictionaryPlay::isValid(string word, map<string, vector<string> > validWords)
 {
 	//will check if the word is in the synonym dictionary
 	bool present = false; 
@@ -206,7 +205,6 @@ void DictionaryPlay::showClues(vector<string> &words, vector<string> &coordinate
 
 			//shows the position and the synonym
 			cout << pos.at(i) << "   " << vertical.at(i) << endl;
-
 	}	
 }
 
@@ -245,7 +243,6 @@ void DictionaryPlay::synonymHelp(string position, vector<string> &words, vector<
 		{
 			if (position == coordinates.at(i))
 			{
-				
 					//looks in the map for the hiden word in that position 
 					it = validWords.find(caps(words.at(i)));
 					//if the hiden word is there
@@ -278,11 +275,7 @@ void DictionaryPlay::synonymHelp(string position, vector<string> &words, vector<
 							it->second = SynonymsVec;
 							break;
 						}
-	
 					}
-				
 			}
 		}
-		
-	
 }

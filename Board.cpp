@@ -471,6 +471,7 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 					hashtag = true;
 					break;
 				}
+
 				if (newWord.at(i) == '.')
 				{
 					newWord.at(i) = '*';

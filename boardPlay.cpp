@@ -179,7 +179,7 @@ string BoardPlay::getWord(string position, string word)
 
 }
 
-//returns true if the word fitsthe wildcard
+//returns true if the word fits the wildcard
 bool BoardPlay::wildcardMatch(const char *str, const char *strWild)
 {
 	// We have a special case where string is empty ("") and the mask is "*".
@@ -330,8 +330,6 @@ void BoardPlay::fillSpaces()
 }
 
 //checks if the words on the board are the right ones
-//parameters: coordinates (vector created in main that stores the coordinates of the words that were in the file(hiden words))
-//words: words (main vector that keeps the hiden words)
 bool BoardPlay::checkAnswers(vector<string> &coordinates, vector<string> &words)
 {
 	this->wordCoordinates; //vector with the coordinates of the words writen in the board by the user

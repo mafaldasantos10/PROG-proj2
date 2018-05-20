@@ -180,6 +180,7 @@ int main()
 	//in case it's used a saved board, it'll add the already placed words in the respective places
 	for (unsigned int j = 0; j < placedWords.size(); j++)
 	{
+		brd.track(wordCoordinates.at(j), placedWords.at(j));
 		brd.insert(wordCoordinates.at(j), placedWords.at(j));
 	}
 

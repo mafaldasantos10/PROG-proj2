@@ -11,10 +11,15 @@ using namespace std;
 class Player
 {
 public:
-	//player constructor
+	/*
+	PURPOSE:
+	-  constructor, associates the player name with the stats
+	PARAMETERS:
+	- string name: name of the player
+	*/
 	Player(string name);
 
-	/* getTime
+	/*
 	PURPOSE: 
 	 - determines the time it took the player to finish the game
 	PARAMETERS:
@@ -25,7 +30,7 @@ public:
 	*/
 	string getTime(int initialTime, int finishTime);
 
-	/* saveFile
+	/*
 	PURPOSE:
 	- saves the stats of the game in the file format BXXX_p.txt (where BXXX.txt is the file used to load the current board)
 	PARAMETERS:

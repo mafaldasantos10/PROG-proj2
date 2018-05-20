@@ -15,19 +15,18 @@ public:
 	PURPOSE:
 	-  constructor, saves the words from the file in a map and checks if the file is valid
 	PARAMETERS:
-	- the synonym file
-	RETRURNS;
-	- doesnt return anything
+	- string thesaurusFile: file that contains the thesaurus
 	*/
-	Dictionary(string thesaurusFile); //constructor of the vector with the valid words from the thesaurus
+	Dictionary(string thesaurusFile);
 
 	/*
 	PURPOSE:
-	-  validates the word inputed by the user by checking if it's in the map containin the valid words
+	-  validates the word inputed by the user by checking if it's in the map containing the valid words
 	PARAMETERS:
-	- the word given by the user and the map with the valid words
-	RETRURNS;
-	- true if the word is in the map, false if it isnt
+	- string word: the word given by the user
+	- map<string, vector<string> > validWords): the map with the valid words
+	RETURNS:
+	- true if the word is in the map, false if it isn't
 	*/
 	bool isValid(string word, map<string, vector<string> > validWords); 
 
@@ -37,14 +36,13 @@ public:
 	PURPOSE:
 	-  puts all the letters of the word in capital letters
 	PARAMETERS:
-	- the word to put in capital letters
-	RETRURNS;
+	- string word: the word to put in capital letters
+	RETURNS:
 	- the word in capital letters
 	*/
 	string caps(string word);
 
 private:
-
 	vector<string> synonyms; //saves the synonyms of the word in question
 };
 #endif
