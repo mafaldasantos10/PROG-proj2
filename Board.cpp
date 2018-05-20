@@ -503,7 +503,6 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 					helpVec.erase(helpVec.begin() + randomIndex);
 				}
 			}
-			
 		}
 
 		usedwords.clear();
