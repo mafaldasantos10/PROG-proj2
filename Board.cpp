@@ -453,7 +453,8 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 	int j = 0;
 	vector<string> usedwords; //stores the words that have already been given by clues
 	bool hashtag = false;
-
+	bool notfit = false;
+	int counter = 0;
 	cout << endl;
 
 	for (map<string, vector<string> >::iterator it = validWords.begin(); it != validWords.end(); ++it)
@@ -464,28 +465,57 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 			newWord = getWord(position, it->first); 
 
 			//changes the '.'to '*'
+			
+			//searches in the string
 			for (unsigned int i = 0; i < newWord.length(); i++)
 			{
-				if (newWord.at(i) == '#')
+				//if there is a hashtag in the 1st or 2nd position
+				if (newWord.at(0) == '#' || newWord.at(1) == '#')
 				{
 					hashtag = true;
 					break;
 				}
 
+				//change "." to "*" in order to send the string to the function wildcardmatch
 				if (newWord.at(i) == '.')
 				{
 					newWord.at(i) = '*';
 				}
 			}
-
-			if (wildcardMatch(it->first.c_str(), newWord.c_str()))
+			//sends the string with the "*"
+			if (wildcardMatch(it->first.c_str(), newWord.c_str())) 
 			{
+				//sends the string with "?" to the wilscard function and avaliates if the word can be used in the position (true)
 				if (validPosition(it->first, position))
 				{
+					//saves the words that can be used in a vector
 					helpVec.push_back(it->first);
+
+					// sees if the vector is empty
+					if (helpVec.size())
+					{
+						notfit = true;
+						break;
+					}
 				}
 			}
 		}
+		//if there isnt a single word that fits the position
+		else
+		{
+			counter++;
+			if (counter = validWords.size())
+			{
+				notfit = true;
+				break;
+			}
+		}
+	}
+
+	//if there isnt a single word that can be used
+	if(notfit)
+	{
+		cout << "no word fits there" << endl;
 	}
 
 	if (hashtag)//if there is a hashtag in the given coordinates
@@ -497,25 +527,27 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 		//gives a list of 10 random words that fit or if there only fits less than 10 it shows those
 		while ((j != helpVec.size()) && (j < 10))
 		{
-			//random selection of the words to show
-			int randomIndex = rand() % helpVec.size();
-			string clue = helpVec.at(randomIndex); //stores one of the clues
 
-			if (notUsedWord(clue, usedwords))//checks if it has been used
-			{
-				if (notUsedWord(clue, placedWords)) //sees if the word is already on the board
+				//random selection of the words to show
+				int randomIndex = rand() % helpVec.size();
+				string clue = helpVec.at(randomIndex); //stores one of the clues
+
+				if (notUsedWord(clue, usedwords))//checks if it has been used
 				{
-					cout << "- " << clue << endl;
-					//stores the clues in the usedwords vec
-					usedwords.push_back(clue);
-					j++;	
+					if (notUsedWord(clue, placedWords)) //sees if the word is already on the board
+					{
+						cout << "- " << clue << endl;
+						//stores the clues in the usedwords vec
+						usedwords.push_back(clue);
+						j++;
+					}
+					else
+					{
+						//erases the clue from the vector
+						helpVec.erase(helpVec.begin() + randomIndex);
+					}
 				}
-				else
-				{
-					//erases the clue from the vector
-					helpVec.erase(helpVec.begin() + randomIndex);
-				}
-			}
+			
 		}
 
 		//clears the vector for when the function is called again
