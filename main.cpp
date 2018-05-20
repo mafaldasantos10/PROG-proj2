@@ -313,6 +313,16 @@ int main()
 			{
 				cout << endl << " Answer? ";
 				cin >> wantsToFinish;
+
+				//input validation
+				while (cin.fail())
+				{
+					// user didn't input a number
+					cin.clear(); // reset failbit
+
+					cout << " Answer? ";
+					cin >> wantsToFinish;
+				}
 				
 			//only allows "yes" or "no" as an answer
 			} while (wantsToFinish != "yes" && wantsToFinish != "no");
