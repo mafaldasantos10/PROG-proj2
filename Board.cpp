@@ -515,12 +515,12 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 	//if there isnt a 
 	if(notfit)
 	{
-		cout << "no word fits there" << endl;
+		cout << endl << "I don't know any word either!" << endl;
 	}
 
 	if (hashtag)//if there is a hashtag in the given coordinates
 	{
-		cout << "You cant overwrite a #! " << endl;
+		cout << endl << "You cant overwrite a #! " << endl;
 	}
 	else
 	{
