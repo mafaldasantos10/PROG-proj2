@@ -11,6 +11,7 @@ using namespace std;
 class Player
 {
 public:
+	//player constructor
 	Player(string name);
 
 	/* getTime
@@ -33,6 +34,7 @@ public:
 	- int tipAmount: amount of tips used by the user to complete the board
 	*/
 	void saveFile(string savedFile, string elapsedTime, int tipAmount);
+
 private:
 	string playerName; //name of the player
 	int time; //time taken by the user to finish (determined)
