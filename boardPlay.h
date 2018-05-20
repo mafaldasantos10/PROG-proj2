@@ -26,7 +26,7 @@ public:
 	bool fit(string position, string word);
 	bool wildcardMatch(const char *str, const char *strWild);
 	void fillSpaces();
-	bool checkAnswers(vector<string> coordinates, vector<string>placedwords);
+	bool checkAnswers(vector<string> &coordinates, vector<string> &placedwords);
 	bool checkIfFull();
 	bool validPosition(string word, string position);
 	

@@ -172,6 +172,7 @@ int main()
 		if (word == "?") //the user might ask for help
 		{
 			tipAmount++;
+			cout << endl;
 			brd.show();
 			dict.synonymHelp(position,placedWords,wordCoordinates);
 		}
@@ -200,8 +201,8 @@ int main()
 						}
 						else
 						{
-							cout << endl << "-------------------------------------------------------" << endl;
-							cout << endl << "You can't overwrite previously placed words. Try again!" << endl;
+							cout << endl << "----------------------------------------------------------------------" << endl;
+							cout << endl << "You can't overwrite previously placed words or black cells. Try again!" << endl;
 						}
 					}
 					else
@@ -239,7 +240,7 @@ int main()
 			}
 			else
 			{
-				cout << endl << "---------------------------------------------" << endl;
+				cout << endl << "-------------------------------------------------------" << endl;
 				cout << endl << "You didn't complete the board successfuly. Keep trying!" << endl << endl;
 				dict.showClues(placedWords, wordCoordinates);
 				cout << endl;

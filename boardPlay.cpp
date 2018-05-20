@@ -328,17 +328,14 @@ void BoardPlay::fillSpaces()
 				
 				xy.at(r).at(c) = ' ';
 			}
-			
 		}
-	
 	}
-	
 }
 
 //checks if the words on the board are the right ones
 //parameters: coordinates (vector created in main that stores the coordinates of the words that were in the file(hiden words))
 //words: words (main vector that keeps the hiden words)
-bool BoardPlay::checkAnswers(vector<string> coordinates, vector<string>words)
+bool BoardPlay::checkAnswers(vector<string> &coordinates, vector<string> &words)
 {
 	this->wordCoordinates; //vector with the coordinates of the words writen in the board by the user
 	this->placedWords;//vecto withe the words writen in the board by the user 
@@ -349,26 +346,22 @@ bool BoardPlay::checkAnswers(vector<string> coordinates, vector<string>words)
 	//searches in the wordCoordinates vector 
 	for (unsigned int i = 0; i < wordCoordinates.size(); i++)
 	{
-		//finds in the wordcoordinates vector the positions present in the coordinates vec
-		if (coordinates.at(i) == wordCoordinates.at(i))
+		for (unsigned int j = 0; j < placedWords.size(); j++)
 		{
-			//if at the same index the words of both words vector and placed Words vector are different that word isnt correct
-			if (words.at(i) != placedWords.at(i))
+			//finds in the wordcoordinates vector the positions present in the coordinates vec
+			if (coordinates.at(i) == wordCoordinates.at(j))
 			{
-				correct = false;
-				break;
+				//if at the same index the words of both words vector and placed Words vector are different that word isnt correct
+				if (words.at(i) != placedWords.at(i))
+				{
+					correct = false;
+					break;
+				}
 			}
 		}
 	}
 
-	if (correct)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return correct;
 }
 
 //saves the board
