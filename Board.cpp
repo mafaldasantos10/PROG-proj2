@@ -19,26 +19,26 @@ void setcolor(unsigned int color)
 	SetConsoleTextAttribute(hcon, color);
 }
 
-//changes the color of hashtags,letters and "."
+//changes the color of hashtags and letters
 void setColor2(char a)
 {
+	//finds if it is a letter or a # 
 	if (isalpha(a) || a == ' ' || a == '.')
 	{
+		//changes the color to black whith white background
 		setcolor(112);
 	}
 	else if (a == '#')
 	{
+		//changes the color to white with black background
 		setcolor(7);
-	}
-	else
-	{
-		setcolor(200);
 	}
 }
 
 //board constructor
 Board::Board(unsigned int rows, unsigned int columns)
 {
+	//the variable rows and columns from main are the same for the class
 	this->rows = rows;
 	this->columns = columns;
 }
@@ -89,6 +89,7 @@ void Board::show()
 //allows MAIN to use the vector that contains the already placed words
 vector<string> Board::Words()
 {
+	//returns the class vector
 	return placedWords;
 }
 
@@ -268,6 +269,7 @@ void Board::insert(string position, string word)
 	}
 }
 
+//returns true if the word fitsthe wildcard
 bool Board::wildcardMatch(const char *str, const char *strWild)
 {
 	// We have a special case where string is empty ("") and the mask is "*".
@@ -326,6 +328,7 @@ string Board::getWord(string position, string word)
 		}
 
 		string newWord(temp.begin(), temp.end()); //makes the string out of the chars in the temp vector
+		return newWord;
 	}
 	else
 	{
@@ -335,9 +338,8 @@ string Board::getWord(string position, string word)
 		}
 
 		string newWord(temp.begin(), temp.end()); //makes the string out of the chars in the temp vector
+		return newWord;
 	}
-
-	return newWord;
 }
 
 //checks if the indicated position is valid for the word the user wants to place
@@ -374,10 +376,14 @@ void Board::remove(string position)
 	//finds the index both in the coordinates vector and the word vector and deletes it
 	for (unsigned int i = 0; i < wordCoordinates.size(); i++)
 	{
+		//finds the index of the vector where position is
 		if (wordCoordinates.at(i) == position)
 		{
+			//erases the word from the vector
 			placedWords.erase(placedWords.begin() + i);
+			//erases the position from the vector
 			wordCoordinates.erase(wordCoordinates.begin() + i);
+			//returns true when the position is valid
 			present = true;
 			break;
 		}
@@ -387,6 +393,7 @@ void Board::remove(string position)
 	xy.clear();
 	make();
 
+	//if the position exists in the wordCoordinates vec
 	if (present)
 	{
 		for (unsigned int j = 0; j < placedWords.size(); j++)
@@ -402,6 +409,7 @@ void Board::remove(string position)
 	}
 	else
 	{
+		//if the position isnt found
 		cout << endl << "----------------------------------------------------" << endl;
 		cout << endl << "There is no word placed in that position. Try again!" << endl;
 	}
@@ -413,6 +421,7 @@ bool Board::fit(string position, string word)
 	this->columns;
 	this->rows;
 
+	//becomes true if the word fits the place
 	bool fits = false;
 
 	//checks horizontally
@@ -440,7 +449,7 @@ bool Board::fit(string position, string word)
 //Gives the user a list of 10 words that fit in the position given
 void Board::help(string position, map<string, vector<string> > &validWords)
 {
-	vector<string> helpVec;
+	vector<string> helpVec; //saves all the words that fit the place
 	int j = 0;
 	vector<string> usedwords; //stores the words that have already been given by clues
 	bool hashtag = false;
@@ -452,7 +461,7 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 		if (fit(position, it->first))
 		{
 			//complete row/line of the wanted position
-			newWord = getWord(position, it->first);
+			newWord = getWord(position, it->first); 
 
 			//changes the '.'to '*'
 			for (unsigned int i = 0; i < newWord.length(); i++)
@@ -478,33 +487,37 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 		}
 	}
 
-	if (hashtag)
+	if (hashtag)//if there is a hashtag in the given coordinates
 	{
 		cout << "You cant overwrite a #! " << endl;
 	}
 	else
 	{
-		//gives a list of 10 random words that fit
+		//gives a list of 10 random words that fit or if there only fits less than 10 it shows those
 		while ((j != helpVec.size()) && (j < 10))
 		{
+			//random selection of the words to show
 			int randomIndex = rand() % helpVec.size();
-			string clue = helpVec.at(randomIndex);
+			string clue = helpVec.at(randomIndex); //stores one of the clues
 
-			if (notUsedWord(clue, usedwords))
+			if (notUsedWord(clue, usedwords))//checks if it has been used
 			{
 				if (notUsedWord(clue, placedWords)) //sees if the word is already on the board
 				{
 					cout << "- " << clue << endl;
+					//stores the clues in the usedwords vec
 					usedwords.push_back(clue);
 					j++;	
 				}
 				else
 				{
+					//erases the clue from the vector
 					helpVec.erase(helpVec.begin() + randomIndex);
 				}
 			}
 		}
 
+		//clears the vector for when the function is called again
 		usedwords.clear();
 	}
 }
@@ -530,6 +543,7 @@ bool Board::checkIfFull()
 		}
 	}
 
+	//if there arent spaced missing
 	if (filled)
 	{
 		cout << endl << "-------------------------------------------------------------------------------" << endl;
@@ -571,6 +585,7 @@ bool Board::doubleValidCheck(map<string, vector<string> > &validWords)
 	{   
 		//takes the word from the board
 		newWord = getWord(wordCoordinates.at(i), placedWords.at(i));
+
 		//uses the disctionary function is valid
 		if (!newDict->isValid(newWord, validWords))
 		{

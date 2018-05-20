@@ -21,6 +21,7 @@ void setcolor(unsigned int color)
 //constructor
 BoardPlay::BoardPlay(unsigned int rows, unsigned int columns)
 {
+	//the variable rows and columns from main are the same for the class
 	this->rows = rows;
 	this->columns = columns;
 }
@@ -163,6 +164,7 @@ string BoardPlay::getWord(string position, string word)
 		}
 
 		string newWord(temp.begin(), temp.end()); //makes the string out of the chars in the temp vector
+		return newWord;
 	}
 	else
 	{
@@ -172,11 +174,12 @@ string BoardPlay::getWord(string position, string word)
 		}
 
 		string newWord(temp.begin(), temp.end()); //makes the string out of the chars in the temp vector
+		return newWord;
 	}
 
-	return newWord;
 }
 
+//returns true if the word fitsthe wildcard
 bool BoardPlay::wildcardMatch(const char *str, const char *strWild)
 {
 	// We have a special case where string is empty ("") and the mask is "*".
@@ -254,10 +257,14 @@ void BoardPlay::remove(string position,vector<string>coordinates, vector<string>
 	//finds the index both in the coordinates vector and the word vector and deletes it
 	for (unsigned int i = 0; i < wordCoordinates.size(); i++)
 	{
+		//finds the index of the vector where position is
 		if (wordCoordinates.at(i) == position)
 		{
+			//erases the word from the vector
 			placedWords.erase(placedWords.begin() + i);
+			//erases the position from the vector
 			wordCoordinates.erase(wordCoordinates.begin() + i);
+			//returns true when the position is valid
 			present = true;
 			break;
 		}
@@ -267,6 +274,7 @@ void BoardPlay::remove(string position,vector<string>coordinates, vector<string>
 	xy.clear();
 	make();
 
+	//if the position exists in the wordCoordinates vec
 	if (present)
 	{
 		for (unsigned int j = 0; j < words.size(); j++)
@@ -286,6 +294,7 @@ void BoardPlay::remove(string position,vector<string>coordinates, vector<string>
 			insert(wordCoordinates.at(j), placedWords.at(j));
 		}
 
+		//shows the board
 		show();
 	}
 	else
@@ -300,20 +309,20 @@ void BoardPlay::fillSpaces()
 	this->xy;
 	this->rows;
 	this->columns;
-
+	//to be able to search position by position of the vector<vector<string>>
 	for (unsigned int r = 0; r < rows; r++)
 	{
 		for (unsigned int c = 0; c < columns; c++)
 		{
-			//searches for empty spaces
+			//searches for letters
 			if (isalpha(xy.at(r).at(c)))
 			{
-				//places a % in that space
+				//places a "." in that space
 				xy.at(r).at(c) = '.';
 			}
 			else
 			{
-				
+				//places a blank space
 				xy.at(r).at(c) = ' ';
 			}
 		}
@@ -404,6 +413,7 @@ bool BoardPlay::checkIfFull()
 	this->rows;
 	this->columns;
 	bool filled = true; //true if the board is full
+
 
 	for (unsigned int r = 0; r < rows; r++)
 	{

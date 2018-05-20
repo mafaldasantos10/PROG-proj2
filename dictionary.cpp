@@ -9,7 +9,7 @@
 
 using namespace std;
 
-//extrats the words from the file and saves the word and synonyms in a map  
+//extracts the words from the file and saves the word and synonyms in a map  
 Dictionary::Dictionary(string thesaurusFile)
 {
 	string key; // string of map that will hold the words to put in the board
