@@ -249,7 +249,7 @@ void Board::insert(string position, string word)
 		if ((uC != 0) && (xy.at(uC - 1).at(lC) == '.'))
 			xy.at(uC - 1).at(lC) = '#';
 		//places a # after
-		if (((uC + word.length()) < rows) && (xy.at(uC + word.length()).at(lC) = '.'))
+		if (((uC + word.length()) < rows) && (xy.at(lC + word.length()).at(uC) = '.'))
 			xy.at(uC + word.length()).at(lC) = '#';
 	}
 	//horizontally
