@@ -17,7 +17,7 @@ public:
 	void make(); //creates a board
 	void show(); //shows the current board state
 	void insert(string position, string word); //inserts new words on the board using the given position and word
-	bool notUsedWord(string word, vector<string> placedWords); //checks if the given word has not been used in that board before
+	bool notUsedWord(string word, vector<string> &placedWords); //checks if the given word has not been used in that board before
 	void track(string position, string word); //keeps track of all words and positions
 	void saveFile(string thesaurusFile, bool resumedBoard, string savedFile); //saves the board
 	bool wildcardMatch(const char *str, const char *strWild);

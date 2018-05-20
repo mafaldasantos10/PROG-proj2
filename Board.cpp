@@ -46,6 +46,7 @@ Board::Board(unsigned int rows, unsigned int columns)
 //makes a new empty board with the indicated size
 void Board::make()
 {
+	//resized the vector in order to have the correct size according to the rows and columns specified
 	xy.resize(rows, vector<char>(columns, '.'));
 }
 
@@ -56,6 +57,7 @@ void Board::show()
 
 	setcolor(12);
 
+	//increases the alphabet till the specified number of columns is reached
 	for (unsigned int i = 'a'; i < 'a' + columns; i++)
 	{
 		cout << char(i) << ' ';
@@ -63,11 +65,13 @@ void Board::show()
 
 	cout << endl;
 
+	//increases the alphabet till the specified number of rows is reached
 	for (unsigned int k = 0; k < rows; k++)
 	{
 		setcolor(12);
 		cout << char(k + 'A') << ' ';
 
+		//prints the contents of the vector and therefore of the board
 		for (unsigned int j = 0; j < columns; j++)
 		{
 			setcolor(112);
@@ -82,29 +86,28 @@ void Board::show()
 	setcolor(15);
 }
 
-//allows the main to use the vector
+//allows MAIN to use the vector that contains the already placed words
 vector<string> Board::Words()
 {
 	return placedWords;
 }
 
 //checks if the given word has not been used in that board before
-bool Board::notUsedWord(string word,vector<string> placedWords)
+bool Board::notUsedWord(string word, vector<string> &placedWords)
 {
-	this->placedWords;
-
-	bool Present = true;
+	bool notUsed = true; //true if the word being compared is in the vector that contains the placed words
 
 	for (unsigned int i = 0; i < placedWords.size(); i++)
 	{
+		//if that word is in the vector, it means it has been used before
 		if (placedWords.at(i) == word)
 		{
-			Present = false;
+			notUsed = false; //it has been used
 			break;
 		}
 	}
 
-	return Present;
+	return notUsed;
 }
 
 //keeps track of all words and positions
@@ -118,12 +121,12 @@ void Board::track(string position, string word)
 string Board::isEmpty()
 {
 	string warningMessage = "full", //warning for cases where all 999 available file names were used
-		   fileName = "b";
+		   fileName = "b"; //the file will be saved always in a file starting with a "b"
 
 	ifstream fin;
 	ofstream fout;
 
-	//cycle
+	//cycle to find what's the first available number
 	for (unsigned i = 1; i < 999; i++)
 	{
 		if (i < 10)
@@ -149,9 +152,10 @@ string Board::isEmpty()
 		}
 
 		fin.close();
-		fileName = "b";
+		fileName = "b"; //resets the name after each attempt
 	}
 
+	//if no available name was found, it returns a warning message
 	return warningMessage;
 }
 
@@ -161,8 +165,8 @@ void Board::saveFile(string thesaurusFile, bool resumedBoard, string savedFile)
 	this->placedWords; //vector that stores the positions of the respective words on the board
 	this->wordCoordinates; //vector that stores all the words placed on the board
 
-	string fileName,
-		   readyToContinue;
+	string fileName, //name of the file that will be used to store all the contents
+		   readyToContinue; //allows the user to continue if he already cleaned an old file by pressing any key
 
 	ofstream fout;
 
@@ -175,22 +179,22 @@ void Board::saveFile(string thesaurusFile, bool resumedBoard, string savedFile)
 		fileName = isEmpty(); //otherwise it will search for the next empty file name
 	}
 
-	//when all files are full
-	
+	//when all files are full, isEmpty() return the warning message that contained the string "full"
 	while (fileName == "full")
 	{
 		cout << "---------------------------------------------------------------";
 		cout << endl << "But wait! All file slots are full, try to clean some old stuff!" << endl;
 		cout << endl << "Press any letter to continue if you've cleaned the clutter." << endl << endl;
 
-		cin >> readyToContinue;
+		cin >> readyToContinue; //just to press any key
 
-		fileName = isEmpty();
+		fileName = isEmpty(); //it'll find the first available file if it has new names available
 	}
 	
 	//opens the file that will will be written
 	fout.open(fileName);
 
+	//name of the thesaurusFile used
 	fout << thesaurusFile << endl << endl;
 
 	//saves the current board into a file
@@ -209,7 +213,7 @@ void Board::saveFile(string thesaurusFile, bool resumedBoard, string savedFile)
 	//saves the respective positions and words on the board
 	for (unsigned i = 0; i < wordCoordinates.size(); i++)
 	{
-		//trying not to place a space at the end
+		//so that it doesn't place a space at the end of the last word
 		if (i == 0)
 		{
 			fout << wordCoordinates.at(i) << "  " << placedWords.at(i);
@@ -220,16 +224,17 @@ void Board::saveFile(string thesaurusFile, bool resumedBoard, string savedFile)
 		}
 	}
 
+	//closes the output file used
 	fout.close();
 
-	cout << endl << " Saved to file: " << fileName << endl << endl;
+	cout << endl << " Saved to file: " << fileName << endl << endl; //tells the user the name of the file where it was saved
 }
 
 //inserts new words on the board using the given position and word
 void Board::insert(string position, string word)
 {
-	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
-	unsigned int uC = ((int)upperCase - 'A'), lC = ((int)lowerCase - 'a');
+	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2); //each letter is stored in each variable
+	unsigned int uC = (upperCase - 'A'), lC = (lowerCase - 'a');
 
 	//vertically
 	if (orientation == 'V')
@@ -309,8 +314,8 @@ bool Board::wildcardMatch(const char *str, const char *strWild)
 //gets a string of the contents of the indicated position of the word
 string Board::getWord(string position, string word)
 {
-	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2);
-	unsigned int uC = ((int)upperCase - 'A'), lC = ((int)lowerCase - 'a');
+	char upperCase = position.at(0), lowerCase = position.at(1), orientation = position.at(2); //each letter is stored in each variable
+	unsigned int uC = (upperCase - 'A'), lC = (lowerCase - 'a');
 	vector<char> temp;
 
 	if (orientation == 'V')
@@ -321,7 +326,6 @@ string Board::getWord(string position, string word)
 		}
 
 		string newWord(temp.begin(), temp.end()); //makes the string out of the chars in the temp vector
-		return newWord;
 	}
 	else
 	{
@@ -331,19 +335,20 @@ string Board::getWord(string position, string word)
 		}
 
 		string newWord(temp.begin(), temp.end()); //makes the string out of the chars in the temp vector
-		return newWord;
 	}
+
+	return newWord;
 }
 
 //checks if the indicated position is valid for the word the user wants to place
 bool Board::validPosition(string word, string position)
 {
-	bool present = false;
+	bool present = false; //true if the word can be placed in that position
 
 	//complete row/line of the wanted position
-	newWord = getWord(position, word);
+	string newWord = getWord(position, word);
 
-	//changes the '.'to '?'
+	//changes the '.' to '?'
 	for (unsigned int i = 0; i < newWord.length(); i++)
 	{
 		if (newWord.at(i) == '.')
@@ -354,7 +359,7 @@ bool Board::validPosition(string word, string position)
 
 	//calls the wildcard function to check
 	if (wildcardMatch(word.c_str(), newWord.c_str()))
-		present = true;
+		present = true; //if the wildcardFunction return true, it means the position is valid
 
 	return present;
 }
@@ -408,23 +413,28 @@ bool Board::fit(string position, string word)
 	this->columns;
 	this->rows;
 
+	bool fits = false;
+
+	//checks horizontally
 	if (position.at(2) == 'H')
 	{
 		//checks if there is enough space in the column for the word
-		if ((columns - ((int)(position.at(1) - 'a'))) >= word.size())
+		if ((columns - (position.at(1) - 'a')) >= word.size())
 		{
-			return true;
+			fits = true;
 		}
 	}
+	//checks vertically
 	if (position.at(2) == 'V')
 	{
 		//checks if there is enough space in the row for the word
-		if ((rows - ((int)(position.at(0) - 'A'))) >= word.size())
+		if ((rows - (position.at(0) - 'A')) >= word.size())
 		{
-			return true;
+			fits = true;
 		}
 	}
-	return false;
+
+	return fits;
 }
 
 //Gives the user a list of 10 words that fit in the position given
@@ -439,7 +449,6 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 
 	for (map<string, vector<string> >::iterator it = validWords.begin(); it != validWords.end(); ++it)
 	{
-
 		if (fit(position, it->first))
 		{
 			//complete row/line of the wanted position
@@ -469,7 +478,6 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 		}
 	}
 
-
 	if (hashtag)
 	{
 		cout << "You cant overwrite a #! " << endl;
@@ -497,6 +505,7 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 			}
 			
 		}
+
 		usedwords.clear();
 	}
 }
@@ -507,7 +516,7 @@ bool Board::checkIfFull()
 	this->xy;
 	this->rows;
 	this->columns;
-	bool filled = true;
+	bool filled = true; //true if the board is full
 
 	for (unsigned int r = 0; r < rows; r++)
 	{
@@ -516,7 +525,7 @@ bool Board::checkIfFull()
 			//searches for empty spaces
 			if (xy.at(r).at(c) == '.')
 			{
-				filled = false;
+				filled = false; //if a "." if found, it means it's not full, making "filled" become false
 				break;
 			}
 		}

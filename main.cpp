@@ -265,7 +265,7 @@ int main()
 			if (dict.isValid(word, validWords))
 			{
 				//checks if the word was already used
-				if (brd.notUsedWord(word,wordVec))
+				if (brd.notUsedWord(word, wordVec))
 				{
 					//checks if the word fits in the desired postion (size wise)
 					if (brd.fit(position, word))
