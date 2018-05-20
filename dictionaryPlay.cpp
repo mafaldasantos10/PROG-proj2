@@ -229,7 +229,7 @@ void DictionaryPlay::synonymHelp(string position, vector<string> &words, vector<
 						//checks if it has been previously used
 						if (SynonymsVec.empty())
 						{
-							cout << "There arent more clues to show" << endl;
+							cout << endl << "There aren't more clues to show!" << endl;
 							break;	
 						}
 						else
@@ -239,7 +239,7 @@ void DictionaryPlay::synonymHelp(string position, vector<string> &words, vector<
 							//random synonym acquired with the random index
 							string synonym = SynonymsVec.at(randomIndex);
 
-							cout << "Another synonym for the hiden word: " << synonym << endl;
+							cout << endl << "Another synonym for the hiden word: " << synonym << endl;
 
 							//checks if it has been previously used
 							SynonymsVec.erase(SynonymsVec.begin() + randomIndex);

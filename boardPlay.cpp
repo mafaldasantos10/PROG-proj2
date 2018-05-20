@@ -427,12 +427,6 @@ bool BoardPlay::checkIfFull()
 		}
 	}
 
-	/*if (filled)
-	{
-		cout << endl << "--------------------------------------------" << endl;
-		cout << endl << "The board is full. Do you want to finish it?" << endl;
-	}*/
-
 	return filled;
 }
 

@@ -178,6 +178,8 @@ int main()
 		else if (word == "-")
 		{
 			brd.remove(position,wordCoordinates,placedWords); //the user might want to remove a previously placed word
+			cout << endl;
+			dict.showClues(placedWords, wordCoordinates);
 		}
 		else
 		{
@@ -232,11 +234,16 @@ int main()
 			{
 				cout << endl << "---------------------------------------" << endl;
 				cout << endl << "All words are correct, congratulations!" << endl << endl;
+				brd.show(); //shows the current state of the board
+				cout << endl;
 			}
 			else
 			{
 				cout << endl << "---------------------------------------------" << endl;
 				cout << endl << "You didn't complete the board successfuly. Keep trying!" << endl << endl;
+				dict.showClues(placedWords, wordCoordinates);
+				cout << endl;
+				brd.show(); //shows the current state of the board
 			}
 		}
 
