@@ -47,6 +47,7 @@ void paint(char a)
 //shows the current board
 void BoardPlay::show()
 {
+	setcolor(7);
 	cout << "   ";
 
 	setcolor(12);
@@ -54,27 +55,41 @@ void BoardPlay::show()
 	for (unsigned int i = 97; i < 97 + columns; i++)
 	{
 		cout << char(i) << ' ';
+		
 	}
-
+	setcolor(7);
 	cout << endl;
 
 	for (unsigned int k = 0; k < rows; k++)
 	{
 		setcolor(12);
 		cout << char(k + 65) << ' ';
+		setcolor(7);
 
 		for (unsigned int j = 0; j < columns; j++)
 		{
-			//setcolor(112);
-			cout << ' ';
-			//paint(xy.at(k).at(j));
-			cout << xy.at(k).at(j);
+			
+			if (xy.at(k).at(j) == ' ')
+			{
+				setcolor(15);
+				cout << "  ";
+				
+			}
+			else
+			{
+				setcolor(112);
+				cout << ' ';
+				//paint(xy.at(k).at(j));
+				cout << xy.at(k).at(j);	
+			}
+
 		}
 
 		cout << ' ' << endl;
+		
 	}
 
-	//setcolor(15);
+	setcolor(15);
 }
 
 //puts the words on the board
@@ -228,7 +243,7 @@ bool BoardPlay::validPosition(string word, string position)
 	//changes the '%'to '?'
 	for (unsigned int i = 0; i < newWord.length(); i++)
 	{
-		if (newWord.at(i) == '%')
+		if (newWord.at(i) == '.')
 		{
 			newWord.at(i) = '?';
 		}
@@ -306,17 +321,16 @@ void BoardPlay::fillSpaces()
 			if (isalpha(xy.at(r).at(c)))
 			{
 				//places a % in that space
-				setcolor(112);
-				xy.at(r).at(c) = '%';
+				xy.at(r).at(c) = '.';
 			}
 			else
 			{
-				setcolor(15);
+				
 				xy.at(r).at(c) = ' ';
 			}
 			
 		}
-		//setcolor(15);	
+	
 	}
 	
 }
@@ -405,7 +419,7 @@ bool BoardPlay::checkIfFull()
 		for (unsigned int c = 0; c < columns; c++)
 		{
 			//searches for empty spaces
-			if (xy.at(r).at(c) == '%' )
+			if (xy.at(r).at(c) == '.' )
 			{
 				filled = false;
 				break;

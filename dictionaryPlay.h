@@ -23,6 +23,6 @@ private:
 	
 	vector<string>synonyms, // vector that saves all tthe synonymes from the class to put in map
 		tempWord, // saves a random synonym of the words stores in the mains vector placed Words
-		usedSynonym; // stores the synonyms that have already been used
+		SynonymsVec; // stores the synonyms that have already been used
 };
 #endif

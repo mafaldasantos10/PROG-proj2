@@ -24,7 +24,6 @@ public:
 	void saveFile(string thesaurusFile, vector<string> word, vector<string>coordinates, string savedFile);
 	DictionaryPlay* newDict;
 	bool fit(string position, string word);
-	void upload();///???????????????????????????????
 	bool wildcardMatch(const char *str, const char *strWild);
 	void fillSpaces();
 	bool checkAnswers(vector<string> coordinates, vector<string>placedwords);

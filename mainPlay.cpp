@@ -121,6 +121,8 @@ int main()
 
 	DictionaryPlay dict(thesaurusFile);
 	
+	dict.clues(placedWords);
+
 	//constructs and empty board
 	BoardPlay brd(rows, columns);
 	brd.make();
@@ -131,11 +133,12 @@ int main()
 		brd.insert(wordCoordinates.at(j), placedWords.at(j));
 	}
 
-	cout << endl;
-	cout << endl;
-
+	//shows the user the inicial clues
+	dict.showClues(placedWords, wordCoordinates);
 	brd.fillSpaces();
 
+	cout << endl;
+	
 	//shows the current state of the board
 	brd.show();
 
@@ -147,13 +150,8 @@ int main()
 	//registers the time when the user starts playing
 	time1 = (unsigned)time(NULL);
 
-	dict.clues(placedWords);
-
 	do
 	{
-
-		//shows the user the inicial clues
-		dict.showClues(placedWords, wordCoordinates);
 
 		do
 		{
@@ -165,10 +163,6 @@ int main()
 
 		cout << endl;
 
-		/*if (cin.eof())
-		{
-			return 0;
-		}*/
 
 		cout << "Word ( - = remove / ? = help ) ? ";
 		cin >> word;
@@ -178,6 +172,7 @@ int main()
 		if (word == "?") //the user might ask for help
 		{
 			tipAmount++;
+			brd.show();
 			dict.synonymHelp(position,placedWords,wordCoordinates);
 		}
 		else if (word == "-")
@@ -221,8 +216,11 @@ int main()
 			}
 
 			cout << endl;
+			//shows the user the inicial clues
+			dict.showClues(placedWords, wordCoordinates);
+			cout << endl;
 			brd.show(); //shows the current state of the board
-
+					
 			//cout << endl;
 			//brd.checkAnswer(word, position, wordCoordinates, placedWords);
 		}

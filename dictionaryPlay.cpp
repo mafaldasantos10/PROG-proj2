@@ -108,21 +108,36 @@ void DictionaryPlay::clues(vector<string> &words)
 {
 	this->validWords;
 	this->tempWord; //stores the synonyms 
+	this->SynonymsVec;
+
+	map<string, vector<string> >::iterator it;
 
 	cout << endl;
 	tempWord.clear();
 	//writes the horizontal word synonyms
 	for (unsigned int i = 0; i < words.size(); i++)
 	{
-		//range for the random index
-		int randomIndex = rand() % validWords[caps(words.at(i))].size();
+		//looks in the map for the hiden word in that position 
+		it = validWords.find(caps(words.at(i)));
+		if (it != validWords.end())
+		{
+			//transfers the vector of the map for another vector
+			SynonymsVec = it->second;
 
-		//random synonym
-		string synonym = validWords[caps(words.at(i))].at(randomIndex);
+			//range for the random index
+			int randomIndex = rand() % SynonymsVec.size();
 
-		//stores vertical words and their position
-		tempWord.push_back(synonym);
-		usedSynonym.push_back(synonym);
+			//random synonym
+			string synonym = SynonymsVec.at(randomIndex);
+
+			//stores vertical words and their position
+			tempWord.push_back(synonym);
+			
+			SynonymsVec.erase(SynonymsVec.begin() + randomIndex);
+
+			it->second = SynonymsVec;
+			
+		}
 	}
 }
 	
@@ -196,27 +211,46 @@ bool DictionaryPlay::notUsedWord (string word, vector<string> &vector)
 //when the user asks for help prints a new synonym for the word in the given position
 void DictionaryPlay::synonymHelp(string position, vector<string> &words, vector<string> &coordinates)
 {
-	this->usedSynonym;
-	for (unsigned int i = 0; i < words.size(); i++)
-	{
-		//looks in the vector that has the hiden words the index of the writen position
-		if (position == coordinates.at(i))
+	this->SynonymsVec;
+	map<string, vector<string> >::iterator it;
+
+		for (unsigned int i = 0; i < coordinates.size(); i++)
 		{
-			    int randomIndex = rand() % validWords[caps(words.at(i))].size(); //returns a random index
-
-		         //random synonym acquired with the random index
-				string synonym = validWords[caps(words.at(i))].at(randomIndex); 
-
-				    //checks if it has been previously used
-					while (notUsedWord(synonym, usedSynonym)) 
+			if (position == coordinates.at(i))
+			{
+				
+					//looks in the map for the hiden word in that position 
+					it = validWords.find(caps(words.at(i)));
+					if (it != validWords.end())
 					{
-						cout << "Another synonym for the hiden word: " << synonym << endl;
+						//transfers the vector of the map for another vector
+						SynonymsVec = it->second;
+
 						//checks if it has been previously used
-						usedSynonym.push_back(synonym);
-						break;
+						if (SynonymsVec.empty())
+						{
+							cout << "There arent more clues to show" << endl;
+							break;	
+						}
+						else
+						{
+							int randomIndex = rand() % SynonymsVec.size(); //returns a random index
+
+							//random synonym acquired with the random index
+							string synonym = SynonymsVec.at(randomIndex);
+
+							cout << "Another synonym for the hiden word: " << synonym << endl;
+
+							//checks if it has been previously used
+							SynonymsVec.erase(SynonymsVec.begin() + randomIndex);
+							it->second = SynonymsVec;
+							break;
+						}
+	
 					}
-					
+				
+			}
 		}
 		
-	}
+	
 }
