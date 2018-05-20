@@ -80,9 +80,10 @@ Dictionary::Dictionary(string thesaurusFile)
 //writes the words in caps
 string Dictionary::caps(string word)
 {
-
+	//searches in the string word
 	for (unsigned int i = 0; i < word.size(); i++)
 	{
+		//for each position putas te letter in capital letters
 		word.at(i) = toupper(word.at(i));
 	}
 	return word;
@@ -91,14 +92,21 @@ string Dictionary::caps(string word)
 //checks if the word is in the thesaurus file
 bool Dictionary::isValid(string word, map<string, vector<string> > validWords)
 {
+	//will check if the word is in the synonym dictionary
 	bool present = false;
+	//map
 	this->validWords;
+	//user a previous function to creat a new string that is the word all writen in capitals
 	string newWord = caps(word);
+	//iterator the validWords map
 	map<string, vector<string> >::iterator it;
 
+	//finds the newWord in the map
 	it = validWords.find(word);
+	//if the word is in the map
 	if (it != validWords.end())
 	{
+		//it is present
 		present = true;
 	}
 
