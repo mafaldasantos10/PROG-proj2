@@ -456,7 +456,7 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 	bool notfit = false;
 	int counter = 0;
 	cout << endl;
-
+	
 	for (map<string, vector<string> >::iterator it = validWords.begin(); it != validWords.end(); ++it)
 	{
 		if (fit(position, it->first))
@@ -492,7 +492,7 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 					helpVec.push_back(it->first);
 
 					// sees if the vector is empty
-					if (helpVec.size())
+					if (helpVec.empty())
 					{
 						notfit = true;
 						break;
@@ -504,7 +504,7 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 		else
 		{
 			counter++;
-			if (counter = validWords.size())
+			if (counter == validWords.size())
 			{
 				notfit = true;
 				break;
@@ -512,7 +512,7 @@ void Board::help(string position, map<string, vector<string> > &validWords)
 		}
 	}
 
-	//if there isnt a single word that can be used
+	//if there isnt a 
 	if(notfit)
 	{
 		cout << "no word fits there" << endl;
