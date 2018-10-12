@@ -1,4 +1,4 @@
-#DEVELOPMENT
+# DEVELOPMENT
 
 As of May 20th, all of our objectives were achieved. We managed to implement all of the suggested features of this project.
 
