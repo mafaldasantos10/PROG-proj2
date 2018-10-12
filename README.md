@@ -1,4 +1,5 @@
 #DEVELOPMENT
+
 As of May 20th, all of our objectives were achieved. We managed to implement all of the suggested features of this project.
 
 We also added some tiny extra features that improve the reliability of the project. Such as:
